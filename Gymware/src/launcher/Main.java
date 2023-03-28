@@ -1,10 +1,10 @@
-package src.launcher;
+package launcher;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import src.BD.CambiosBD;
-import src.BD.ConexionBD;
-import src.BD.ConsultasBD;
-import src.tipos.DatosCliente;
+import BD.CambiosBD;
+import BD.ConexionBD;
+import BD.ConsultasBD;
+import tipos.DatosCliente;
 
 public class Main {
     public static void main(String[] args) throws SQLException{
