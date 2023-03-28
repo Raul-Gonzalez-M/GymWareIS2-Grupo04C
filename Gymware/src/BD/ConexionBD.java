@@ -1,4 +1,4 @@
-package src.BD;
+package BD;
 
 import java.sql.*;
 

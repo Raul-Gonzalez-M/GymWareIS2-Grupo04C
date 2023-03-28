@@ -1,13 +1,17 @@
 import java.util.ArrayList;
 import java.util.List;
+import model.Aula;
+import model.Cliente;
+import model.Gimnasio;
+import model.Personal;
 
 public class BackEnd {
 
     private static BackEnd instance = null;
-    private GymModel gymModel;
+    private Gimnasio gym;
 
     private BackEnd() {
-        gymModel = new GymModel();
+        gym = new Gimnasio();
     }
 
     public static BackEnd getInstance() {
@@ -18,50 +22,50 @@ public class BackEnd {
     }
 
     public List<Aula> getAulas() {
-        return gymModel.getAulas();
+        return gym.getAulas();
     }
 
     public List<Cliente> getClientes() {
-        return gymModel.getClientes();
+        return gym.getClientes();
     }
 
     public List<Personal> getPersonales() {
-        return gymModel.getPersonales();
+        return gym.getPersonales();
     }
 
     public List<Venta> getVentas() {
-        return gymModel.getVentas();
+        return gym.getVentas();
     }
 
     public void addAula(Aula aula) {
-        gymModel.addAula(aula);
+    	gym.addAula(aula);
     }
 
     public void addCliente(Cliente cliente) {
-        gymModel.addCliente(cliente);
+    	gym.addCliente(cliente);
     }
 
     public void addPersonal(Personal personal) {
-        gymModel.addPersonal(personal);
+    	gym.addPersonal(personal);
     }
 
     public void addVenta(Venta venta) {
-        gymModel.addVenta(venta);
+    	gym.addVenta(venta);
     }
 
     public void removeAula(Aula aula) {
-        gymModel.removeAula(aula);
+    	gym.removeAula(aula);
     }
 
     public void removeCliente(Cliente cliente) {
-        gymModel.removeCliente(cliente);
+    	gym.removeCliente(cliente);
     }
 
     public void removePersonal(Personal personal) {
-        gymModel.removePersonal(personal);
+    	gym.removePersonal(personal);
     }
 
     public void removeVenta(Venta venta) {
-        gymModel.removeVenta(venta);
+    	gym.removeVenta(venta);
     }
 }

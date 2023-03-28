@@ -1,4 +1,4 @@
-import src.Model.Usuario;
+package model;
 
 public class Personal extends Usuario {
     private int idPersonal;

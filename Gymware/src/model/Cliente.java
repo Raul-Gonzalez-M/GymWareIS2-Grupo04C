@@ -1,3 +1,5 @@
+package model;
+
 public class Cliente extends Usuario {
     private int idCliente;
     private double peso;

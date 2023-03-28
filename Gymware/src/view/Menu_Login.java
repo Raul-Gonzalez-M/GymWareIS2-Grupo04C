@@ -1,8 +1,9 @@
+package view;
 import javax.swing.*;
 
-public class MainMenu extends JMenuBar {
+public class Menu_Login extends JMenuBar {
 
-    public MainMenu() {
+    public Menu_Login() {
         // Crear menú principal
         JMenu menuInicio = new JMenu("Inicio");
         add(menuInicio);

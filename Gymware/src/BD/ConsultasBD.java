@@ -1,11 +1,10 @@
-package src.BD;
+package BD;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import src.tipos.DatosCliente;
-import src.tipos.DatosMaterial;
+import tipos.DatosCliente;
+import tipos.DatosMaterial;
 
 public class ConsultasBD {
     private ConexionBD bd;

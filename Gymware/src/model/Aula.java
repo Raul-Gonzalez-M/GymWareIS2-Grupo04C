@@ -1,6 +1,6 @@
+package model;
 import java.util.List;
 import java.util.ArrayList;
-import src.model.Actividad;
 
 public class Aula {
     

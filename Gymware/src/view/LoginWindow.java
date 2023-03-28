@@ -1,7 +1,10 @@
+package view;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.ModuleLayer.Controller;
 
 public class LoginWindow extends JFrame {
     private Controller controller;

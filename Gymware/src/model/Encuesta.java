@@ -1,3 +1,5 @@
+package model;
+
 public class Encuesta {
     
     private int idEncuesta;

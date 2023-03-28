@@ -1,5 +1,4 @@
 package launcher;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import BD.CambiosBD;
 import BD.ConexionBD;
