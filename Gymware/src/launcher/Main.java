@@ -1,8 +1,6 @@
 package src.launcher;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import src.BD.CambiosBD;
 import src.BD.ConexionBD;
 import src.BD.ConsultasBD;
@@ -17,9 +15,7 @@ public class Main {
         DatosCliente rs = consultas.datosCliente("11111111A");
         
         
-        System.out.println(rs.DNI() + " " + rs.nombre() + " " + rs.FechaAlta()
-        					+ " " + rs.FechaBaja() + " " + rs.saldo());
+        System.out.println(rs.DNI() + " " + rs.nombre() + " " + rs.FechaAlta() + " " + rs.FechaBaja() + " " + rs.saldo());
         
     }
-    aaaa
 }
