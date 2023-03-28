@@ -3,10 +3,11 @@ import gym.model.entities.Producto;
 import gym.model.entities.Venta;
 import gym.model.services.InventarioService;
 import gym.model.services.VentaService;
+import model.Gimnasio;
 
 public class PersonalController {
     
-    private final GymModel gymModel;
+    private final Gimnasio gymModel;
     
     public PersonalController(GymModel gymModel) {
         this.gymModel = gymModel;

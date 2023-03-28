@@ -1,9 +1,9 @@
-package backend;
+package model;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class GymModel {
+public class Gimnasio {
     private ArrayList<Usuario> usuarios;
     private ArrayList<Actividad> actividades;
     private ArrayList<Aula> aulas;
@@ -11,7 +11,7 @@ public class GymModel {
     private ArrayList<Material> materiales;
     private ArrayList<Venta> ventas;
 
-    public GymModel() {
+    public Gimnasio() {
         this.usuarios = new ArrayList<>();
         this.actividades = new ArrayList<>();
         this.aulas = new ArrayList<>();
