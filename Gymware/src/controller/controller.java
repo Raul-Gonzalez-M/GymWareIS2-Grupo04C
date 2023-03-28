@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
-import src.BackEnd.BackEnd;
-import src.Model.Usuario;
-import src.Model.Cliente;
-import src.Model.Personal;
-import src.Model.Aula;
-import src.Model.Venta;
-import src.Model.Encuesta;
+import BD.BackEnd;
+import model.Usuario;
+import model.Cliente;
+import model.Personal;
+import model.Aula;
+import model.Venta;
+import model.Encuesta;
 
 
 public class Controller {
