@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 
@@ -15,6 +16,24 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 
 import javax.swing.SwingConstants;
+import javax.swing.JButton;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.SpringLayout;
+import java.awt.CardLayout;
+import javax.swing.BoxLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class MainWindow extends JFrame {
 
@@ -50,22 +69,33 @@ public class MainWindow extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(406, 376, 312, 48);
-		contentPane.add(passwordField);
+		JLayeredPane layeredPane = new JLayeredPane();
+		layeredPane.setBounds(0, 0, 1186, 763);
+		contentPane.add(layeredPane);
 		
-		textField = new JTextField();
-		textField.setBounds(406, 287, 312, 48);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		JButton btnSalir_1 = new JButton("Salir");
+		btnSalir_1.setBounds(497, 517, 234, 42);
+		layeredPane.add(btnSalir_1);
 		
-		JLabel lblNewLabel = new JLabel("Iniciar Sesión");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 34));
-		lblNewLabel.setBounds(406, 150, 312, 57);
-		contentPane.add(lblNewLabel);
+		JButton btnFaq_1 = new JButton("FAQ");
+		btnFaq_1.setBounds(497, 421, 234, 42);
+		layeredPane.add(btnFaq_1);
 		
+		JLabel background_1 = new JLabel("Fondo");
+		background_1.setIcon(new ImageIcon(MainWindow.class.getResource("/img/Fondo.jpg")));
+		background_1.setBounds(0, 0, 1200, 800);
+		layeredPane.add(background_1);
 		
-    }
+		JButton btnNewButton_1 = new JButton("Iniciar Sesion");
+		layeredPane.setLayer(btnNewButton_1, 1);
+		btnNewButton_1.setBounds(497, 331, 234, 42);
+		layeredPane.add(btnNewButton_1);
+		
+		JLabel lblNewLabel = new JLabel("Logo");
+		lblNewLabel.setIcon(new ImageIcon(MainWindow.class.getResource("/img/Logo.png")));
+		layeredPane.setLayer(lblNewLabel, 1);
+		lblNewLabel.setBounds(319, 38, 588, 207);
+		layeredPane.add(lblNewLabel);
+
 	}
 }
