@@ -39,7 +39,7 @@ public class Usuario {
         this.edad = edad;
     }
     
-    public String getCorreoElectronico() {
+    public String getEmail() {
         return correoElectronico;
     }
     

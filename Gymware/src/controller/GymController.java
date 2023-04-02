@@ -1,3 +1,5 @@
+package controller;
+
 public class GymController {
 
     private GymView gymView;

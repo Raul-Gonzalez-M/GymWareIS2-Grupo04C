@@ -1,26 +1,25 @@
+package controller;
+
 import java.util.List;
-import gym.model.entities.Producto;
-import gym.model.entities.Venta;
-import gym.model.services.InventarioService;
-import gym.model.services.VentaService;
 import model.Gimnasio;
+import model.Material;
 
 public class PersonalController {
     
     private final Gimnasio gymModel;
     
-    public PersonalController(GymModel gymModel) {
+    public PersonalController(Gimnasio gymModel) {
         this.gymModel = gymModel;
     }
     
     public void agregarProducto(String nombre, double precio, int cantidad) {
-        Producto producto = new Producto(nombre, precio, cantidad);
+    	Material producto = new Material(nombre, precio, cantidad);
         InventarioService inventarioService = gymModel.getInventarioService();
         inventarioService.agregarProducto(producto);
     }
     
     public boolean realizarVenta(int idCliente, String nombreProducto, int cantidad) {
-        Producto producto = gymModel.getInventarioService().buscarProducto(nombreProducto);
+    	Material producto = gymModel.getInventarioService().buscarProducto(nombreProducto);
         if (producto != null && producto.getCantidad() >= cantidad) {
             double precioTotal = producto.getPrecio() * cantidad;
             Venta venta = new Venta(idCliente, nombreProducto, cantidad, precioTotal);

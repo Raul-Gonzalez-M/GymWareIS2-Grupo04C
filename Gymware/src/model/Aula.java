@@ -3,17 +3,24 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Aula {
-    
+	
+	private int id;
     private int capacidadMaxima;
     private int capacidadActual;
     private String nombre;
     private List<Actividad> clases;
     
-    public Aula(int capacidadMaxima, String nombre) {
+    
+    public Aula(int id, int capacidadMaxima, String nombre) {
+    	this.capacidadMaxima = id;
         this.capacidadMaxima = capacidadMaxima;
         this.capacidadActual = 0;
         this.nombre = nombre;
         this.clases = new ArrayList<>();
+    }
+    
+    public int getId() {
+        return id;
     }
     
     public int getCapacidadMaxima() {

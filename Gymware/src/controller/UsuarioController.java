@@ -1,3 +1,5 @@
+package controller;
+
 public class UsuarioController {
     
     private UsuarioService usuarioService;
