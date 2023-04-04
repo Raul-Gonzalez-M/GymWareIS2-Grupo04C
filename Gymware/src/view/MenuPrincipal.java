@@ -1,14 +1,18 @@
 package view;
 import javax.swing.*;
+
+import controller.GymController;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.ModuleLayer.Controller;
 
-public class UserView extends JFrame {
+public class MenuPrincipal extends JFrame {
 
-    private Controller controller;
+    private GymController controller;
     private JTabbedPane tabbedPane;
 
-    public UserView(Controller controller) {
+    public MenuPrincipal(GymController controller) {
         this.controller = controller;
         initComponents();
     }
@@ -16,7 +20,7 @@ public class UserView extends JFrame {
     private void initComponents() {
         setTitle("Gimnasio");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(1200, 800);
 
         tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Actividades", createActivitiesPanel());
@@ -28,8 +32,6 @@ public class UserView extends JFrame {
     }
 
     private JPanel createActivitiesPanel() {
-        
-        private JPanel createActivitiesPanel() {
             JPanel activitiesPanel = new JPanel(new BorderLayout());
         
             // Crear tabla con las actividades disponibles
@@ -92,9 +94,7 @@ public class UserView extends JFrame {
 
     private JPanel createSurveyPanel() {
 
-        private JPanel createSurveyPanel() {
         JPanel surveyPanel = new JPanel(new BorderLayout());
-
 
         DefaultListModel<Encuesta> surveyListModel = new DefaultListModel<>();
         for (Encuesta survey : controller.getAvailableSurveys()) {
@@ -136,7 +136,7 @@ public class UserView extends JFrame {
     }
 
     private JPanel createMaterialsPanel() {
-        private JPanel createMaterialsPanel() {
+    	
             JPanel materialsPanel = new JPanel(new BorderLayout());
             materialsPanel.setBorder(BorderFactory.createTitledBorder("Venta de materiales"));
         
@@ -173,7 +173,7 @@ public class UserView extends JFrame {
     }
 
     private JPanel createProfilePanel() {
-        private JPanel createProfilePanel() {
+    	
             JPanel profilePanel = new JPanel(new BorderLayout());
             JLabel titleLabel = new JLabel("Mi perfil", SwingConstants.CENTER);
             titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -239,7 +239,7 @@ public class UserView extends JFrame {
             });
         
             // Mostramos los datos del cliente en los campos correspondientes
-            Client currentClient = controller.getCurrentClient();
+            Cliente currentClient = controller.getCurrentClient();
             nameField.setText(currentClient.getName());
             emailField.setText(currentClient.getEmail());
             phoneField.setText(currentClient.getPhone());
@@ -252,7 +252,5 @@ public class UserView extends JFrame {
             profilePanel.add(buttonPanel, BorderLayout.SOUTH);
         
             return profilePanel;
-        }
-        
-    }
+    } 
 }

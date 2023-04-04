@@ -5,10 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JTextField;
-
-import controller.Controller;
 import controller.VistaController;
-
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -28,21 +25,21 @@ public class LoginWindow extends JPanel {
 		
 		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblUsername.setBounds(261, 230, 78, 17);
+		lblUsername.setBounds(482, 310, 78, 17);
 		add(lblUsername);
 		
 		textField = new JTextField();
-		textField.setBounds(261, 257, 219, 26);
+		textField.setBounds(482, 337, 219, 26);
 		add(textField);
 		textField.setColumns(10);
-		
+		setSize(1200, 800);
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPassword.setBounds(261, 294, 78, 17);
+		lblPassword.setBounds(482, 374, 78, 17);
 		add(lblPassword);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(261, 321, 219, 26);
+		passwordField.setBounds(482, 401, 219, 26);
 		add(passwordField);
 		
 		JButton btnLogin = new JButton("Login");
@@ -59,8 +56,13 @@ public class LoginWindow extends JPanel {
 				}
 			}
 		});
-		btnLogin.setBounds(261, 373, 85, 21);
+		btnLogin.setBounds(542, 453, 85, 21);
 		add(btnLogin);
+		
+		JLabel lblNewLabel = new JLabel("Login");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		lblNewLabel.setBounds(547, 209, 91, 45);
+		add(lblNewLabel);
 
 	}
 }

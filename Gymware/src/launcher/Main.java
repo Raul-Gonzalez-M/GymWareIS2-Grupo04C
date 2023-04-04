@@ -5,7 +5,7 @@ import BD.ConexionBD;
 import BD.ConsultasBD;
 import tipos.DatosCliente;
 import view.MainWindow;
-import controller.Controller;
+import controller.GymController;
 import controller.VistaController;
 
 public class Main {
