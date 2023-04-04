@@ -1,18 +1,24 @@
 package model;
 
 public class Usuario {
+    private String DNI;
     private String nombre;
     private String apellido;
     private int edad;
     private String correoElectronico;
     private String contrasena;
     
-    public Usuario(String nombre, String apellido, int edad, String correoElectronico, String contrasena) {
+    public Usuario(String DNI, String nombre, String apellido, int edad, String correoElectronico, String contrasena) {
+    	this.DNI = DNI;
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
         this.correoElectronico = correoElectronico;
         this.contrasena = contrasena;
+    }
+    
+    public String getDNI() {
+        return DNI;
     }
     
     public String getNombre() {

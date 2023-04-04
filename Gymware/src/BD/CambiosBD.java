@@ -2,6 +2,14 @@ package BD;
 
 import java.sql.*;
 
+import model.Actividad;
+import model.Aula;
+import model.Cliente;
+import model.Encuesta;
+import model.Material;
+import model.Personal;
+import model.Venta;
+
 public class CambiosBD {
 	private ConexionBD bd;
 	
@@ -99,6 +107,105 @@ public class CambiosBD {
 		try(PreparedStatement st = bd.getConnection().prepareStatement(query)){
 			st.executeUpdate();
 		}
+	}
+
+	public void insertarAula(Aula nuevaAula) {
+		
+		
+	}
+
+	public void eliminarAula(Aula aula) {
+		
+		
+	}
+
+	public void actualizarAula(Aula aula) {
+		
+		
+	}
+
+	public void insertarActividad(Actividad nuevaActividad) {
+		
+		
+	}
+
+	public void eliminarActividad(Actividad actividad) {
+		
+		
+	}
+
+	public void actualizarActividad(Actividad actividad) {
+		
+		
+	}
+
+	public void eliminarCliente(Cliente cliente) {
+		
+	}
+
+	public void actualizarCliente(Cliente cliente) {
+		
+		
+	}
+
+	public void insertarEncuesta(Encuesta nuevaEncuesta) {
+		
+		
+	}
+
+	public void eliminarEncuesta(Encuesta encuesta) {
+		
+		
+	}
+
+	public void actualizarEncuesta(Encuesta encuesta) {
+		
+		
+	}
+
+	public void insertarMaterial(Material nuevoMaterial) {
+		
+		
+	}
+
+	public void eliminarMaterial(Material material) {
+		
+		
+	}
+
+	public void actualizarMaterial(Material material) {
+		
+		
+	}
+
+	public void insertarPersonal(Personal nuevoPersonal) {
+		
+		
+	}
+
+	public void eliminarPersonal(Personal personal) {
+		
+		
+	}
+
+	public void actualizarPersonal(Personal personal) {
+		
+		
+	}
+
+	public void insertarVenta(Venta nuevaVenta) {
+		
+		
+	}
+
+	public void eliminarVenta(Venta venta) {
+		
+		
+	}
+
+	public void actualizarVenta(Venta venta) {
+		
+		
 	}
 	
 }

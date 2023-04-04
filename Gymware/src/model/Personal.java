@@ -4,8 +4,8 @@ public class Personal extends Usuario {
     private int idPersonal;
     private String puesto;
     
-    public Personal(String nombre, String apellido, int edad, String correoElectronico, String contrasena, int idPersonal, String puesto) {
-        super(nombre, apellido, edad, correoElectronico, contrasena);
+    public Personal(String DNI,String nombre, String apellido, int edad, String correoElectronico, String contrasena, int idPersonal, String puesto) {
+        super(DNI, nombre, apellido, edad, correoElectronico, contrasena);
         this.idPersonal = idPersonal;
         this.puesto = puesto;
     }

@@ -4,12 +4,14 @@ public class Cliente extends Usuario {
     private int idCliente;
     private double peso;
     private double altura;
+    private double saldo;
     
-    public Cliente(String nombre, String apellido, int edad, String correoElectronico, String contrasena, int idCliente, double peso, double altura) {
-        super(nombre, apellido, edad, correoElectronico, contrasena);
+    public Cliente(String DNI,String nombre, String apellido, int edad, String correoElectronico, String contrasena, int idCliente, double peso, double altura, double saldo) {
+        super(DNI,nombre, apellido, edad, correoElectronico, contrasena);
         this.idCliente = idCliente;
         this.peso = peso;
         this.altura = altura;
+        this.saldo = saldo;
     }
     
     public int getIdCliente() {

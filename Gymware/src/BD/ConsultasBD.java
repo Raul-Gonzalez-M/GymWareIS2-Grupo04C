@@ -3,6 +3,16 @@ package BD;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import controller.Respuesta;
+import model.Actividad;
+import model.Aula;
+import model.Cliente;
+import model.Encuesta;
+import model.Material;
+import model.Personal;
+import model.Usuario;
+import model.Venta;
 import tipos.DatosCliente;
 import tipos.DatosMaterial;
 
@@ -91,4 +101,82 @@ public class ConsultasBD {
     	
     	return ret;
     }
+
+	public Aula obtenerAulaPorId(int id) {
+		
+		return null;
+	}
+
+	public List<Aula> obtenerAulas() {
+		
+		return null;
+	}
+
+	public List<Actividad> obtenerActividades() {
+		
+		return null;
+	}
+
+	public Actividad obtenerActividadPorNombre(String nombre) {
+		
+		return null;
+	}
+
+	public List<Cliente> obtenerClientes() {
+		
+		return null;
+	}
+
+	public Cliente obtenerClientePorId(int idCliente) {
+		
+		return null;
+	}
+
+	public List<Encuesta> obtenerEncuestas() {
+		
+		return null;
+	}
+
+	public Encuesta obtenerEncuestaPorTitulo(String titulo) {
+		
+		return null;
+	}
+
+	public List<Respuesta> obtenerRespuestasDeEncuestaPorCliente(Encuesta encuesta, Cliente cliente) {
+		return null;
+	}
+
+	public List<Material> obtenerMateriales() {
+		
+		return null;
+	}
+
+	public Material obtenerMaterialPorNombre(String nombre) {
+		
+		return null;
+	}
+
+	public List<Personal> obtenerPersonal() {
+		
+		return null;
+	}
+
+	public Personal obtenerPersonalPorDNI(String dNI) {
+		
+		return null;
+	}
+
+	public Usuario obtenerUsuarioPorDNI(String dNI) {
+		return null;
+	}
+
+	public List<Venta> obtenerVentas() {
+		
+		return null;
+	}
+
+	public Venta obtenerVentaPorId(int id) {
+		
+		return null;
+	}
 }

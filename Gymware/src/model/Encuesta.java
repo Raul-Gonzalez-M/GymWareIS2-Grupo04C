@@ -36,7 +36,6 @@ public class Encuesta {
         this.respuesta = respuesta;
     }
 
-    @Override
     public String toString() {
         return "Encuesta [idEncuesta=" + idEncuesta + ", idUsuario=" + idUsuario + ", respuesta=" + respuesta + "]";
     }
