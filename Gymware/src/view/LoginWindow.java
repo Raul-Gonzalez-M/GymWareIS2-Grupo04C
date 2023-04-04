@@ -1,59 +1,66 @@
 package view;
 
-import java.awt.Cursor;
-import java.awt.EventQueue;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import java.awt.Font;
+import javax.swing.JTextField;
 
-public class LoginWindow extends JFrame {
+import controller.Controller;
+import controller.VistaController;
 
-	private JPanel contentPane;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginWindow frame = new LoginWindow();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
+public class LoginWindow extends JPanel {
+
+	private JTextField textField;
+	private JPasswordField passwordField;
+	private VistaController vistacontroller;
+
+	public LoginWindow(VistaController vc) {
+		
+		this.vistacontroller = vc;
+		
+		setLayout(null);
+		
+		JLabel lblUsername = new JLabel("Username");
+		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblUsername.setBounds(261, 230, 78, 17);
+		add(lblUsername);
+		
+		textField = new JTextField();
+		textField.setBounds(261, 257, 219, 26);
+		add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblPassword.setBounds(261, 294, 78, 17);
+		add(lblPassword);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(261, 321, 219, 26);
+		add(passwordField);
+		
+		JButton btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String username = textField.getText();
+				String password = new String(passwordField.getPassword());
+				
+				if (vistacontroller.verificarCredenciales(username, password)) {
+					// Si el inicio de sesión es exitoso, navegar a la siguiente vista
+					// ...
+				} else {
+					JOptionPane.showMessageDialog(LoginWindow.this, "Usuario o contraseña incorrectos", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
+		btnLogin.setBounds(261, 373, 85, 21);
+		add(btnLogin);
+
 	}
-
-	/**
-	 * Create the frame.
-	 */
-	public LoginWindow() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setSize(1200,800);
-		setContentPane(contentPane);
-		
-		JLabel linkLabel = new JLabel("<html><u>Enlace a Ventana 2</u></html>");
-        linkLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        linkLabel.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                Ventana2 ventana2 = new Ventana2();
-                ventana2.setVisible(true);
-            }
-        });
-
-        add(linkLabel);
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-	}
-
 }

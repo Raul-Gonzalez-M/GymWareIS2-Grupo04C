@@ -1,23 +1,23 @@
 package controller;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import BD.ConexionBD;
 import model.*;
 import view.*;
 
 public class Controller {
-    private MainWindow mainWindow;
-    private LoginWindow loginWindow;
-
+	
+    private ConexionBD conexionBD;
+    
     public Controller() {
-        mainWindow = new MainWindow();
-    	mainWindow.setVisible(true);
-    }
-
-    public void start() {
-
-    }
-
-    public boolean login(String user, String password) {
-		return false;
     	
+    	//conexionBD = new ConexionBD();
     }
+
+
 }
