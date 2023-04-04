@@ -34,6 +34,10 @@ public class Cliente extends Usuario {
         return altura;
     }
     
+    public double getSaldo() {
+        return altura;
+    }
+    
     public void setAltura(double altura) {
         this.altura = altura;
     }
