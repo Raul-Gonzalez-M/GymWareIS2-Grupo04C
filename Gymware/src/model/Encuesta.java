@@ -2,42 +2,58 @@ package model;
 
 public class Encuesta {
     
-    private int idEncuesta;
-    private int idUsuario;
-    private String respuesta;
+    private String DNI;
+    private String fecha;
+    private int satisfaccion;
+    private String cambios;
+    private String participa;
 
-    public Encuesta(int idEncuesta, int idUsuario, String respuesta) {
-        this.idEncuesta = idEncuesta;
-        this.idUsuario = idUsuario;
-        this.respuesta = respuesta;
+    public Encuesta(String DNI, String fecha, int satisfaccion, String cambios, String participa) {
+        this.DNI = DNI;
+        this.fecha = fecha;
+        this.satisfaccion = satisfaccion;
+        this.cambios = cambios;
+        this.participa = participa;
     }
 
-    public int getIdEncuesta() {
-        return idEncuesta;
-    }
+	public String getDNI() {
+		return DNI;
+	}
 
-    public void setIdEncuesta(int idEncuesta) {
-        this.idEncuesta = idEncuesta;
-    }
+	public void setDNI(String dNI) {
+		DNI = dNI;
+	}
 
-    public int getIdUsuario() {
-        return idUsuario;
-    }
+	public String getFecha() {
+		return fecha;
+	}
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
-    }
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
 
-    public String getRespuesta() {
-        return respuesta;
-    }
+	public int getSatisfaccion() {
+		return satisfaccion;
+	}
 
-    public void setRespuesta(String respuesta) {
-        this.respuesta = respuesta;
-    }
+	public void setSatisfaccion(int satisfaccion) {
+		this.satisfaccion = satisfaccion;
+	}
 
-    public String toString() {
-        return "Encuesta [idEncuesta=" + idEncuesta + ", idUsuario=" + idUsuario + ", respuesta=" + respuesta + "]";
-    }
+	public String getCambios() {
+		return cambios;
+	}
+
+	public void setCambios(String cambios) {
+		this.cambios = cambios;
+	}
+
+	public String getParticipa() {
+		return participa;
+	}
+
+	public void setParticipa(String participa) {
+		this.participa = participa;
+	}
     
 }

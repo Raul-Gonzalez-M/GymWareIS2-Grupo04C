@@ -1,5 +1,6 @@
 package controller;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,8 +21,8 @@ public class GymController {
     /*
      * ACTIVIDAD
      */
-    public void agregarActividad(String nombre, LocalDateTime fechaInicio, LocalDateTime fechaFin, String descripcion) {
-        Actividad nuevaActividad = new Actividad(nombre, fechaInicio, fechaFin, descripcion);
+    public void agregarActividad(String nombre, String horario, String DNIProfesor, Aula aula) {
+        Actividad nuevaActividad = new Actividad(nombre, horario, DNIProfesor, aula);
         cambios.insertarActividad(nuevaActividad); // se inserta la nueva actividad en la BD
     }
     
@@ -30,11 +31,23 @@ public class GymController {
     }
     
     public List<Actividad> obtenerActividades() {
-        return consulta.obtenerActividades(); // se obtienen todas las actividades de la BD
+    	try {
+    		return consulta.obtenerActividades(); // se obtienen todas las actividades de la BD
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    		System.out.println(e.getMessage());
+    		return null;
+    	}
     }
     
     public Actividad obtenerActividadPorNombre(String nombre) {
-        return consulta.obtenerActividadPorNombre(nombre); // se busca la actividad en la BD según su nombre
+        try {
+			return consulta.obtenerActividadPorNombre(nombre);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return null;
+		}
     }
     
     public void actualizarActividad(Actividad actividad) {
@@ -44,8 +57,8 @@ public class GymController {
     /*
      * AULAS
      */
-    public void agregarAula(int id, int capacidadMaxima, String nombre) {
-        Aula nuevaAula = new Aula(id, capacidadMaxima, nombre);
+    public void agregarAula(int id, Actividad actividad) {
+        Aula nuevaAula = new Aula(id, actividad);
         cambios.insertarAula(nuevaAula); // se inserta la nueva aula en la BD
     }
     
@@ -54,35 +67,36 @@ public class GymController {
     }
     
     public List<Aula> obtenerAulas() {
-        return consulta.obtenerAulas(); // se obtienen todas las aulas de la BD
+        try {
+			return consulta.obtenerAulas();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return null;
+		}
     }
     
     public Aula obtenerAulaPorId(int id) {
-        return consulta.obtenerAulaPorId(id); // se busca la aula en la BD según su ID
-    }
-    
-    public void agregarClaseAAula(int idAula, Actividad actividad) {
-        Aula aula = obtenerAulaPorId(idAula);
-        if (aula != null) {
-            aula.agregarClase(actividad);
-            cambios.actualizarAula(aula); // se actualiza la información de la aula en la BD
-        }
-    }
-    
-    public void eliminarClaseDeAula(int idAula, Actividad actividad) {
-        Aula aula = obtenerAulaPorId(idAula);
-        if (aula != null) {
-            aula.eliminarClase(actividad);
-            cambios.actualizarAula(aula); // se actualiza la información de la aula en la BD
-        }
+        try {
+			return consulta.obtenerAulaPorId(id); // se busca la aula en la BD según su ID
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return null;
+		} 
     }
     
     /*
      * CLIENTE
      */
-    public void agregarCliente(String DNI,String nombre, String apellido, int edad, String correoElectronico, String contrasena, int idCliente, double peso, double altura, double saldo) {
-        Cliente nuevoCliente = new Cliente(DNI,nombre, apellido, edad, correoElectronico, contrasena, idCliente, peso, altura,saldo);
-        cambios.insertarCliente(DNI, nombre, contrasena, saldo); // inserta el nuevo cliente en la BD
+    public void agregarCliente(String DNI, String nombre, String contrasena, String fechaAlta, String fechaBaja, double saldo) {
+        Cliente nuevoCliente = new Cliente(DNI,nombre, contrasena, fechaAlta, fechaBaja, saldo);
+        try {
+			cambios.insertarCliente(DNI, nombre, contrasena, saldo); // inserta el nuevo cliente en la BD
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} 
     }
 
     public void eliminarCliente(Cliente cliente) {
@@ -90,11 +104,23 @@ public class GymController {
     }
 
     public List<Cliente> obtenerClientes() {
-        return consulta.obtenerClientes(); // obtiene todos los clientes de la BD
+        try {
+			return consulta.obtenerClientes(); // obtiene todos los clientes de la BD
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return null;
+		} 
     }
 
-    public Cliente obtenerClientePorId(int idCliente) {
-        return consulta.obtenerClientePorId(idCliente); // busca el cliente en la BD según su ID
+    public Cliente obtenerClientePorId(String DNI) {
+        try {
+			return consulta.obtenerClientePorId(DNI); // busca el cliente en la BD según su ID
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return null;
+		} 
     }
 
     public void actualizarCliente(Cliente cliente) {
@@ -104,8 +130,8 @@ public class GymController {
     /*
      * ENCUESTA
      */
-    public void agregarEncuesta(String titulo, List<Pregunta> preguntas) {
-        Encuesta nuevaEncuesta = new Encuesta(titulo, preguntas);
+    public void agregarEncuesta(String DNI, String fecha, int satisfaccion, String cambios, String participa) {
+        Encuesta nuevaEncuesta = new Encuesta(DNI, fecha, satisfaccion, cambios, participa);
         cambios.insertarEncuesta(nuevaEncuesta); // se inserta la nueva encuesta en la BD
     }
 

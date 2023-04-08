@@ -1,61 +1,58 @@
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+package model;
 
 public class Venta {
     
-    private int idVenta;
-    private LocalDate fechaVenta;
-    private Cliente cliente;
-    private List<Material> productos;
-    private double totalVenta;
+    private String nombreMaterial;
+    private String DNI;
+    private String fecha;
+    private int cantidad;
     
-    public Venta(int idVenta, LocalDate fechaVenta, Cliente cliente) {
-        this.idVenta = idVenta;
-        this.fechaVenta = fechaVenta;
-        this.cliente = cliente;
-        this.productos = new ArrayList<>();
-        this.totalVenta = 0;
+    public Venta(String nombreMaterial, String DNI, String fecha, int cantidad) {
+        this.nombreMaterial = nombreMaterial;
+        this.DNI = DNI;
+        this.fecha = fecha;
+        this.cantidad = cantidad;
     }
     
-    public int getIdVenta() {
-        return idVenta;
-    }
-    
-    public LocalDate getFechaVenta() {
-        return fechaVenta;
-    }
-    
-    public Cliente getCliente() {
-        return cliente;
-    }
-    
-    public List<Material> getProductos() {
-        return productos;
-    }
-    
-    public double getTotalVenta() {
-        return totalVenta;
-    }
-    
-    public void agregarProducto(Material producto) {
-        productos.add(producto);
-        totalVenta += producto.getPrecio();
-    }
-    
-    public void eliminarProducto(Material producto) {
-        productos.remove(producto);
-        totalVenta -= producto.getPrecio();
-    }
-    
-    public String toString() {
+    public String getNombreMaterial() {
+		return nombreMaterial;
+	}
+
+	public void setNombreMaterial(String nombreMaterial) {
+		this.nombreMaterial = nombreMaterial;
+	}
+
+	public String getDNI() {
+		return DNI;
+	}
+
+	public void setDNI(String dNI) {
+		DNI = dNI;
+	}
+
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+
+	public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Venta #").append(idVenta).append(" realizada el ").append(fechaVenta.toString()).append(" por el cliente ").append(cliente.toString()).append("\n");
+        sb.append("Venta").append(" realizada el ").append(fecha).append(" por el cliente con DNI ").append(DNI).append("\n");
         sb.append("Detalles de la venta:\n");
-        for (Material p : productos) {
-            sb.append(p.toString()).append("\n");
-        }
-        sb.append("Total de la venta: $").append(String.format("%.2f", totalVenta));
+        sb.append("Producto: ").append(nombreMaterial).append(".\n");
+        sb.append("Unidades: ").append(cantidad).append(".\n");
+        sb.append("Total de la venta: $");
         return sb.toString();
     }
 }

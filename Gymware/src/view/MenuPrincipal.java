@@ -1,7 +1,13 @@
 package view;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import controller.GymController;
+import model.Actividad;
+import model.Cliente;
+import model.Encuesta;
+import model.Usuario;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

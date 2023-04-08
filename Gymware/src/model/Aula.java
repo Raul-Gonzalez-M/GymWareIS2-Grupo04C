@@ -1,56 +1,34 @@
 package model;
-import java.util.List;
-import java.util.ArrayList;
 
 public class Aula {
 	
 	private int id;
-    private int capacidadMaxima;
-    private int capacidadActual;
-    private String nombre;
-    private List<Actividad> clases;
+    private Actividad actividad;
     
     
-    public Aula(int id, int capacidadMaxima, String nombre) {
-    	this.capacidadMaxima = id;
-        this.capacidadMaxima = capacidadMaxima;
-        this.capacidadActual = 0;
-        this.nombre = nombre;
-        this.clases = new ArrayList<>();
+    public Aula(int id, Actividad actividad) {
+    	this.id = id;
+    	this.actividad = actividad;
     }
+
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+	public Actividad getActividad() {
+		return actividad;
+	}
+
+
+	public void setActividad(Actividad actividad) {
+		this.actividad = actividad;
+	}
     
-    public int getId() {
-        return id;
-    }
-    
-    public int getCapacidadMaxima() {
-        return capacidadMaxima;
-    }
-    
-    public int getCapacidadActual() {
-        return capacidadActual;
-    }
-    
-    public String getNombre() {
-        return nombre;
-    }
-    
-    public List<Actividad> getClases() {
-        return clases;
-    }
-    
-    public void agregarClase(Actividad clase) {
-        if (capacidadActual < capacidadMaxima) {
-            clases.add(clase);
-            capacidadActual++;
-        } else {
-            throw new IllegalStateException("El aula está llena");
-        }
-    }
-    
-    public void eliminarClase(Actividad clase) {
-        if (clases.remove(clase)) {
-            capacidadActual--;
-        }
-    }
 }

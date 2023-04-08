@@ -1,48 +1,65 @@
 package model;
-import java.time.LocalDateTime;
 
 public class Actividad {
     private String nombre;
-    private LocalDateTime fechaInicio;
-    private LocalDateTime fechaFin;
-    private String descripcion;
+    private String horario;
+    private String DNIProfesor;
+    private Aula aula;
+    private int plazasDisponibles;
 
-    public Actividad(String nombre, LocalDateTime fechaInicio, LocalDateTime fechaFin, String descripcion) {
+    public Actividad(String nombre, String horario, String DNIProfesor, Aula aula) {
         this.nombre = nombre;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
-        this.descripcion = descripcion;
+        this.horario = horario;
+        this.DNIProfesor = DNIProfesor;
+        this.aula = aula;
+        this.plazasDisponibles = 30;
+    }
+    
+    public int getPlazasDisponibles() {
+    	return this.plazasDisponibles;
+    }
+    
+    public void setPlazasDisponibles(int n) {
+    	this.plazasDisponibles = n;
+    }
+    
+    public void incPlazasDisponibles(int n) {
+    	this.plazasDisponibles += n;
+    }
+    
+    public void decPlazasDisponibles(int n) {
+    	incPlazasDisponibles(-n);
     }
 
-    public String getNombre() {
-        return nombre;
-    }
+	public String getNombre() {
+		return nombre;
+	}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-    public LocalDateTime getFechaInicio() {
-        return fechaInicio;
-    }
+	public String getHorario() {
+		return horario;
+	}
 
-    public void setFechaInicio(LocalDateTime fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
+	public void setHorario(String horario) {
+		this.horario = horario;
+	}
 
-    public LocalDateTime getFechaFin() {
-        return fechaFin;
-    }
+	public String getDNIProfesor() {
+		return DNIProfesor;
+	}
 
-    public void setFechaFin(LocalDateTime fechaFin) {
-        this.fechaFin = fechaFin;
-    }
+	public void setDNIProfesor(String dNIProfesor) {
+		DNIProfesor = dNIProfesor;
+	}
 
-    public String getDescripcion() {
-        return descripcion;
-    }
+	public Aula getAula() {
+		return aula;
+	}
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+	public void setAula(Aula aula) {
+		this.aula = aula;
+	}
 }
