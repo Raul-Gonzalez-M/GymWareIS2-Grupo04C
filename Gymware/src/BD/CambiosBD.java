@@ -37,7 +37,7 @@ public class CambiosBD {
 	 * (Probada)
 	 */
 	public void insertarPersonal(String DNI, String nombre, String contrasenya) throws SQLException{
-		String query = "INSERT INTO Cliente values(?, ?, ?)";
+		String query = "INSERT INTO Cliente values('?', '?', '?')";
 		try ( PreparedStatement st = bd.getConnection().prepareStatement( query )) {
 			st.setString(1, DNI);
 			st.setString (2, nombre);
@@ -51,7 +51,7 @@ public class CambiosBD {
 	 * ()
 	 */
 	public void guardarCompra(String nombre, String DNI, String fecha, int cantidad) throws SQLException{
-		String query = "INSERT INTO Compra_material VALUES(?, ?, ? ,?)";
+		String query = "INSERT INTO Compra_material VALUES('?', '?', '?' ,?)";
 		
 		try ( PreparedStatement st = bd.getConnection().prepareStatement( query )){
 			st.setString(1, nombre);
@@ -109,103 +109,189 @@ public class CambiosBD {
 		}
 	}
 
-	public void insertarAula(Aula nuevaAula) {
+	/*
+	 * inserta un aula nueva en la tabla
+	 * ()
+	 */
+	public void insertarAula(Aula nuevaAula) throws SQLException {
+		String query = "INSERT INTO Aula VALUES(" + nuevaAula.getId() + ", '" + nuevaAula.getActividad().getNombre() + "');";
 		
-		
+		executeUpdate(query);
 	}
 
-	public void eliminarAula(Aula aula) {
+	/*
+	 * elimina el aula con el mismo numero que aula
+	 * ()
+	 */
+	public void eliminarAula(Aula aula) throws SQLException {
+		String query = "DELETE FROM Aula "
+					 + "WHERE Numero = " + aula.getId() + ";";
 		
-		
+		executeUpdate(query);
 	}
 
-	public void actualizarAula(Aula aula) {
+	/*
+	 * 
+	 * 
+	 */
+	public void actualizarAula(Aula aula) throws SQLException {
+		String query = "UPDATE TABLE Aula "
+					 + "SET Actividad = " + aula.getActividad().getNombre() + " "
+					 + "WHERE Numero = " + aula.getId() + ";";
 		
-		
+		executeUpdate(query);
 	}
 
-	public void insertarActividad(Actividad nuevaActividad) {
+	public void insertarActividad(Actividad nuevaActividad) throws SQLException {
+		String query = "INSERT INTO Actividad VALUES('" 
+					 + nuevaActividad.getNombre() + "', '" + nuevaActividad.getHorario() + "', '"
+					 + nuevaActividad.getDNIProfesor() + "', " + nuevaActividad.getAula().getId() + ");";
 		
-		
+		executeUpdate(query);
 	}
 
-	public void eliminarActividad(Actividad actividad) {
+	public void eliminarActividad(Actividad actividad) throws SQLException {
+		String query = "DELETE FROM Actividad "
+					 + "WHERE Nombre = '" + actividad.getNombre() + "';";
 		
-		
+		executeUpdate(query);
 	}
 
-	public void actualizarActividad(Actividad actividad) {
+	public void actualizarActividad(Actividad actividad) throws SQLException {
+		String query = "UPDATE TABLE Actividad "
+				 	 + "SET Horario = '" + actividad.getHorario() + "', "
+				 	 + "SET DNI_Profesor = '" + actividad.getDNIProfesor() + "', "
+				 	 + "SET Aula = " + actividad.getAula().getId() + " "
+				 	 + "WHERE Nombre = '" + actividad.getNombre() + "';";
 		
-		
+		executeUpdate(query);
 	}
 
-	public void eliminarCliente(Cliente cliente) {
+	public void eliminarCliente(Cliente cliente) throws SQLException {
+		String query = "DELETE FROM Cliente "
+				+ "WHERE DNI = '" + cliente.getDNI() + "';";
 		
+		executeUpdate(query);
 	}
 
-	public void actualizarCliente(Cliente cliente) {
+	public void actualizarCliente(Cliente cliente) throws SQLException {
+		String query = "UPDATE TABLE Cliente "
+					 + "SET Nombre = '" + cliente.getNombre() + "', "
+					 + "Contrasenya = '" + cliente.getContrasena() + "', "
+					 + "FechaAlta = date'" + cliente.getFechaAlta() + "', "
+					 + "FechaBaja = " + ((cliente.getFechaBaja().equals("null")) ? ("null, ") : ("date'" + cliente.getFechaBaja() + "', ")) 
+					 + "Saldo = " + cliente.getSaldo() + " "
+					 + "WHERE DNI = '" + cliente.getDNI() + "';";
 		
-		
+		executeUpdate(query);
 	}
 
-	public void insertarEncuesta(Encuesta nuevaEncuesta) {
+	public void insertarEncuesta(Encuesta nuevaEncuesta) throws SQLException {
+		String query = "INSERT INTO Encuesta VALUES('"
+					  + nuevaEncuesta.getDNI() + "', '"
+					  + nuevaEncuesta.getFecha() + "', "
+					  + nuevaEncuesta.getSatisfaccion() + ", '"
+					  + nuevaEncuesta.getCambios() + "', '"
+					  + nuevaEncuesta.getParticipa() + "');";
 		
-		
+		executeUpdate(query);
 	}
 
-	public void eliminarEncuesta(Encuesta encuesta) {
+	public void eliminarEncuesta(Encuesta encuesta) throws SQLException {
+		String query = "DELETE FROM Encuesta "
+					 + "WHERE DNI = '" + encuesta.getDNI() + "' AND "
+					 + "Fecha = date'" + encuesta.getFecha() + "';";
 		
-		
+		executeUpdate(query);
 	}
 
-	public void actualizarEncuesta(Encuesta encuesta) {
+	public void actualizarEncuesta(Encuesta encuesta) throws SQLException {
+		String query = "UPDATE TABLE Encuesta "
+				 + "SET Satisfaccion = " + encuesta.getSatisfaccion() + ", "
+				 + "Cambios = '" + encuesta.getCambios() + "', "
+				 + "Participa = '" + encuesta.getParticipa() + "' "
+				 + "WHERE DNI = '" + encuesta.getDNI() + "' AND "
+				 + "Fecha = '" + encuesta.getFecha() + "';";
 		
-		
+		executeUpdate(query);
 	}
 
-	public void insertarMaterial(Material nuevoMaterial) {
+	public void insertarMaterial(Material nuevoMaterial) throws SQLException {
+		String query = "INSERT INTO Material VALUES('" 
+					  + nuevoMaterial.getNombre() + "', "
+					  + nuevoMaterial.getPrecio() + ", "
+					  + nuevoMaterial.getUnidades() + ");";
 		
-		
+		executeUpdate(query);
 	}
 
-	public void eliminarMaterial(Material material) {
-		
-		
+	public void eliminarMaterial(Material material) throws SQLException {
+		String query = "DELETE FROM Material "
+					 + "WHERE Nombre = '" + material.getNombre() + "';";
+	
+		executeUpdate(query);
 	}
 
-	public void actualizarMaterial(Material material) {
+	public void actualizarMaterial(Material material) throws SQLException {
+		String query = "UPDATE TABLE Material "
+					 + "SET Precio = " + material.getPrecio() + ", "
+					 + "Unidades = " + material.getUnidades() + " "
+					 + "WHERE Nombre = '" + material.getNombre() + "';";
 		
-		
+		executeUpdate(query);
 	}
 
-	public void insertarPersonal(Personal nuevoPersonal) {
+	public void insertarPersonal(Personal nuevoPersonal) throws SQLException {
+		String query = "INSERT INTO Personal VALUES('"
+				+ nuevoPersonal.getDNI() + "', '"
+				+ nuevoPersonal.getNombre() + "', '"
+				+ nuevoPersonal.getContrasena() + "');";
 		
-		
+		executeUpdate(query);
 	}
 
-	public void eliminarPersonal(Personal personal) {
-		
-		
+	public void eliminarPersonal(Personal personal) throws SQLException {
+		String query = "DELETE FROM Personal "
+				 + "WHERE DNI = '" + personal.getDNI() + "';";
+
+		executeUpdate(query);
 	}
 
-	public void actualizarPersonal(Personal personal) {
-		
-		
+	public void actualizarPersonal(Personal personal) throws SQLException {
+		String query = "UPDATE TABLE Personal "
+				 	 + "SET Nombre = '" + personal.getNombre() + "', "
+				 	 + "Contrasenya = '" + personal.getContrasena() + "' "
+				 	 + "WHERE DNI = '" + personal.getDNI() + "';";
+	
+		executeUpdate(query);
 	}
 
-	public void insertarVenta(Venta nuevaVenta) {
+	public void insertarVenta(Venta nuevaVenta) throws SQLException {
+		String query = "INSERT INTO compra_material VALUES('"
+				+ nuevaVenta.getNombreMaterial() + "', '"
+				+ nuevaVenta.getDNI() + "', '"
+				+ nuevaVenta.getFecha() + "', "
+				+ nuevaVenta.getCantidad() + ");";
 		
-		
+		executeUpdate(query);
 	}
 
-	public void eliminarVenta(Venta venta) {
-		
-		
+	public void eliminarVenta(Venta venta) throws SQLException {
+		String query = "DELETE FROM compra_material "
+					 + "WHERE Nombre = '" + venta.getNombreMaterial() + "' AND "
+					 + "DNI = '" + venta.getDNI() + "';";
+
+		executeUpdate(query);
 	}
 
-	public void actualizarVenta(Venta venta) {
-		
-		
+	public void actualizarVenta(Venta venta) throws SQLException {
+		String query = "UPDATE TABLE compra_material "
+				 	 + "SET Fecha = date'" + venta.getFecha() + "', "
+				 	 + "Cantidad = " + venta.getCantidad() + " "
+				 	 + "WHERE DNI = '" + venta.getDNI() + "' AND"
+				 	 		+ "Nombre = '" + venta.getNombreMaterial() + "';";
+	
+		executeUpdate(query);
 	}
 	
 }
