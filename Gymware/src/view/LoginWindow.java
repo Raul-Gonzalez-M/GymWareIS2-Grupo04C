@@ -7,7 +7,13 @@ import javax.swing.JOptionPane;
 import java.awt.CardLayout;
 import java.awt.Font;
 import javax.swing.JTextField;
+
+import controller.GymController;
 import controller.VistaController;
+import model.Cliente;
+import model.Personal;
+import model.Usuario;
+
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -17,16 +23,13 @@ public class LoginWindow extends JPanel {
 
 	private JTextField textField;
 	private JPasswordField passwordField;
-	private VistaController vistacontroller;
 	private JPanel parentPanel;
 	private CardLayout cardLayout;
-
-	public LoginWindow(VistaController vc, JPanel pp) {
+    
+	public LoginWindow(VistaController vc, GymController gc, JPanel pp) {
 		
-		this.vistacontroller = vc;
 		this.parentPanel = pp;
         this.cardLayout = (CardLayout) parentPanel.getLayout();
-		
 		setLayout(null);
 		
 		JLabel lblUsername = new JLabel("DNI");
@@ -50,17 +53,27 @@ public class LoginWindow extends JPanel {
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String username = textField.getText();
-				String password = new String(passwordField.getPassword());
-				
-				if (vistacontroller.verificarCredenciales(username, password)) {
-					cardLayout.show(parentPanel, "menu");
-				} else {
-					JOptionPane.showMessageDialog(LoginWindow.this, "Usuario o contraseña incorrectos", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
-				}
-			}
+		    public void actionPerformed(ActionEvent e) {
+		        String DNI = textField.getText();
+		        String password = new String(passwordField.getPassword());
+
+		        Usuario usuarioActual = vc.autenticarUsuario(DNI, password);
+		        if(usuarioActual != null) {
+		            gc.setUsuario(usuarioActual);
+		            JOptionPane.showMessageDialog(LoginWindow.this, "¡Bienvenido " + usuarioActual.getNombre() + "!", "Inicio de sesión exitoso", JOptionPane.INFORMATION_MESSAGE);
+		            if (usuarioActual instanceof Cliente) {
+		                cardLayout.show(parentPanel, "menuCliente");
+		            } else if (usuarioActual instanceof Personal) {
+		                cardLayout.show(parentPanel, "menuPersonal");
+		            } else {
+		                JOptionPane.showMessageDialog(LoginWindow.this, "Error al obtener el tipo de usuario", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+		            }
+		        } else {
+		            JOptionPane.showMessageDialog(LoginWindow.this, "Usuario o contraseña incorrectos", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+		        }
+		    }
 		});
+
 		btnLogin.setBounds(542, 453, 85, 21);
 		add(btnLogin);
 		

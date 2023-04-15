@@ -116,9 +116,9 @@ public class Gimnasio {
         this.ventas.remove(venta);
     }
 
-    public Usuario buscarUsuario(String email) {
+    public Usuario buscarUsuario(String DNI) {
         for (Usuario usuario : usuarios) {
-            if (usuario.getEmail().equals(email)) {
+            if (usuario.getDNI().equals(DNI)) {
                 return usuario;
             }
         }

@@ -43,14 +43,13 @@ public class MainWindow extends JFrame {
 	private JPanel homePanel;
 	private JPanel loginPanel;
 	private JPanel MenuPrincipal;
-	private VistaController vistaController;
-	private GymController gymcontroller;
+
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainWindow frame = new MainWindow(null);
+					MainWindow frame = new MainWindow(null, null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,8 +59,7 @@ public class MainWindow extends JFrame {
 	}
 
 	public MainWindow(VistaController vc, GymController gc) {
-		vistaController = vc;
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -74,10 +72,10 @@ public class MainWindow extends JFrame {
 		homePanel = new HomePanel(contentPane);
 		contentPane.add(homePanel, "home");
 		
-		loginPanel = new LoginWindow(vistaController, contentPane);
+		loginPanel = new LoginWindow(vc, gc, contentPane);
 		contentPane.add(loginPanel, "login");
 		
-		MenuPrincipal = new MenuPrincipal(gc);
+		MenuPrincipal = new MenuPrincipal(gc );
 		contentPane.add(MenuPrincipal, "menu");
 	}
 

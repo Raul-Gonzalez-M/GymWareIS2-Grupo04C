@@ -17,26 +17,25 @@ import java.lang.ModuleLayer.Controller;
 
 public class MenuPrincipal extends JPanel {
 
-    private GymController controller;
+    private GymController gymcontroller;
     private JTabbedPane tabbedPane;
     private Gimnasio gimnasio;
+    private Usuario usuario;
     
     public MenuPrincipal(GymController controller) {
-        this.controller = controller;
+        this.gymcontroller = controller;
         this.gimnasio = controller.getGimnasio();
-        initComponents();
-        
+        this.usuario = gymcontroller.getUsuario();
+        initComponents();     
     }
 
     private void initComponents() {
-        setSize(1200, 800);
-
         tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Actividades", createActivitiesPanel());
         tabbedPane.addTab("Encuestas", createSurveyPanel());
         tabbedPane.addTab("Materiales", createMaterialsPanel());
         tabbedPane.addTab("Mi Perfil", createProfilePanel());
-
+        setSize(1200, 800);
         getRootPane().add(tabbedPane, BorderLayout.CENTER);
     }
 
@@ -74,7 +73,6 @@ public class MenuPrincipal extends JPanel {
                     }
                     // Obtener la actividad y el usuario actual
                     Actividad actividad = gimnasio.getActividades().get(selectedRow);
-                    Usuario usuario = gimnasio.getUsuarioActual();
                     // Comprobar si hay plazas disponibles
                     if (actividad.getPlazasDisponibles() == 0) {
                         JOptionPane.showMessageDialog(null, "Lo siento, ya no quedan plazas disponibles en esta actividad");
@@ -105,7 +103,7 @@ public class MenuPrincipal extends JPanel {
         JPanel surveyPanel = new JPanel(new BorderLayout());
 
         DefaultListModel<Encuesta> surveyListModel = new DefaultListModel<>();
-        for (Encuesta survey : controller.getAvailableSurveys()) {
+        for (Encuesta survey : gymcontroller.getAvailableSurveys()) {
             surveyListModel.addElement(survey);
         }
 
@@ -150,7 +148,7 @@ public class MenuPrincipal extends JPanel {
         
             // Lista de materiales
             JPanel materialsListPanel = new JPanel(new GridLayout(0, 1, 0, 10));
-            for (Material material : controller.getGymModel().getMateriales()) {
+            for (Material material : gymcontroller.getMateriales()) {
                 JLabel label = new JLabel(material.getNombre() + " - " + material.getPrecio() + "€");
                 JButton button = new JButton("Comprar");
                 button.addActionListener(new ActionListener() {
@@ -162,7 +160,7 @@ public class MenuPrincipal extends JPanel {
                                 "Confirmar compra", JOptionPane.YES_NO_OPTION);
                         if (result == JOptionPane.YES_OPTION) {
                             // Registrar la compra en la base de datos
-                            controller.registrarCompra(material);
+                        	gymcontroller.registrarCompra(material);
                             JOptionPane.showMessageDialog(null, "Compra realizada con éxito", "Compra realizada", JOptionPane.INFORMATION_MESSAGE);
                         }
                     }
@@ -231,7 +229,7 @@ public class MenuPrincipal extends JPanel {
                             String newPhone = phoneField.getText();
         
                             // Actualizamos los datos del cliente
-                            boolean result = controller.updateClientData(newName, newEmail, newPhone);
+                            boolean result = gymcontroller.actualizar;
                             if (result) {
                                 JOptionPane.showMessageDialog(null, "Perfil actualizado con éxito");
                                 nameField.setEditable(false);
@@ -247,11 +245,11 @@ public class MenuPrincipal extends JPanel {
             });
         
             // Mostramos los datos del cliente en los campos correspondientes
-            Cliente currentClient = controller.getCurrentClient();
-            nameField.setText(currentClient.getName());
-            emailField.setText(currentClient.getEmail());
-            phoneField.setText(currentClient.getPhone());
-            planField.setText(currentClient.getPlan().getName());
+
+            nameField.setText(usuario.getNombre());
+            emailField.setText(usuario.getEmail());
+            phoneField.setText(usuario.getPhone());
+            planField.setText(usuario.getPlan().getName());
         
             JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             buttonPanel.add(editButton);

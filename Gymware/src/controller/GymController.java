@@ -13,6 +13,7 @@ public class GymController {
     private CambiosBD cambios;
     private ConsultasBD consulta;
     private Gimnasio gimnasio;
+    private Usuario user;
     
     public GymController(CambiosBD bd_cambios,ConsultasBD bd_consulta) {
         this.cambios = bd_cambios;
@@ -25,6 +26,13 @@ public class GymController {
     	return this.gimnasio;
     }
     
+    public Usuario getUsuario() {
+    	return this.user;
+    }
+    
+    public void setUsuario(Usuario usuario) {
+    	this.user = usuario;
+    }
     
     /*
      * ACTIVIDAD
@@ -69,7 +77,12 @@ public class GymController {
     }
     
     public void actualizarActividad(Actividad actividad) {
-        cambios.actualizarActividad(actividad); // se actualiza la información de la actividad en la BD
+        try {
+			cambios.actualizarActividad(actividad);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // se actualiza la información de la actividad en la BD
     }
     
     /*
@@ -160,8 +173,8 @@ public class GymController {
         try {
 			cambios.actualizarCliente(cliente);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		} // actualiza la información del cliente en la BD
     }
 
@@ -186,8 +199,8 @@ public class GymController {
         try {
 			return consulta.obtenerEncuestas();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		} // se obtienen todas las encuestas de la BD
     }
 
@@ -199,8 +212,8 @@ public class GymController {
         try {
 			cambios.actualizarEncuesta(encuesta);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		} // se actualiza la información de la encuesta en la BD
     }
 
@@ -240,8 +253,8 @@ public class GymController {
         try {
 			return consulta.obtenerMateriales();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		} // obtiene todos los materiales de la BD
     }
 
@@ -249,8 +262,8 @@ public class GymController {
         try {
 			return consulta.obtenerMaterialPorNombre(nombre);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;;
 		} // busca el material en la BD según su nombre
     }
 
@@ -288,8 +301,8 @@ public class GymController {
         try {
 			return consulta.obtenerPersonal();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		} // se obtiene todo el personal de la BD
     }
 
@@ -297,8 +310,8 @@ public class GymController {
         try {
 			return consulta.obtenerPersonalPorDNI(DNI);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		} // se busca el personal en la BD según su DNI
     }
 
@@ -317,9 +330,10 @@ public class GymController {
         try {
 			return consulta.obtenerUsuarioPorDNI(DNI);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		} // se busca el usuario en la BD según su DNI
+
     }
 
     /*
@@ -343,9 +357,10 @@ public class GymController {
         try {
 			return consulta.obtenerVentas();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		} // se obtienen todas las ventas de la BD
+
     }
     
     public Venta obtenerVentaPorId(int id) {
@@ -356,7 +371,6 @@ public class GymController {
         try {
 			cambios.actualizarVenta(venta);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} // se actualiza la información de la venta en la BD
     }
