@@ -3,6 +3,8 @@ package view;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+
+import java.awt.CardLayout;
 import java.awt.Font;
 import javax.swing.JTextField;
 import controller.VistaController;
@@ -16,14 +18,18 @@ public class LoginWindow extends JPanel {
 	private JTextField textField;
 	private JPasswordField passwordField;
 	private VistaController vistacontroller;
+	private JPanel parentPanel;
+	private CardLayout cardLayout;
 
-	public LoginWindow(VistaController vc) {
+	public LoginWindow(VistaController vc, JPanel pp) {
 		
 		this.vistacontroller = vc;
+		this.parentPanel = pp;
+        this.cardLayout = (CardLayout) parentPanel.getLayout();
 		
 		setLayout(null);
 		
-		JLabel lblUsername = new JLabel("Username");
+		JLabel lblUsername = new JLabel("DNI");
 		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblUsername.setBounds(482, 310, 78, 17);
 		add(lblUsername);
@@ -49,8 +55,7 @@ public class LoginWindow extends JPanel {
 				String password = new String(passwordField.getPassword());
 				
 				if (vistacontroller.verificarCredenciales(username, password)) {
-					// Si el inicio de sesión es exitoso, navegar a la siguiente vista
-					// ...
+					cardLayout.show(parentPanel, "menu");
 				} else {
 					JOptionPane.showMessageDialog(LoginWindow.this, "Usuario o contraseña incorrectos", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
 				}
@@ -63,6 +68,15 @@ public class LoginWindow extends JPanel {
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		lblNewLabel.setBounds(547, 209, 91, 45);
 		add(lblNewLabel);
+		
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(parentPanel, "home");
+			}
+		});
+		btnVolver.setBounds(542, 641, 85, 21);
+		add(btnVolver);
 
 	}
 }

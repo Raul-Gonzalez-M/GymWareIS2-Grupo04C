@@ -11,15 +11,9 @@ import view.MainWindow;
 public class VistaController {
 
     private ConexionBD conexionBD;
-    private MainWindow mainWindow;
     
-    public VistaController(){
-    	mainWindow = new MainWindow(this);
-    	start();
-    }
-    
-    public void start() {
-    	mainWindow.setVisible(true);
+    public VistaController(ConexionBD conexionBD){
+    	this.conexionBD = conexionBD;
     }
     
     public boolean verificarCredenciales(String usuario, String contrasena) {
@@ -29,7 +23,7 @@ public class VistaController {
         boolean resultado = false;
 
         try {
-            String query = "SELECT * FROM usuarios WHERE usuario = ? AND contrasena = ?";
+            String query = "SELECT * FROM usuarios WHERE DNI = ? AND contraseña = ?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, usuario);
             preparedStatement.setString(2, contrasena);

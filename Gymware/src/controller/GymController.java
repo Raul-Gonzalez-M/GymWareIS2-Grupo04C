@@ -12,22 +12,40 @@ public class GymController {
 	
     private CambiosBD cambios;
     private ConsultasBD consulta;
+    private Gimnasio gimnasio;
     
     public GymController(CambiosBD bd_cambios,ConsultasBD bd_consulta) {
         this.cambios = bd_cambios;
         this.consulta = bd_consulta;
+        this.gimnasio = new Gimnasio();
     }
+    
+    
+    public Gimnasio getGimnasio() {
+    	return this.gimnasio;
+    }
+    
     
     /*
      * ACTIVIDAD
      */
     public void agregarActividad(String nombre, String horario, String DNIProfesor, Aula aula) {
         Actividad nuevaActividad = new Actividad(nombre, horario, DNIProfesor, aula);
-        cambios.insertarActividad(nuevaActividad); // se inserta la nueva actividad en la BD
+        try {
+			cambios.insertarActividad(nuevaActividad);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // se inserta la nueva actividad en la BD
     }
     
     public void eliminarActividad(Actividad actividad) {
-    	cambios.eliminarActividad(actividad); // se elimina la actividad de la BD
+    	try {
+			cambios.eliminarActividad(actividad);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // se elimina la actividad de la BD
     }
     
     public List<Actividad> obtenerActividades() {
@@ -59,11 +77,21 @@ public class GymController {
      */
     public void agregarAula(int id, Actividad actividad) {
         Aula nuevaAula = new Aula(id, actividad);
-        cambios.insertarAula(nuevaAula); // se inserta la nueva aula en la BD
+        try {
+			cambios.insertarAula(nuevaAula);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // se inserta la nueva aula en la BD
     }
     
     public void eliminarAula(Aula aula) {
-    	cambios.eliminarAula(aula); // se elimina la aula de la BD
+    	try {
+			cambios.eliminarAula(aula);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // se elimina la aula de la BD
     }
     
     public List<Aula> obtenerAulas() {
@@ -100,7 +128,12 @@ public class GymController {
     }
 
     public void eliminarCliente(Cliente cliente) {
-        cambios.eliminarCliente(cliente); // elimina el cliente de la BD
+        try {
+			cambios.eliminarCliente(cliente);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // elimina el cliente de la BD
     }
 
     public List<Cliente> obtenerClientes() {
@@ -124,7 +157,12 @@ public class GymController {
     }
 
     public void actualizarCliente(Cliente cliente) {
-        cambios.actualizarCliente(cliente); // actualiza la información del cliente en la BD
+        try {
+			cambios.actualizarCliente(cliente);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // actualiza la información del cliente en la BD
     }
 
     /*
@@ -136,11 +174,21 @@ public class GymController {
     }
 
     public void eliminarEncuesta(Encuesta encuesta) {
-        cambios.eliminarEncuesta(encuesta); // se elimina la encuesta de la BD
+        try {
+			cambios.eliminarEncuesta(encuesta);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // se elimina la encuesta de la BD
     }
 
     public List<Encuesta> obtenerEncuestas() {
-        return consulta.obtenerEncuestas(); // se obtienen todas las encuestas de la BD
+        try {
+			return consulta.obtenerEncuestas();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // se obtienen todas las encuestas de la BD
     }
 
     public Encuesta obtenerEncuestaPorTitulo(String titulo) {
@@ -148,7 +196,12 @@ public class GymController {
     }
 
     public void actualizarEncuesta(Encuesta encuesta) {
-        cambios.actualizarEncuesta(encuesta); // se actualiza la información de la encuesta en la BD
+        try {
+			cambios.actualizarEncuesta(encuesta);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // se actualiza la información de la encuesta en la BD
     }
 
     public void responderEncuesta(Encuesta encuesta, Cliente cliente, List<Respuesta> respuestas) {
@@ -166,52 +219,107 @@ public class GymController {
      */
     public void agregarMaterial(String nombre, double precio) {
         Material nuevoMaterial = new Material(nombre, precio);
-        cambios.insertarMaterial(nuevoMaterial); // inserta el nuevo material en la BD
+        try {
+			cambios.insertarMaterial(nuevoMaterial);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // inserta el nuevo material en la BD
     }
 
     public void eliminarMaterial(Material material) {
-        cambios.eliminarMaterial(material); // elimina el material de la BD
+        try {
+			cambios.eliminarMaterial(material);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // elimina el material de la BD
     }
 
     public List<Material> obtenerMateriales() {
-        return consulta.obtenerMateriales(); // obtiene todos los materiales de la BD
+        try {
+			return consulta.obtenerMateriales();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // obtiene todos los materiales de la BD
     }
 
     public Material obtenerMaterialPorNombre(String nombre) {
-        return consulta.obtenerMaterialPorNombre(nombre); // busca el material en la BD según su nombre
+        try {
+			return consulta.obtenerMaterialPorNombre(nombre);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // busca el material en la BD según su nombre
     }
 
     public void actualizarMaterial(Material material) {
-        cambios.actualizarMaterial(material); // actualiza la información del material en la BD
+        try {
+			cambios.actualizarMaterial(material);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // actualiza la información del material en la BD
     }
     /*
      * PERSONAL
      */
     public void agregarPersonal(String DNI, String nombre, String apellido, int edad, String correoElectronico, String contrasena, int idPersonal, String puesto) {
-        Personal nuevoPersonal = new Personal(DNI, nombre, apellido, edad, correoElectronico, contrasena, idPersonal, puesto);
-        cambios.insertarPersonal(nuevoPersonal); // se inserta el nuevo personal en la BD
+        Personal nuevoPersonal = new Personal(DNI, nombre, apellido);
+        try {
+			cambios.insertarPersonal(nuevoPersonal);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // se inserta el nuevo personal en la BD
     }
 
     public void eliminarPersonal(Personal personal) {
-        cambios.eliminarPersonal(personal); // se elimina el personal de la BD
+        try {
+			cambios.eliminarPersonal(personal);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // se elimina el personal de la BD
     }
 
     public List<Personal> obtenerPersonal() {
-        return consulta.obtenerPersonal(); // se obtiene todo el personal de la BD
+        try {
+			return consulta.obtenerPersonal();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // se obtiene todo el personal de la BD
     }
 
     public Personal obtenerPersonalPorDNI(String DNI) {
-        return consulta.obtenerPersonalPorDNI(DNI); // se busca el personal en la BD según su DNI
+        try {
+			return consulta.obtenerPersonalPorDNI(DNI);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // se busca el personal en la BD según su DNI
     }
 
     public void actualizarPersonal(Personal personal) {
-        cambios.actualizarPersonal(personal); // se actualiza la información del personal en la BD
+        try {
+			cambios.actualizarPersonal(personal);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // se actualiza la información del personal en la BD
     }
     /*
      * USUARIO
      */
     public Usuario obtenerUsuarioPorDNI(String DNI) {
-        return consulta.obtenerUsuarioPorDNI(DNI); // se busca el usuario en la BD según su DNI
+        try {
+			return consulta.obtenerUsuarioPorDNI(DNI);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // se busca el usuario en la BD según su DNI
     }
 
     /*
@@ -223,11 +331,21 @@ public class GymController {
     }
     
     public void eliminarVenta(Venta venta) {
-        cambios.eliminarVenta(venta); // se elimina la venta de la BD
+        try {
+			cambios.eliminarVenta(venta);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // se elimina la venta de la BD
     }
     
     public List<Venta> obtenerVentas() {
-        return consulta.obtenerVentas(); // se obtienen todas las ventas de la BD
+        try {
+			return consulta.obtenerVentas();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // se obtienen todas las ventas de la BD
     }
     
     public Venta obtenerVentaPorId(int id) {
@@ -235,7 +353,12 @@ public class GymController {
     }
     
     public void actualizarVenta(Venta venta) {
-        cambios.actualizarVenta(venta); // se actualiza la información de la venta en la BD
+        try {
+			cambios.actualizarVenta(venta);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // se actualiza la información de la venta en la BD
     }
 
 }

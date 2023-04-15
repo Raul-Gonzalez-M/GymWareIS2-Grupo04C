@@ -4,9 +4,9 @@ import java.sql.*;
 
 public class ConexionBD {
 	static String DRIVER = "com.mysql.cj.jdbc.Driver"; /*com.mysql.jdbc.Driver */
-    static String BD = "bd";
+    static String BD = "gymware";
     static String login = "admin";
-    static String password = "1234";
+    static String password = "adminpass123";
     static String url = "jdbc:mysql://localhost:3306/"+BD;
 
     Connection connection = null;

@@ -6,6 +6,8 @@ import controller.GymController;
 import model.Actividad;
 import model.Cliente;
 import model.Encuesta;
+import model.Gimnasio;
+import model.Material;
 import model.Usuario;
 
 import java.awt.*;
@@ -13,19 +15,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.ModuleLayer.Controller;
 
-public class MenuPrincipal extends JFrame {
+public class MenuPrincipal extends JPanel {
 
     private GymController controller;
     private JTabbedPane tabbedPane;
-
+    private Gimnasio gimnasio;
+    
     public MenuPrincipal(GymController controller) {
         this.controller = controller;
+        this.gimnasio = controller.getGimnasio();
         initComponents();
+        
     }
 
     private void initComponents() {
-        setTitle("Gimnasio");
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(1200, 800);
 
         tabbedPane = new JTabbedPane();
@@ -34,7 +37,7 @@ public class MenuPrincipal extends JFrame {
         tabbedPane.addTab("Materiales", createMaterialsPanel());
         tabbedPane.addTab("Mi Perfil", createProfilePanel());
 
-        getContentPane().add(tabbedPane, BorderLayout.CENTER);
+        getRootPane().add(tabbedPane, BorderLayout.CENTER);
     }
 
     private JPanel createActivitiesPanel() {
@@ -51,9 +54,8 @@ public class MenuPrincipal extends JFrame {
             for (Actividad actividad : gimnasio.getActividades()) {
                 model.addRow(new Object[] {
                     actividad.getNombre(),
-                    actividad.getInicio(),
-                    actividad.getFin(),
-                    actividad.getInstructor().getNombre(),
+                    actividad.getHorario(),
+                    actividad.getDNIProfesor(),
                     actividad.getPlazasDisponibles()
                 });
             }

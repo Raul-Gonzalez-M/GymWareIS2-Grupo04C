@@ -21,6 +21,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
+import controller.GymController;
 import controller.VistaController;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.GroupLayout;
@@ -41,7 +42,9 @@ public class MainWindow extends JFrame {
 	private CardLayout cardLayout;
 	private JPanel homePanel;
 	private JPanel loginPanel;
+	private JPanel MenuPrincipal;
 	private VistaController vistaController;
+	private GymController gymcontroller;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -56,7 +59,7 @@ public class MainWindow extends JFrame {
 		});
 	}
 
-	public MainWindow(VistaController vc) {
+	public MainWindow(VistaController vc, GymController gc) {
 		vistaController = vc;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,8 +74,11 @@ public class MainWindow extends JFrame {
 		homePanel = new HomePanel(contentPane);
 		contentPane.add(homePanel, "home");
 		
-		loginPanel = new LoginWindow(vistaController);
+		loginPanel = new LoginWindow(vistaController, contentPane);
 		contentPane.add(loginPanel, "login");
+		
+		MenuPrincipal = new MenuPrincipal(gc);
+		contentPane.add(MenuPrincipal, "menu");
 	}
 
 }
