@@ -225,9 +225,9 @@ public class CambiosBD {
 		executeUpdate(query);
 	}
 
-	public void eliminarMaterial(Material material) throws SQLException {
+	public void eliminarMaterial(String nombre) throws SQLException {
 		String query = "DELETE FROM Material "
-					 + "WHERE Nombre = '" + material.getNombre() + "';";
+					 + "WHERE Nombre = '" + nombre + "';";
 	
 		executeUpdate(query);
 	}

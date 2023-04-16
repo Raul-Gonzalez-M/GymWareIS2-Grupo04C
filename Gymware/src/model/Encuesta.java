@@ -16,44 +16,53 @@ public class Encuesta {
         this.participa = participa;
     }
 
-	public String getDNI() {
-		return DNI;
-	}
+    public String getDNI() {
+        return DNI;
+    }
 
-	public void setDNI(String dNI) {
-		DNI = dNI;
-	}
+    public void setDNI(String DNI) {
+        this.DNI = DNI;
+    }
 
-	public String getFecha() {
-		return fecha;
-	}
+    public String getFecha() {
+        return fecha;
+    }
 
-	public void setFecha(String fecha) {
-		this.fecha = fecha;
-	}
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
 
-	public int getSatisfaccion() {
-		return satisfaccion;
-	}
+    public int getSatisfaccion() {
+        return satisfaccion;
+    }
 
-	public void setSatisfaccion(int satisfaccion) {
-		this.satisfaccion = satisfaccion;
-	}
+    public void setSatisfaccion(int satisfaccion) {
+        this.satisfaccion = satisfaccion;
+    }
 
-	public String getCambios() {
-		return cambios;
-	}
+    public String getCambios() {
+        return cambios;
+    }
 
-	public void setCambios(String cambios) {
-		this.cambios = cambios;
-	}
+    public void setCambios(String cambios) {
+        this.cambios = cambios;
+    }
 
-	public String getParticipa() {
-		return participa;
-	}
+    public String getParticipa() {
+        return participa;
+    }
 
-	public void setParticipa(String participa) {
-		this.participa = participa;
-	}
-    
+    public void setParticipa(String participa) {
+        this.participa = participa;
+    }
+
+    public String getPregunta() {
+        // TODO: implementar método getPregunta
+        return null;
+    }
+
+    public String getRespuesta() {
+        // TODO: implementar método getRespuesta
+        return null;
+    }
 }

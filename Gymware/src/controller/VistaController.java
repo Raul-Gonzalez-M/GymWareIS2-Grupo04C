@@ -19,89 +19,54 @@ public class VistaController {
     	this.conexionBD = conexionBD;
     }
     
-    public boolean verificarCredenciales(String usuario, String contrasena) {
-        Connection connection = conexionBD.getConnection();
+    public Usuario verificarCredenciales(String dni, String contrasena) {
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        boolean resultado = false;
-
+        Usuario usuario = null;
+        
         try {
-            String query = "SELECT * FROM usuarios WHERE DNI = ? AND contraseña = ?";
+            connection = conexionBD.getConnection();
+            String query = "SELECT * FROM usuarios WHERE DNI = ? AND Contraseña = ?";
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, usuario);
+            preparedStatement.setString(1, dni);
             preparedStatement.setString(2, contrasena);
             resultSet = preparedStatement.executeQuery();
-
+            
             if (resultSet.next()) {
-                resultado = true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return resultado;
-    }
-    
-    public Usuario autenticarUsuario(String usuario, String contrasena) {
-        Connection connection = conexionBD.getConnection();
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        Usuario resultado = null;
-
-        try {
-            String query = "SELECT * FROM usuarios WHERE DNI = ? AND contraseña = ?";
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, usuario);
-            preparedStatement.setString(2, contrasena);
-            resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                String DNI = resultSet.getString("DNI");
-                String nombre = resultSet.getString("nombre");
-                String fechaAlta = resultSet.getString("fechaAlta");
-                String fechaBaja = resultSet.getString("fechaBaja");
-                double saldo = resultSet.getDouble("saldo");
-                String contrasenya = resultSet.getString("contraseña");
-                if (fechaAlta != null && fechaBaja != null && saldo > 0) {
-                    resultado = new Cliente(DNI, nombre, contrasenya, fechaAlta, fechaBaja, saldo);
-                } else {
-                    resultado = new Personal(DNI, nombre, contrasenya);
+                String tipoUsuario = resultSet.getString("TipoUsuario");
+                if (tipoUsuario.equals("cliente")) {
+                    String clienteQuery = "SELECT * FROM cliente WHERE DNI = ?";
+                    PreparedStatement clienteStatement = connection.prepareStatement(clienteQuery);
+                    clienteStatement.setString(1, dni);
+                    ResultSet clienteResult = clienteStatement.executeQuery();
+                    if (clienteResult.next()) {
+                        String nombre = clienteResult.getString("Nombre");
+                        String fechaAlta = clienteResult.getString("FechaAlta");
+                        double saldo = clienteResult.getDouble("Saldo");
+                        usuario = new Cliente(dni, nombre, contrasena, fechaAlta, saldo);
+                    }
+                } else if (tipoUsuario.equals("personal")) {
+                    String nombre = resultSet.getString("Nombre");
+                    usuario = new Personal(dni, nombre, contrasena);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-
-        return resultado;
+        
+        return usuario;
     }
+
+
 
 
 }

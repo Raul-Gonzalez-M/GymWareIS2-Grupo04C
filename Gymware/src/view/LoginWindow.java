@@ -25,9 +25,12 @@ public class LoginWindow extends JPanel {
 	private JPasswordField passwordField;
 	private JPanel parentPanel;
 	private CardLayout cardLayout;
-    
+	private VistaController vc;
+	private GymController gc;
+	
 	public LoginWindow(VistaController vc, GymController gc, JPanel pp) {
-		
+		this.vc = vc;
+		this.gc = gc;
 		this.parentPanel = pp;
         this.cardLayout = (CardLayout) parentPanel.getLayout();
 		setLayout(null);
@@ -57,14 +60,18 @@ public class LoginWindow extends JPanel {
 		        String DNI = textField.getText();
 		        String password = new String(passwordField.getPassword());
 
-		        Usuario usuarioActual = vc.autenticarUsuario(DNI, password);
+		        Usuario usuarioActual = vc.verificarCredenciales(DNI, password);
 		        if(usuarioActual != null) {
 		            gc.setUsuario(usuarioActual);
 		            JOptionPane.showMessageDialog(LoginWindow.this, "¡Bienvenido " + usuarioActual.getNombre() + "!", "Inicio de sesión exitoso", JOptionPane.INFORMATION_MESSAGE);
 		            if (usuarioActual instanceof Cliente) {
+		            	MenuPrincipalCliente menuCliente = new MenuPrincipalCliente(gc, usuarioActual);
+		            	pp.add(menuCliente, "menuCliente");
 		                cardLayout.show(parentPanel, "menuCliente");
 		            } else if (usuarioActual instanceof Personal) {
-		                cardLayout.show(parentPanel, "menuPersonal");
+		            	 MenuPrincipalPersonal menuPersonal = new MenuPrincipalPersonal(gc, usuarioActual);
+		            	 pp.add(menuPersonal, "menuPersonal");
+		            	 cardLayout.show(parentPanel, "menuPersonal");
 		            } else {
 		                JOptionPane.showMessageDialog(LoginWindow.this, "Error al obtener el tipo de usuario", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
 		            }

@@ -1,8 +1,6 @@
-CREATE DATABASE  IF NOT EXISTS `gymware` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `gymware`;
 -- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: gymware
+-- Host: localhost    Database: gymware
 -- ------------------------------------------------------
 -- Server version	8.0.32
 
@@ -97,13 +95,13 @@ DROP TABLE IF EXISTS `cliente`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cliente` (
-  `DNI` char(9) NOT NULL,
+  `DNI` int NOT NULL,
   `Nombre` varchar(40) NOT NULL,
   `Contrasenya` varchar(20) NOT NULL,
   `FechaAlta` date NOT NULL,
-  `FechaBaja` date DEFAULT NULL,
   `Saldo` decimal(12,2) NOT NULL DEFAULT '0.00',
-  PRIMARY KEY (`DNI`)
+  PRIMARY KEY (`DNI`),
+  CONSTRAINT `fk_cliente_usuarios` FOREIGN KEY (`DNI`) REFERENCES `usuarios` (`DNI`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -113,7 +111,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES ('12345678Q','aa','aa','2023-04-08',NULL,0.00),('22222222A','bbb','bbb','2012-12-12',NULL,0.00),('33333333A','ccc','ccc','2012-12-12',NULL,0.00),('44444444A','ddd','ddd','2012-12-12',NULL,0.00),('55555555A','eee','eee','2012-12-12',NULL,0.00),('98989898A','fulanito','funciona','2023-03-25',NULL,5.00),('99999999A','hhh','hhh','2023-03-25',NULL,0.00);
+INSERT INTO `cliente` VALUES (1,'admin','adminpass','2023-03-25',10.00),(12345678,'aa','aa','2023-04-08',0.00),(22222222,'bbb','bbb','2012-12-12',0.00),(33333333,'ccc','ccc','2012-12-12',0.00),(44444444,'ddd','ddd','2012-12-12',0.00),(55555555,'eee','eee','2012-12-12',0.00),(98989898,'fulanito','funciona','2023-03-25',5.00),(99999999,'hhh','hhh','2023-03-25',0.00);
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,10 +198,11 @@ DROP TABLE IF EXISTS `personal`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `personal` (
-  `DNI` char(9) NOT NULL,
+  `DNI` int NOT NULL,
   `Nombre` varchar(40) NOT NULL,
   `Contrasenya` varchar(20) NOT NULL,
-  PRIMARY KEY (`DNI`)
+  PRIMARY KEY (`DNI`),
+  CONSTRAINT `fk_personal_usuarios` FOREIGN KEY (`DNI`) REFERENCES `usuarios` (`DNI`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -239,6 +238,32 @@ LOCK TABLES `tiene` WRITE;
 /*!40000 ALTER TABLE `tiene` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tiene` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `usuarios`
+--
+
+DROP TABLE IF EXISTS `usuarios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usuarios` (
+  `DNI` int NOT NULL,
+  `Nombre` varchar(45) DEFAULT NULL,
+  `Contraseña` varchar(45) DEFAULT NULL,
+  `TipoUsuario` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`DNI`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuarios`
+--
+
+LOCK TABLES `usuarios` WRITE;
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+INSERT INTO `usuarios` VALUES (1,'admin','adminpass','cliente');
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -249,4 +274,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-09 19:00:12
+-- Dump completed on 2023-04-16 15:08:09

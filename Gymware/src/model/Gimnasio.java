@@ -142,4 +142,9 @@ public class Gimnasio {
         }
         return null;
     }
+
+	public void inscribirActividad(Cliente cliente, Actividad actividad) {
+		// TODO Auto-generated method stub
+		
+	}
 }

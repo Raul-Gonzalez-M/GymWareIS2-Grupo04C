@@ -240,9 +240,9 @@ public class GymController {
 		} // inserta el nuevo material en la BD
     }
 
-    public void eliminarMaterial(Material material) {
+    public void eliminarMaterial(String nombre) {
         try {
-			cambios.eliminarMaterial(material);
+			cambios.eliminarMaterial(nombre);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -374,5 +374,29 @@ public class GymController {
 			e.printStackTrace();
 		} // se actualiza la información de la venta en la BD
     }
+
+
+	public Usuario[] obtenerUsuarios() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public void eliminarUsuario(String dni) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void agregarMaterial(Material material) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void agregarMaterial(Object material) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

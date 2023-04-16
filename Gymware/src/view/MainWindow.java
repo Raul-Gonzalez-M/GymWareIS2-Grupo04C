@@ -42,7 +42,8 @@ public class MainWindow extends JFrame {
 	private CardLayout cardLayout;
 	private JPanel homePanel;
 	private JPanel loginPanel;
-	private JPanel MenuPrincipal;
+	private JPanel menuCliente;
+	private JPanel menuPersonal;
 
 	
 	public static void main(String[] args) {
@@ -74,9 +75,7 @@ public class MainWindow extends JFrame {
 		
 		loginPanel = new LoginWindow(vc, gc, contentPane);
 		contentPane.add(loginPanel, "login");
-		
-		MenuPrincipal = new MenuPrincipal(gc );
-		contentPane.add(MenuPrincipal, "menu");
 	}
+
 
 }
