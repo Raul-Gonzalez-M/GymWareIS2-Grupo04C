@@ -144,7 +144,6 @@ public class Gimnasio {
     }
 
 	public void inscribirActividad(Cliente cliente, Actividad actividad) {
-		// TODO Auto-generated method stub
-		
+		actividad.aniadirParticipante(cliente);
 	}
 }
