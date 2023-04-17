@@ -144,6 +144,12 @@ public class Gimnasio {
     }
 
 	public void inscribirActividad(Cliente cliente, Actividad actividad) {
-		actividad.aniadirParticipante(cliente);
+		if(!actividad.aniadirParticipante(cliente)){
+            System.out.print("No has podido inscribirte en la actividad");  //Modificar para escribirlo en la interfaz gráfica
+        }
 	}
+
+    public void borrarseActividad(Cliente cliente, Actividad actividad){
+        actividad.borrarParticipante(cliente);
+    }
 }

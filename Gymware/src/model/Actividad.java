@@ -74,4 +74,18 @@ public class Actividad {
 		}
 		return false;
 	}
+
+	public ArrayList<Cliente> getParticipantes(){
+		return participantes;
+	}
+
+	public boolean borrarParticipante(Cliente cliente){
+		for(Cliente c : participantes){
+            if(c.equals(cliente)){
+                participantes.remove(cliente);
+                return true;
+            }
+        }
+		return false;
+	}
 }
