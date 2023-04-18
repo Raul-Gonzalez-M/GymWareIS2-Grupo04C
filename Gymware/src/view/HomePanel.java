@@ -6,20 +6,26 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import controller.GymController;
+
 import javax.swing.ImageIcon;
 
 public class HomePanel extends JPanel {
 
     private CardLayout cardLayout;
-    private JPanel parentPanel;
 
+    
     public HomePanel(JPanel parentPanel) {
-        this.parentPanel = parentPanel;
         this.cardLayout = (CardLayout) parentPanel.getLayout();
         setLayout(null);
 		setSize(1200, 800);
+        
+        JButton btn_registrarse = new JButton("Registrarse");
+        btn_registrarse.setBounds(489, 373, 256, 34);
+        add(btn_registrarse);
         JButton btnSalir = new JButton("Salir");
-        btnSalir.setBounds(489, 535, 256, 34);
+        btnSalir.setBounds(489, 531, 256, 34);
         add(btnSalir);
         btnSalir.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -33,11 +39,11 @@ public class HomePanel extends JPanel {
         add(lblLogo);
         
         JButton btn_faq = new JButton("FAQ");
-        btn_faq.setBounds(489, 426, 256, 34);
+        btn_faq.setBounds(489, 450, 256, 34);
         add(btn_faq);
         
         JButton btn_Ini_Sesion = new JButton("Iniciar Sesion");
-        btn_Ini_Sesion.setBounds(489, 311, 256, 34);
+        btn_Ini_Sesion.setBounds(489, 286, 256, 34);
         add(btn_Ini_Sesion);
         
         btn_Ini_Sesion.addActionListener(new ActionListener() {

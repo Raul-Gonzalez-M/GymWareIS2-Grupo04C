@@ -15,13 +15,59 @@ import model.Venta;
 import tipos.DatosCliente;
 import tipos.DatosMaterial;
 
-public class ConsultasBD {
+public class DAOConsultas {
     private ConexionBD bd;
 
-    public ConsultasBD(ConexionBD bd){
-        this.bd = bd;
+    public DAOConsultas(){
+		this.bd = new ConexionBD();
     }
-
+    
+    public Usuario verificarCredenciales(String DNI, String password) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Usuario usuario = null;
+        
+        try {
+            connection = bd.getConnection();
+            String query = "SELECT * FROM usuarios WHERE DNI = ? AND Contraseña = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, DNI);
+            preparedStatement.setString(2, password);
+            resultSet = preparedStatement.executeQuery();
+            
+            if (resultSet.next()) {
+                String tipoUsuario = resultSet.getString("TipoUsuario");
+                if (tipoUsuario.equals("cliente")) {
+                    String clienteQuery = "SELECT * FROM cliente WHERE DNI = ?";
+                    PreparedStatement clienteStatement = connection.prepareStatement(clienteQuery);
+                    clienteStatement.setString(1, DNI);
+                    ResultSet clienteResult = clienteStatement.executeQuery();
+                    if (clienteResult.next()) {
+                        String nombre = clienteResult.getString("Nombre");
+                        String fechaAlta = clienteResult.getString("FechaAlta");
+                        double saldo = clienteResult.getDouble("Saldo");
+                        usuario = new Cliente(DNI, nombre, password, fechaAlta, saldo);
+                    }
+                } else if (tipoUsuario.equals("personal")) {
+                    String nombre = resultSet.getString("Nombre");
+                    usuario = new Personal(DNI, nombre, password);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return usuario;
+    }
     /*
      * Comprueba si el DNI es correcto, es decir, no existe ningun usuario con el mismo y es un DNI correcto (9 caracteres) 
      * (Probada)

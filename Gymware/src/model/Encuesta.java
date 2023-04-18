@@ -57,12 +57,12 @@ public class Encuesta {
     }
 
     public String getPregunta() {
-        // TODO: implementar método getPregunta
+
         return null;
     }
 
     public String getRespuesta() {
-        // TODO: implementar método getRespuesta
+
         return null;
     }
 }

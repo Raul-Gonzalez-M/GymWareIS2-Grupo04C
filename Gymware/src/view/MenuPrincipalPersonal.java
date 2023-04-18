@@ -1,30 +1,19 @@
 package view;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
+import controller.Controller;
 import controller.GymController;
-import model.Actividad;
-import model.Cliente;
-import model.Encuesta;
-import model.EncuestaDialog;
-import model.Gimnasio;
-import model.Material;
 import model.Usuario;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.lang.ModuleLayer.Controller;
 
 public class MenuPrincipalPersonal extends JPanel {
 
-	private GymController gymController;
+	private Controller controller;
 	private JTabbedPane tabbedPane;
-	private Gimnasio gimnasio;
 	private Usuario usuario;
 
-	public MenuPrincipalPersonal(GymController controller, Usuario usuarioActual) {
-	    this.gymController = controller;
-	    this.gimnasio = gymController.getGimnasio();
+	public MenuPrincipalPersonal(Controller controller, Usuario usuarioActual) {
+	    this.controller = controller;
 	    this.usuario = usuarioActual;
 	    //initComponents();
 	}

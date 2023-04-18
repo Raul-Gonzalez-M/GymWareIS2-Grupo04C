@@ -1,40 +1,12 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Cursor;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.JTabbedPane;
-import javax.swing.JLayeredPane;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import javax.swing.SwingConstants;
-import javax.swing.JButton;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-
-import controller.GymController;
-import controller.VistaController;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.SpringLayout;
+import controller.Controller;
 import java.awt.CardLayout;
-import javax.swing.BoxLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.ImageIcon;
+
 
 public class MainWindow extends JFrame {
 
@@ -42,15 +14,13 @@ public class MainWindow extends JFrame {
 	private CardLayout cardLayout;
 	private JPanel homePanel;
 	private JPanel loginPanel;
-	private JPanel menuCliente;
-	private JPanel menuPersonal;
-
+	private JPanel registerPanel;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainWindow frame = new MainWindow(null, null);
+					MainWindow frame = new MainWindow(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -59,7 +29,7 @@ public class MainWindow extends JFrame {
 		});
 	}
 
-	public MainWindow(VistaController vc, GymController gc) {
+	public MainWindow(Controller vc) {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -73,8 +43,11 @@ public class MainWindow extends JFrame {
 		homePanel = new HomePanel(contentPane);
 		contentPane.add(homePanel, "home");
 		
-		loginPanel = new LoginWindow(vc, gc, contentPane);
+		loginPanel = new LoginWindow(vc, contentPane);
 		contentPane.add(loginPanel, "login");
+		
+		registerPanel = new RegisterWindow(vc, contentPane);
+		contentPane.add(registerPanel, "register");
 	}
 
 

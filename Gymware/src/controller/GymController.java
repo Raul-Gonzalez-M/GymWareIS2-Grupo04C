@@ -4,26 +4,19 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import BD.CambiosBD;
-import BD.ConsultasBD;
+import BD.DAOCambios;
+import BD.DAOConsultas;
 import model.*;
 
 public class GymController {
 	
-    private CambiosBD cambios;
-    private ConsultasBD consulta;
-    private Gimnasio gimnasio;
+    private DAOCambios cambios;
+    private DAOConsultas consulta;
     private Usuario user;
     
-    public GymController(CambiosBD bd_cambios,ConsultasBD bd_consulta) {
-        this.cambios = bd_cambios;
-        this.consulta = bd_consulta;
-        this.gimnasio = new Gimnasio();
-    }
-    
-    
-    public Gimnasio getGimnasio() {
-    	return this.gimnasio;
+    public GymController() {
+        this.cambios = new DAOCambios();
+        this.consulta = new DAOConsultas();
     }
     
     public Usuario getUsuario() {
@@ -34,6 +27,9 @@ public class GymController {
     	this.user = usuario;
     }
     
+    public Usuario verificarCredenciales(String DNI, String password) {
+    	return consulta.verificarCredenciales(DNI, password);
+    }
     /*
      * ACTIVIDAD
      */
@@ -130,10 +126,9 @@ public class GymController {
     /*
      * CLIENTE
      */
-    public void agregarCliente(String DNI, String nombre, String contrasena, String fechaAlta, String fechaBaja, double saldo) {
-        Cliente nuevoCliente = new Cliente(DNI,nombre, contrasena, fechaAlta, fechaBaja, saldo);
+    public void agregarCliente(Cliente user) throws SQLException{
         try {
-			cambios.insertarCliente(DNI, nombre, contrasena, saldo); // inserta el nuevo cliente en la BD
+			cambios.insertarCliente(user);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -144,14 +139,14 @@ public class GymController {
         try {
 			cambios.eliminarCliente(cliente);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
-		} // elimina el cliente de la BD
+		}
     }
 
     public List<Cliente> obtenerClientes() {
         try {
-			return consulta.obtenerClientes(); // obtiene todos los clientes de la BD
+			return consulta.obtenerClientes(); 
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -161,7 +156,7 @@ public class GymController {
 
     public Cliente obtenerClientePorId(String DNI) {
         try {
-			return consulta.obtenerClientePorId(DNI); // busca el cliente en la BD según su ID
+			return consulta.obtenerClientePorId(DNI);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -175,7 +170,7 @@ public class GymController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
-		} // actualiza la información del cliente en la BD
+		}
     }
 
     /*
@@ -183,16 +178,15 @@ public class GymController {
      */
     public void agregarEncuesta(String DNI, String fecha, int satisfaccion, String cambios, String participa) {
         Encuesta nuevaEncuesta = new Encuesta(DNI, fecha, satisfaccion, cambios, participa);
-        cambios.insertarEncuesta(nuevaEncuesta); // se inserta la nueva encuesta en la BD
+        cambios.insertarEncuesta(nuevaEncuesta);
     }
 
     public void eliminarEncuesta(Encuesta encuesta) {
         try {
 			cambios.eliminarEncuesta(encuesta);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} // se elimina la encuesta de la BD
+		} 
     }
 
     public List<Encuesta> obtenerEncuestas() {
@@ -201,11 +195,11 @@ public class GymController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
-		} // se obtienen todas las encuestas de la BD
+		} 
     }
 
     public Encuesta obtenerEncuestaPorTitulo(String titulo) {
-        return consulta.obtenerEncuestaPorTitulo(titulo); // se busca la encuesta en la BD según su título
+        return consulta.obtenerEncuestaPorTitulo(titulo); 
     }
 
     public void actualizarEncuesta(Encuesta encuesta) {
@@ -214,7 +208,7 @@ public class GymController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
-		} // se actualiza la información de la encuesta en la BD
+		} 
     }
 
     public void responderEncuesta(Encuesta encuesta, Cliente cliente, List<Respuesta> respuestas) {
@@ -398,5 +392,7 @@ public class GymController {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 }

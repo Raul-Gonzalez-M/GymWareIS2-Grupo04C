@@ -3,12 +3,16 @@ package model;
 public class Usuario {
     private String DNI;
     private String nombre;
+    private String apellidos;
     private String contrasena;
+    private double saldo;
     
-    public Usuario(String DNI, String nombre, String contrasena) {
+    public Usuario(String DNI, String nombre,String apellidos, String contrasena, double saldo) {
     	this.DNI = DNI;
         this.nombre = nombre;
         this.contrasena = contrasena;
+        this.apellidos = apellidos;
+        this.saldo = saldo;
     }
     
     public String getDNI() {

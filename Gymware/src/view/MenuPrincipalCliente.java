@@ -2,30 +2,26 @@ package view;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import controller.GymController;
 import model.Actividad;
 import model.Cliente;
 import model.Encuesta;
 import model.EncuestaDialog;
-import model.Gimnasio;
 import model.Material;
 import model.Usuario;
+import controller.Controller;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.ModuleLayer.Controller;
 
 public class MenuPrincipalCliente extends JPanel {
 
-	private GymController gymController;
+	private Controller controller;
 	private JTabbedPane tabbedPane;
-	private Gimnasio gimnasio;
 	private Usuario usuario;
 
-	public MenuPrincipalCliente(GymController controller, Usuario usuarioActual) {
-	    this.gymController = controller;
-	    this.gimnasio = gymController.getGimnasio();
+	public MenuPrincipalCliente(Controller controller, Usuario usuarioActual) {
+	    this.controller = controller;
 	    this.usuario = usuarioActual;
 	    
 	    initComponents();
@@ -56,7 +52,7 @@ public class MenuPrincipalCliente extends JPanel {
 	    model.addColumn("Horario");
 	    model.addColumn("Instructor");
 	    model.addColumn("Plazas Disponibles");
-	    for (Actividad actividad : gimnasio.getActividades()) {
+	    for (Actividad actividad : controller.getActividades()) {
 	        model.addRow(new Object[]{
 	                actividad.getNombre(),
 	                actividad.getHorario(),
@@ -78,21 +74,21 @@ public class MenuPrincipalCliente extends JPanel {
 	                return;
 	            }
 	            // Obtener la actividad seleccionada
-	            Actividad actividad = gimnasio.getActividades().get(selectedRow);
+	            Actividad actividad = controller.getActividades().get(selectedRow);
 	            // Comprobar si el usuario ya está inscrito en la actividad
 	            if (usuario instanceof Cliente) {
 	                Cliente cliente = (Cliente) usuario;
-	                /*if (cliente.getActividades().contains(actividad)) {
+	                if (cliente.getActividades().contains(actividad)) {
 	                    JOptionPane.showMessageDialog(null, "Ya estás inscrito en esta actividad");
 	                    return;
-	                }*/
+	                }
 	                // Comprobar si hay plazas disponibles
 	                if (actividad.getPlazasDisponibles() == 0) {
 	                    JOptionPane.showMessageDialog(null, "Lo siento, no quedan plazas disponibles para esta actividad");
 	                    return;
 	                }
 	                // Inscribir al usuario en la actividad
-	                gimnasio.inscribirActividad(cliente, actividad);
+	                controller.inscribirActividad(cliente, actividad);
 	                // Actualizar la tabla de actividades
 	                int rowIndex = activitiesTable.convertRowIndexToView(selectedRow);
 	                model.setValueAt(actividad.getPlazasDisponibles(), rowIndex, 4);
@@ -135,7 +131,7 @@ public class MenuPrincipalCliente extends JPanel {
 	            dialog.setVisible(true);
 	            if (dialog.isOk()) {
 	                Encuesta encuesta = dialog.getEncuesta();
-	                gimnasio.addEncuesta(encuesta);
+	                controller.addEncuesta(encuesta);
 	                Object[] row = {encuesta.getFecha(), encuesta.getPregunta(), encuesta.getRespuesta()};
 	                tableModel.addRow(row);
 	            }
@@ -146,7 +142,7 @@ public class MenuPrincipalCliente extends JPanel {
 	    surveyPanel.add(scrollPane, BorderLayout.CENTER);
 	    surveyPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-	    for (Encuesta encuesta : gimnasio.getEncuestas()) {
+	    for (Encuesta encuesta : controller.getEncuestas()) {
 	        Object[] row = {encuesta.getFecha(), encuesta.getPregunta(), encuesta.getRespuesta()};
 	        tableModel.addRow(row);
 	    }
@@ -172,7 +168,7 @@ public class MenuPrincipalCliente extends JPanel {
 	            MaterialDialog dialog = new MaterialDialog();
 	            dialog.setVisible(true);
 	            if (dialog.getMaterial() != null) {
-	                gymController.agregarMaterial(dialog.getMaterial());
+	            	controller.agregarMaterial(dialog.getMaterial());
 	                model.addRow(new Object[]{dialog.getMaterial().getId(), dialog.getMaterial().getNombre(),
 	                                          dialog.getMaterial().getDescripcion(), dialog.getMaterial().getCantidad(),
 	                                          dialog.getMaterial().getPrecio()});
@@ -188,7 +184,7 @@ public class MenuPrincipalCliente extends JPanel {
 	            int row = table.getSelectedRow();
 	            if (row != -1) {
 	                String id = model.getValueAt(row, 0).toString();
-	                gymController.eliminarMaterial(id);
+	                controller.eliminarMaterial(id);
 	                model.removeRow(row);
 	            }
 	        }
@@ -201,7 +197,7 @@ public class MenuPrincipalCliente extends JPanel {
 	    panel.add(buttonPanel, BorderLayout.SOUTH);
 
 	    // carga inicial de los materiales en la tabla
-	    for (Material material : gymController.obtenerMateriales()) {
+	    for (Material material : controller.obtenerMateriales()) {
 	        model.addRow(new Object[]{material.getId(), material.getNombre(), material.getDescripcion(),
 	                                  material.getCantidad(), material.getPrecio()});
 	    }
@@ -209,7 +205,7 @@ public class MenuPrincipalCliente extends JPanel {
 	    return panel;
 	}
 
-	private JPanel createProfilePanel() {
+	/*private JPanel createProfilePanel() {
 	    JPanel profilePanel = new JPanel(new BorderLayout());
 	    JPanel formPanel = new JPanel(new GridLayout(3, 2));
 

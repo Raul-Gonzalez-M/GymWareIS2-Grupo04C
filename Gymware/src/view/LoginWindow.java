@@ -9,7 +9,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 
 import controller.GymController;
-import controller.VistaController;
+import controller.Controller;
 import model.Cliente;
 import model.Personal;
 import model.Usuario;
@@ -25,12 +25,10 @@ public class LoginWindow extends JPanel {
 	private JPasswordField passwordField;
 	private JPanel parentPanel;
 	private CardLayout cardLayout;
-	private VistaController vc;
-	private GymController gc;
+	private Controller controller;
 	
-	public LoginWindow(VistaController vc, GymController gc, JPanel pp) {
-		this.vc = vc;
-		this.gc = gc;
+	public LoginWindow(Controller controller, JPanel pp) {
+		this.controller = controller;
 		this.parentPanel = pp;
         this.cardLayout = (CardLayout) parentPanel.getLayout();
 		setLayout(null);
@@ -60,16 +58,16 @@ public class LoginWindow extends JPanel {
 		        String DNI = textField.getText();
 		        String password = new String(passwordField.getPassword());
 
-		        Usuario usuarioActual = vc.verificarCredenciales(DNI, password);
+		        Usuario usuarioActual = controller.verificarCredenciales(DNI, password);
 		        if(usuarioActual != null) {
-		            gc.setUsuario(usuarioActual);
+		        	controller.setUsuario(usuarioActual);
 		            JOptionPane.showMessageDialog(LoginWindow.this, "¡Bienvenido " + usuarioActual.getNombre() + "!", "Inicio de sesión exitoso", JOptionPane.INFORMATION_MESSAGE);
 		            if (usuarioActual instanceof Cliente) {
-		            	MenuPrincipalCliente menuCliente = new MenuPrincipalCliente(gc, usuarioActual);
+		            	MenuPrincipalCliente menuCliente = new MenuPrincipalCliente(controller, usuarioActual);
 		            	pp.add(menuCliente, "menuCliente");
 		                cardLayout.show(parentPanel, "menuCliente");
 		            } else if (usuarioActual instanceof Personal) {
-		            	 MenuPrincipalPersonal menuPersonal = new MenuPrincipalPersonal(gc, usuarioActual);
+		            	 MenuPrincipalPersonal menuPersonal = new MenuPrincipalPersonal(controller, usuarioActual);
 		            	 pp.add(menuPersonal, "menuPersonal");
 		            	 cardLayout.show(parentPanel, "menuPersonal");
 		            } else {
