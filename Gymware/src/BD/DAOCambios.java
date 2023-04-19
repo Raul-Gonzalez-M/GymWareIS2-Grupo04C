@@ -11,11 +11,17 @@ import model.Personal;
 import model.Usuario;
 import model.Venta;
 
-public class DAOCambios {
+public class DAOCambios implements Interface_DAOCambios{
 	private ConexionBD bd;
 	
 	public DAOCambios() {
 		this.bd = new ConexionBD();
+	}
+	
+	private void executeUpdate(String query) throws SQLException {
+		try(PreparedStatement st = bd.getConnection().prepareStatement(query)){
+			st.executeUpdate();
+		}
 	}
 	
 	/*
@@ -212,12 +218,6 @@ public class DAOCambios {
 	}
 	
 
-	private void executeUpdate(String query) throws SQLException {
-		try(PreparedStatement st = bd.getConnection().prepareStatement(query)){
-			st.executeUpdate();
-		}
-	}
-
 	public void insertarMaterial(Material nuevoMaterial) throws SQLException {
 		String query = "INSERT INTO Material VALUES('" 
 					  + nuevoMaterial.getNombre() + "', "
@@ -306,10 +306,5 @@ public class DAOCambios {
 		executeUpdate(query);
 	}
 
-	
 
-
-
-	
-	
 }

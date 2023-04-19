@@ -15,10 +15,10 @@ import model.Venta;
 import tipos.DatosCliente;
 import tipos.DatosMaterial;
 
-public class DAOConsultas {
+public class DAOConsultas implements Interface_DAOConsultas{
     private ConexionBD bd;
 
-    public DAOConsultas(){
+    public DAOConsultas() {
 		this.bd = new ConexionBD();
     }
     

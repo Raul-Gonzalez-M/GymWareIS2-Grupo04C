@@ -10,15 +10,15 @@ public class Actividad {
     private int plazasDisponibles;
 	private ArrayList<Cliente> participantes;
 
-    public Actividad(String nombre, String horario, String DNIProfesor, Aula aula) {
-        this.nombre = nombre;
-        this.horario = horario;
-        this.DNIProfesor = DNIProfesor;
-        this.aula = aula;
-        this.plazasDisponibles = 30;
-		participantes = new ArrayList<Cliente>();
+    private Actividad(ActividadBuilder builder) {
+        this.nombre = builder.nombre;
+        this.horario = builder.horario;
+        this.DNIProfesor = builder.DNIProfesor;
+        this.aula = builder.aula;
+        this.plazasDisponibles = builder.plazasDisponibles;
+		this.participantes = builder.participantes;
     }
-    
+
     public int getPlazasDisponibles() {
     	return this.plazasDisponibles;
     }
@@ -88,4 +88,34 @@ public class Actividad {
         }
 		return false;
 	}
+	
+	// Clase Builder
+	public static class ActividadBuilder {
+	    private String nombre;
+	    private String horario;
+	    private String DNIProfesor;
+	    private Aula aula;
+	    private int plazasDisponibles;
+	    private ArrayList<Cliente> participantes;
+
+	    public ActividadBuilder(String nombre, String horario, String DNIProfesor, Aula aula) {
+	        this.nombre = nombre;
+	        this.horario = horario;
+	        this.DNIProfesor = DNIProfesor;
+	        this.aula = aula;
+	        this.plazasDisponibles = 30;
+			this.participantes = new ArrayList<Cliente>();
+	    }
+
+	    public ActividadBuilder setPlazasDisponibles(int plazasDisponibles) {
+	        this.plazasDisponibles = plazasDisponibles;
+	        return this;
+	    }
+
+	    public ActividadBuilder setParticipantes(ArrayList<Cliente> participantes) {
+	        this.participantes = participantes;
+	        return this;
+	    }
+	}
 }
+
