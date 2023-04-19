@@ -11,8 +11,8 @@ import controller.Controller;
 public class Main {
     public static void main(String[] args) throws SQLException{
     	
-    	Controller vistacontroller = new Controller();
-    	MainWindow mainWindow = new MainWindow(vistacontroller);
+    	Controller controller = new Controller();
+    	MainWindow mainWindow = new MainWindow(controller);
     	mainWindow.setVisible(true);
     }
 }

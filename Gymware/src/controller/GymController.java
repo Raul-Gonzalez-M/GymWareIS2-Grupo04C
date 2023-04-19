@@ -1,5 +1,7 @@
 package controller;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,6 +27,60 @@ public class GymController {
     
     public void setUsuario(Usuario usuario) {
     	this.user = usuario;
+    }
+    
+    
+    
+    /*
+     * USUARIO / CLIENTE / PERSONAL
+     */
+    public void agregarCliente(Cliente user) throws SQLException{
+        try {
+			cambios.insertarCliente(user);
+		} catch (SQLException e) {
+			throw new SQLException("No se ha podido agregar el cliente.", e);
+		} 
+    }
+    
+    public boolean existeDni(String DNI) {
+        return consulta.existeDni(DNI);
+    } 
+    
+    public void eliminarCliente(Cliente cliente) {
+        try {
+			cambios.eliminarCliente(cliente);
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+    }
+
+    public List<Cliente> obtenerClientes() {
+        try {
+			return consulta.obtenerClientes(); 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return null;
+		} 
+    }
+
+    public Cliente obtenerClientePorId(String DNI) {
+        try {
+			return consulta.obtenerClientePorId(DNI);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return null;
+		} 
+    }
+
+    public void actualizarCliente(Cliente cliente) {
+        try {
+			cambios.actualizarCliente(cliente);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
     }
     
     public Usuario verificarCredenciales(String DNI, String password) {
@@ -123,55 +179,7 @@ public class GymController {
 		} 
     }
     
-    /*
-     * CLIENTE
-     */
-    public void agregarCliente(Cliente user) throws SQLException{
-        try {
-			cambios.insertarCliente(user);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-		} 
-    }
-
-    public void eliminarCliente(Cliente cliente) {
-        try {
-			cambios.eliminarCliente(cliente);
-		} catch (SQLException e) {
-
-			e.printStackTrace();
-		}
-    }
-
-    public List<Cliente> obtenerClientes() {
-        try {
-			return consulta.obtenerClientes(); 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return null;
-		} 
-    }
-
-    public Cliente obtenerClientePorId(String DNI) {
-        try {
-			return consulta.obtenerClientePorId(DNI);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return null;
-		} 
-    }
-
-    public void actualizarCliente(Cliente cliente) {
-        try {
-			cambios.actualizarCliente(cliente);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-    }
+    
 
     /*
      * ENCUESTA

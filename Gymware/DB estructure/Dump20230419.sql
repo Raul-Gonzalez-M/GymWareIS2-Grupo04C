@@ -97,6 +97,7 @@ DROP TABLE IF EXISTS `cliente`;
 CREATE TABLE `cliente` (
   `DNI` int NOT NULL,
   `Nombre` varchar(40) NOT NULL,
+  `Apellidos` varchar(45) NOT NULL,
   `Contrasenya` varchar(20) NOT NULL,
   `FechaAlta` date NOT NULL,
   `Saldo` decimal(12,2) NOT NULL DEFAULT '0.00',
@@ -111,7 +112,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES (1,'admin','adminpass','2023-03-25',10.00),(12345678,'aa','aa','2023-04-08',0.00),(22222222,'bbb','bbb','2012-12-12',0.00),(33333333,'ccc','ccc','2012-12-12',0.00),(44444444,'ddd','ddd','2012-12-12',0.00),(55555555,'eee','eee','2012-12-12',0.00),(98989898,'fulanito','funciona','2023-03-25',5.00),(99999999,'hhh','hhh','2023-03-25',0.00);
+INSERT INTO `cliente` VALUES (1,'admin','a','adminpass','2023-04-19',100.00);
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,4 +275,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-16 15:08:09
+-- Dump completed on 2023-04-19 11:35:47

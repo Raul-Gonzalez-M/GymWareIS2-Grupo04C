@@ -5,9 +5,11 @@ import java.awt.Component;
 public class Cliente extends Usuario {
 	private String fechaAlta;
     private double saldo;
+    private String apellidos;
     
-    public Cliente(String DNI,String nombre, String contrasena, String fechaAlta, double saldo) {
+    public Cliente(String DNI,String nombre, String apellidos, String contrasena, String fechaAlta, double saldo) {
         super(DNI,nombre,contrasena);
+        this.apellidos = apellidos;
         this.fechaAlta = fechaAlta;
         this.saldo = saldo;
     }
@@ -29,8 +31,16 @@ public class Cliente extends Usuario {
 	}
 
 	public Component getActividades() {
-		// TODO Auto-generated method stub
+		
 		return null;
+	}
+
+	public String getApellidos() {
+		return apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
 	}
     
 }

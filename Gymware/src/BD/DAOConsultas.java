@@ -45,9 +45,10 @@ public class DAOConsultas {
                     ResultSet clienteResult = clienteStatement.executeQuery();
                     if (clienteResult.next()) {
                         String nombre = clienteResult.getString("Nombre");
+                        String apellidos = clienteResult.getString("Apellidos");
                         String fechaAlta = clienteResult.getString("FechaAlta");
                         double saldo = clienteResult.getDouble("Saldo");
-                        usuario = new Cliente(DNI, nombre, password, fechaAlta, saldo);
+                        usuario = new Cliente(DNI, nombre,apellidos, password, fechaAlta, saldo);
                     }
                 } else if (tipoUsuario.equals("personal")) {
                     String nombre = resultSet.getString("Nombre");
@@ -68,27 +69,21 @@ public class DAOConsultas {
         
         return usuario;
     }
-    /*
-     * Comprueba si el DNI es correcto, es decir, no existe ningun usuario con el mismo y es un DNI correcto (9 caracteres) 
-     * (Probada)
-     */
-    public boolean DNIDisponible(String DNI) throws SQLException{
-        if(DNI.length() != 9)
+    
+    public boolean existeDni(String dni){
+        String query = "SELECT COUNT(*) FROM usuarios WHERE DNI = ?";
+        try (PreparedStatement st = bd.getConnection().prepareStatement(query)) {
+            st.setString(1, dni);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            int count = rs.getInt(1);
+            return count > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
             return false;
-
-        String query =    "SELECT DNI FROM CLIENTE"
-        				+ " UNION"
-        				+ "	SELECT DNI FROM PERSONAL;";
-        
-        boolean ret = true;
-	    ResultSet rs = executeQueryAux(query);
-	    while(rs.next() && ret){
-	        if(rs.getString("DNI").equals(DNI))
-	            ret = false;
-	    }
-        
-        return ret;
+        }
     }
+
     
     private ResultSet executeQueryAux(String query) throws SQLException {
     	try(Statement stmt = bd.getConnection().createStatement()){

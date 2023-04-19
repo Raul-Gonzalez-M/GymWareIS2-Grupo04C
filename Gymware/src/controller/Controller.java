@@ -21,7 +21,23 @@ public class Controller {
 	public Usuario verificarCredenciales(String DNI, String password) {
 		return gymcontroller.verificarCredenciales(DNI,password);
 	}
-    
+	
+	public boolean registrarUsuario(String DNI, String nombre, String apellidos, String password, String fechaActual,double saldo){
+		Cliente user = new Cliente(DNI, nombre, apellidos, password, fechaActual, saldo);
+		try {
+			gymcontroller.agregarCliente(user);
+		}
+		catch(SQLException e){
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean existeDni(String DNI) {
+        return gymcontroller.existeDni(DNI);
+    } 
+	
     public void setUsuario(Usuario usuario) {
     	gymcontroller.setUsuario(usuario);
     }
@@ -56,11 +72,7 @@ public class Controller {
 		return null;
 	}
 
-	public void registrarUsuario(String DNI, String nombre, String apellidos, String password, int saldo,LocalDate fechaActual) throws SQLException{
-		Cliente user = new Cliente(DNI, nombre,apellidos, password, saldo);
-		gymcontroller.agregarCliente(user);
-		
-	}
+
 
 
 

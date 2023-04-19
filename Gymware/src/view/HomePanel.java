@@ -24,6 +24,13 @@ public class HomePanel extends JPanel {
         JButton btn_registrarse = new JButton("Registrarse");
         btn_registrarse.setBounds(489, 373, 256, 34);
         add(btn_registrarse);
+        
+        btn_registrarse.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(parentPanel, "register");
+            }
+        });
+        
         JButton btnSalir = new JButton("Salir");
         btnSalir.setBounds(489, 531, 256, 34);
         add(btnSalir);

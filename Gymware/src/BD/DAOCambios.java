@@ -19,31 +19,52 @@ public class DAOCambios {
 	}
 	
 	/*
-	 * USUSARIOS
+	 * USUARIOS
 	 */
 	
-	public void insertarCliente(Cliente user) throws SQLException{
-		String query = "INSERT INTO usuario values(?, ?, ?, ?)";
-		
-		try ( PreparedStatement st = bd.getConnection().prepareStatement( query )) {
-			st.setString(1, user.getDNI());
-			st.setString (2, user.getNombre());
-			st.setString (3, user.getContrasena());
-			st.executeUpdate ();
-		}
-		query = "INSERT INTO cliente values(?, ?, ?, ?, ?)";
-		
-		try ( PreparedStatement st = bd.getConnection().prepareStatement( query )) {
-			st.setString(1, user.getDNI());
-			st.setString (2, user.getNombre());
-			st.setString (3, user.getContrasena());
-			st.setString (4, user.getFechaAlta());
-			st.setDouble(5, user.getSaldo());
-			st.executeUpdate ();
-		}
+	public void insertarCliente(Cliente user) throws SQLException {
+	    String query1 = "INSERT INTO usuarios values(?, ?, ?, ?)";
+	    String query2 = "INSERT INTO cliente values(?, ?, ?, ?, ?, ?)";
+
+	    try (PreparedStatement st1 = bd.getConnection().prepareStatement(query1);
+	            PreparedStatement st2 = bd.getConnection().prepareStatement(query2)) {
+
+	        bd.getConnection().setAutoCommit(false); 
+	        st1.setString(1, user.getDNI());
+	        st1.setString(2, user.getNombre());
+	        st1.setString(3, user.getContrasena());
+	        st1.setString(4, "cliente");
+	        st1.executeUpdate();
+
+	        st2.setString(1, user.getDNI());
+	        st2.setString(2, user.getNombre());
+	        st2.setString(3, user.getApellidos());
+	        st2.setString(4, user.getContrasena());
+	        st2.setString(5, user.getFechaAlta());
+	        st2.setDouble(6, user.getSaldo());
+	        st2.executeUpdate();
+
+	        bd.getConnection().commit(); 
+
+	    } catch (SQLException e) {
+	        bd.getConnection().rollback(); 
+	        throw new SQLException("No se ha podido agregar el cliente.", e);
+	    } finally {
+	        bd.getConnection().setAutoCommit(true);
+	    }
+	}
+
+	public boolean existeDni(String dni) throws SQLException {
+	    String query = "SELECT COUNT(*) FROM usuarios WHERE DNI = ?";
+	    try (PreparedStatement st = bd.getConnection().prepareStatement(query)) {
+	        st.setString(1, dni);
+	        ResultSet rs = st.executeQuery();
+	        rs.next();
+	        int count = rs.getInt(1);
+	        return count > 0;
+	    }
 	}
 	
-
 	public void insertarPersonal(String DNI, String nombre, String contrasenya) throws SQLException{
 		String query = "INSERT INTO usuario values(?, ?, ?, ?)";
 		
@@ -51,6 +72,7 @@ public class DAOCambios {
 			st.setString(1, DNI);
 			st.setString (2, nombre);
 			st.setString (3, contrasenya);
+	        st.setString (4, "personal");
 			st.executeUpdate ();
 		}
 		

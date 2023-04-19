@@ -12,32 +12,35 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import controller.Controller;
 import model.Cliente;
 import model.Personal;
 import model.Usuario;
 
-public class RegistrerWindow extends JPanel {
+public class RegisterWindow extends JPanel {
 
 	private JTextField dniTextField;
 	private JTextField nombreTextField;
 	private JTextField apellidosTextField;
-	private JTextField emailTextField;
 	private JPasswordField passwordField;
 	private JPanel parentPanel;
 	private CardLayout cardLayout;
 	private Controller controller;
 	
-	public RegistrerWindow(Controller controller, JPanel pp) {
+	public RegisterWindow(Controller controller, JPanel pp) {
 		this.controller = controller;
 		this.parentPanel = pp;
 		this.cardLayout = (CardLayout) parentPanel.getLayout();
 		setLayout(null);
-		
+		inicializar();
+	}
+	
+	public void inicializar() {
 		JLabel lblRegistro = new JLabel("Registro");
 		lblRegistro.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblRegistro.setBounds(547, 209, 107, 45);
+		lblRegistro.setBounds(535, 209, 150, 45);
 		add(lblRegistro);
 		
 		JLabel lblDni = new JLabel("DNI");
@@ -73,11 +76,11 @@ public class RegistrerWindow extends JPanel {
 		
 		JLabel lblPassword = new JLabel("Contraseña");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPassword.setBounds(482, 566, 78, 17);
+		lblPassword.setBounds(482, 510, 78, 17);
 		add(lblPassword);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(482, 593, 219, 26);
+		passwordField.setBounds(482, 530, 219, 26);
 		add(passwordField);
 		
 		JButton btnRegistrarse = new JButton("Registrarse");
@@ -92,22 +95,31 @@ public class RegistrerWindow extends JPanel {
 				if (dni.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Introduce un DNI válido.");
 					return;
-					}
-				// Comprobamos que los campos de nombre, apellidos, email y contraseña no estén vacíos
-				if (nombre.isEmpty() || apellidos.isEmpty() ||  password.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Rellena todos los campos.");
+				}
+				
+				if (controller.existeDni(dni)) {
+					JOptionPane.showMessageDialog(null, "Este DNI ya esta en uso");
 					return;
 				}
+				else {
 
-		        LocalDate fechaActual = LocalDate.now();
-				// Registramos al usuario
-				boolean registrado = controller.registrarUsuario(dni,nombre,apellidos,password,0, fechaActual);
-				
-				if (registrado) {
-					JOptionPane.showMessageDialog(null, "Usuario registrado correctamente.");
-					cardLayout.show(parentPanel, "loginWindow");
-				} else {
-					JOptionPane.showMessageDialog(null, "No se ha podido registrar al usuario.");
+					if (nombre.isEmpty() || apellidos.isEmpty() ||  password.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Rellena todos los campos.");
+						return;
+					}
+	
+					LocalDate fechaActual = LocalDate.now();
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+					String fecha = fechaActual.format(formatter);
+	
+					boolean registrado = controller.registrarUsuario(dni,nombre,apellidos,password, fecha, 0);
+					
+					if (registrado) {
+						JOptionPane.showMessageDialog(null, "Usuario registrado correctamente.");
+						cardLayout.show(parentPanel, "loginWindow");
+					} else {
+						JOptionPane.showMessageDialog(null, "No se ha podido registrar al usuario.");
+					}
 				}
 			}
 		});
@@ -117,7 +129,7 @@ public class RegistrerWindow extends JPanel {
 		JButton btnVolver = new JButton("Volver");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cardLayout.show(parentPanel, "loginWindow");
+				cardLayout.show(parentPanel, "home");
 			}
 		});
 		btnVolver.setBounds(12, 13, 97, 25);
