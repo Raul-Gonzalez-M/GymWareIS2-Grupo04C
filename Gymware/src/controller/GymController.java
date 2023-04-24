@@ -179,8 +179,6 @@ public class GymController {
 		} 
     }
     
-    
-
     /*
      * ENCUESTA
      */
@@ -399,6 +397,15 @@ public class GymController {
 	public void agregarMaterial(Object material) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public Actividad[] getListaActividades() {
+		try {
+			return consulta.obtenerListaActividades();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 

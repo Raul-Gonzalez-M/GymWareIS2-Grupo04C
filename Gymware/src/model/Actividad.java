@@ -31,10 +31,6 @@ public class Actividad {
     	this.plazasDisponibles += n;
     }
     
-    public void decPlazasDisponibles(int n) {
-    	incPlazasDisponibles(-n);
-    }
-
 	public String getNombre() {
 		return nombre;
 	}
@@ -103,18 +99,16 @@ public class Actividad {
 	        this.horario = horario;
 	        this.DNIProfesor = DNIProfesor;
 	        this.aula = aula;
-	        this.plazasDisponibles = 30;
+	        this.plazasDisponibles = aula.getCapacidad();
 			this.participantes = new ArrayList<Cliente>();
-	    }
-
-	    public ActividadBuilder setPlazasDisponibles(int plazasDisponibles) {
-	        this.plazasDisponibles = plazasDisponibles;
-	        return this;
 	    }
 
 	    public ActividadBuilder setParticipantes(ArrayList<Cliente> participantes) {
 	        this.participantes = participantes;
 	        return this;
+	    }
+	    public Actividad build() {
+	        return new Actividad(this);
 	    }
 	}
 }

@@ -2,26 +2,26 @@ package model;
 
 public class Aula {
     private int id;
-    private Actividad actividad;
+    private int capacidad;
 
     public static class Builder {
         private int id;
-        private Actividad actividad;
+        private int capacidad;
 
         public Builder withId(int id) {
             this.id = id;
             return this;
         }
 
-        public Builder withActividad(Actividad actividad) {
-            this.actividad = actividad;
+        public Builder withCapacidad(int capacidad) {
+            this.capacidad = capacidad;
             return this;
         }
 
         public Aula build() {
             Aula aula = new Aula();
             aula.setId(this.id);
-            aula.setActividad(this.actividad);
+            aula.setCapacidad(this.capacidad);
             return aula;
         }
     }
@@ -36,11 +36,11 @@ public class Aula {
         this.id = id;
     }
 
-    public Actividad getActividad() {
-        return actividad;
+    public int getCapacidad() {
+        return capacidad;
     }
 
-    public void setActividad(Actividad actividad) {
-        this.actividad = actividad;
+    public void setCapacidad(int capacidad) {
+        this.capacidad = capacidad;
     }
 }

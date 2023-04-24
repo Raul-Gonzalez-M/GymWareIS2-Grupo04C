@@ -42,42 +42,33 @@ public class Controller {
     	gymcontroller.setUsuario(usuario);
     }
 
-	public Actividad[] getActividades() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Actividad[] getListaActividades() {
+        return gymcontroller.getListaActividades();
+    }
 
-	public void inscribirActividad(Cliente cliente, Actividad actividad) {
-		// TODO Auto-generated method stub
-		
-	}
+    public Actividad getActividad(int selectedRow) {
+        return gymcontroller.getActividad(selectedRow);
+    }
 
-	public void addEncuesta(Encuesta encuesta) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void inscribirActividad(Cliente cliente, Actividad actividad) {
+        gymcontroller.inscribirActividad(cliente, actividad);
+    }
 
-	public Encuesta[] getEncuestas() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public void addEncuesta(Encuesta encuesta) {
+        gymcontroller.addEncuesta(encuesta);
+    }
 
-	public void eliminarMaterial(String id) {
-		// TODO Auto-generated method stub
-		
-	}
+    public Encuesta[] getEncuestas() {
+        return gymcontroller.getEncuestas();
+    }
 
-	public Material[] obtenerMateriales() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public void eliminarMaterial(String id) {
+        gymcontroller.eliminarMaterial(id);
+    }
 
-
-
-
-
-
-
+    public Material[] obtenerMateriales() {
+        return gymcontroller.obtenerMateriales();
+    }
 
 }
 

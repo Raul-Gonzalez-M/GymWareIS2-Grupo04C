@@ -22,6 +22,11 @@ public class DAOConsultas implements Interface_DAOConsultas{
 		this.bd = new ConexionBD();
     }
     
+    private ResultSet executeQueryAux(String query) throws SQLException {
+    	try(Statement stmt = bd.getConnection().createStatement()){
+    		return stmt.executeQuery(query);
+    	}
+    }
     public Usuario verificarCredenciales(String DNI, String password) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -61,7 +66,6 @@ public class DAOConsultas implements Interface_DAOConsultas{
             try {
                 if (resultSet != null) resultSet.close();
                 if (preparedStatement != null) preparedStatement.close();
-                if (connection != null) connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -85,11 +89,7 @@ public class DAOConsultas implements Interface_DAOConsultas{
     }
 
     
-    private ResultSet executeQueryAux(String query) throws SQLException {
-    	try(Statement stmt = bd.getConnection().createStatement()){
-    		return stmt.executeQuery(query);
-    	}
-    }
+    
     
     /*
      * Comprueba el login, al que se acede con el DNI y la contrasenya
@@ -247,23 +247,65 @@ public class DAOConsultas implements Interface_DAOConsultas{
 	 * Devuelve la lista de todas las actividades
 	 * ()
 	 */
-	public List<Actividad> obtenerActividades() throws SQLException {
-		List<Actividad> ret = new ArrayList<>();
-		
-		String query = "SELECT * "
-					 + "FROM Actividad;";
-		
-		ResultSet rs = executeQueryAux(query);
-		
-		while(rs.next()) {
-			int aux = rs.getInt("Aula");
-			Aula aula = obtenerAulaPorId(aux);
-			
-			ret.add(new Actividad(rs.getString("Nombre"), rs.getString("Horario"), rs.getString("DNI_Profesor"), aula));
-		}
-		
-		return ret;
+	public Actividad[] obtenerListaActividades() throws SQLException {
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    ArrayList<Actividad> actividades = new ArrayList<>();
+
+	    try {
+	        connection = bd.getConnection();
+	        String query = "SELECT * FROM Actividad";
+	        preparedStatement = connection.prepareStatement(query);
+	        resultSet = preparedStatement.executeQuery();
+
+	        while (resultSet.next()) {
+	            String nombre = resultSet.getString("Nombre");
+	            String horario = resultSet.getString("Horario");
+	            String dniProfesor = resultSet.getString("DNI_Profesor");
+	            int idAula = resultSet.getInt("Id_Aula");
+
+	            // Consultar la capacidad del aula
+	            int capacidad = 0;
+	            String capacidadQuery = "SELECT Capacidad FROM Aula WHERE Id = ?";
+	            try (PreparedStatement capacidadStatement = connection.prepareStatement(capacidadQuery)) {
+	                capacidadStatement.setInt(1, idAula);
+	                try (ResultSet capacidadResult = capacidadStatement.executeQuery()) {
+	                    if (capacidadResult.next()) {
+	                        capacidad = capacidadResult.getInt("Capacidad");
+	                    }
+	                }
+	            }
+
+	            Aula aula = new Aula.Builder()
+	                    .withId(idAula)
+	                    .withCapacidad(capacidad)
+	                    .build();
+
+	            ArrayList<Cliente> participantes = new ArrayList<>();
+
+	            Actividad actividad = new Actividad.ActividadBuilder(nombre, horario, dniProfesor, aula)
+	                    .setParticipantes(participantes)
+	                    .build();
+
+	            actividades.add(actividad);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (resultSet != null) resultSet.close();
+	            if (preparedStatement != null) preparedStatement.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    return actividades.toArray(new Actividad[0]);
 	}
+
+
+
 
 	/*
 	 * Devuelve una encuesta segun el DNI del cliente y la fecha cuando al realizo
@@ -438,5 +480,11 @@ public class DAOConsultas implements Interface_DAOConsultas{
 		}
 		
 		return ret;
+	}
+
+	@Override
+	public List<Actividad> obtenerActividades() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -31,7 +31,7 @@ public class MenuPrincipalCliente extends JPanel {
 	    tabbedPane = new JTabbedPane();
 
 	    tabbedPane.addTab("Actividades", createActivitiesPanel());
-	    tabbedPane.addTab("Encuestas", createSurveyPanel());
+	    //tabbedPane.addTab("Encuestas", createSurveyPanel());
 	    //tabbedPane.addTab("Materiales", createMaterialsPanel());
 	    //tabbedPane.addTab("Mi Perfil", createProfilePanel());
 
@@ -52,7 +52,7 @@ public class MenuPrincipalCliente extends JPanel {
 	    model.addColumn("Horario");
 	    model.addColumn("Instructor");
 	    model.addColumn("Plazas Disponibles");
-	    for (Actividad actividad : controller.getActividades()) {
+	    for (Actividad actividad : controller.getListaActividades()) {
 	        model.addRow(new Object[]{
 	                actividad.getNombre(),
 	                actividad.getHorario(),
@@ -73,8 +73,16 @@ public class MenuPrincipalCliente extends JPanel {
 	                JOptionPane.showMessageDialog(null, "Por favor, selecciona una actividad");
 	                return;
 	            }
-	            // Obtener la actividad seleccionada
-	            Actividad actividad = controller.getActividades().get(selectedRow);
+	            // Obtener el nombre de la actividad seleccionada
+	            String actividadSeleccionada = (String) model.getValueAt(selectedRow, 0);
+	            // Buscar la actividad en la lista de actividades
+	            Actividad actividad = null;
+	            for (Actividad a : controller.getListaActividades()) {
+	                if (a.getNombre().equals(actividadSeleccionada)) {
+	                    actividad = a;
+	                    break;
+	                }
+	            }
 	            // Comprobar si el usuario ya está inscrito en la actividad
 	            if (usuario instanceof Cliente) {
 	                Cliente cliente = (Cliente) usuario;
@@ -91,7 +99,7 @@ public class MenuPrincipalCliente extends JPanel {
 	                controller.inscribirActividad(cliente, actividad);
 	                // Actualizar la tabla de actividades
 	                int rowIndex = activitiesTable.convertRowIndexToView(selectedRow);
-	                model.setValueAt(actividad.getPlazasDisponibles(), rowIndex, 4);
+	                model.setValueAt(actividad.getPlazasDisponibles(), rowIndex, 3);
 	                JOptionPane.showMessageDialog(null, "Te has inscrito en la actividad " + actividad.getNombre());
 	            } else {
 	                JOptionPane.showMessageDialog(null, "Solo los clientes pueden inscribirse en actividades");
@@ -109,6 +117,7 @@ public class MenuPrincipalCliente extends JPanel {
 
 	    return activitiesPanel;
 	}
+
 
 	private JPanel createSurveyPanel() {
 	    JPanel surveyPanel = new JPanel();

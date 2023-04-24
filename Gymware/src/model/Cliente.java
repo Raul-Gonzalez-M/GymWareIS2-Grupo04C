@@ -30,11 +30,6 @@ public class Cliente extends Usuario {
 		this.saldo = saldo;
 	}
 
-	public Component getActividades() {
-		
-		return null;
-	}
-
 	public String getApellidos() {
 		return apellidos;
 	}
