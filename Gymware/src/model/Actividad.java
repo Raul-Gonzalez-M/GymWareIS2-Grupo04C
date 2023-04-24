@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Actividad {
     private String nombre;
     private String horario;
-    private String DNIProfesor;
+    private String nombre_profesor;
     private Aula aula;
     private int plazasDisponibles;
 	private ArrayList<Cliente> participantes;
@@ -13,7 +13,7 @@ public class Actividad {
     private Actividad(ActividadBuilder builder) {
         this.nombre = builder.nombre;
         this.horario = builder.horario;
-        this.DNIProfesor = builder.DNIProfesor;
+        this.nombre_profesor = builder.nombre_profesor;
         this.aula = builder.aula;
         this.plazasDisponibles = builder.plazasDisponibles;
 		this.participantes = builder.participantes;
@@ -47,12 +47,12 @@ public class Actividad {
 		this.horario = horario;
 	}
 
-	public String getDNIProfesor() {
-		return DNIProfesor;
+	public String getNombre_profesor() {
+		return nombre_profesor;
 	}
 
-	public void setDNIProfesor(String dNIProfesor) {
-		DNIProfesor = dNIProfesor;
+	public void setNombre_profesor(String dNIProfesor) {
+		nombre_profesor = dNIProfesor;
 	}
 
 	public Aula getAula() {
@@ -89,15 +89,15 @@ public class Actividad {
 	public static class ActividadBuilder {
 	    private String nombre;
 	    private String horario;
-	    private String DNIProfesor;
+	    private String nombre_profesor;
 	    private Aula aula;
 	    private int plazasDisponibles;
 	    private ArrayList<Cliente> participantes;
 
-	    public ActividadBuilder(String nombre, String horario, String DNIProfesor, Aula aula) {
+	    public ActividadBuilder(String nombre, String horario, String nombre_profesor, Aula aula) {
 	        this.nombre = nombre;
 	        this.horario = horario;
-	        this.DNIProfesor = DNIProfesor;
+	        this.nombre_profesor = nombre_profesor;
 	        this.aula = aula;
 	        this.plazasDisponibles = aula.getCapacidad();
 			this.participantes = new ArrayList<Cliente>();

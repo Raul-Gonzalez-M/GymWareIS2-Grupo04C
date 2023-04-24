@@ -262,7 +262,7 @@ public class DAOConsultas implements Interface_DAOConsultas{
 	        while (resultSet.next()) {
 	            String nombre = resultSet.getString("Nombre");
 	            String horario = resultSet.getString("Horario");
-	            String dniProfesor = resultSet.getString("DNI_Profesor");
+	            String dniProfesor = resultSet.getString("Nombre_profesor");
 	            int idAula = resultSet.getInt("Id_Aula");
 
 	            // Consultar la capacidad del aula

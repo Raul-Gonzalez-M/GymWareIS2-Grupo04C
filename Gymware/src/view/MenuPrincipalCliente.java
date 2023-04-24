@@ -47,16 +47,12 @@ public class MenuPrincipalCliente extends JPanel {
 
 	    // Crear tabla con las actividades disponibles
 	    JTable activitiesTable = new JTable();
-	    DefaultTableModel model = new DefaultTableModel();
-	    model.addColumn("Actividad");
-	    model.addColumn("Horario");
-	    model.addColumn("Instructor");
-	    model.addColumn("Plazas Disponibles");
+	    NonEditableTableModel model = new NonEditableTableModel(new Object[]{"Actividad", "Horario", "Instructor", "Plazas Disponibles"}, 0);
 	    for (Actividad actividad : controller.getListaActividades()) {
 	        model.addRow(new Object[]{
 	                actividad.getNombre(),
 	                actividad.getHorario(),
-	                actividad.getDNIProfesor(),
+	                actividad.getNombre_profesor(),
 	                actividad.getPlazasDisponibles()
 	        });
 	    }
@@ -90,17 +86,13 @@ public class MenuPrincipalCliente extends JPanel {
 	                    JOptionPane.showMessageDialog(null, "Ya estás inscrito en esta actividad");
 	                    return;
 	                }
-	                // Comprobar si hay plazas disponibles
-	                if (actividad.getPlazasDisponibles() == 0) {
-	                    JOptionPane.showMessageDialog(null, "Lo siento, no quedan plazas disponibles para esta actividad");
-	                    return;
-	                }
-	                // Inscribir al usuario en la actividad
+	                
+	                cliente.inscribirActividad(actividad);
 	                controller.inscribirActividad(cliente, actividad);
-	                // Actualizar la tabla de actividades
+	                
 	                int rowIndex = activitiesTable.convertRowIndexToView(selectedRow);
 	                model.setValueAt(actividad.getPlazasDisponibles(), rowIndex, 3);
-	                JOptionPane.showMessageDialog(null, "Te has inscrito en la actividad " + actividad.getNombre());
+	                JOptionPane.showMessageDialog(null, "Te has inscrito en la actividad: " + actividad.getNombre());
 	            } else {
 	                JOptionPane.showMessageDialog(null, "Solo los clientes pueden inscribirse en actividades");
 	            }
@@ -108,7 +100,7 @@ public class MenuPrincipalCliente extends JPanel {
 	    });
 
 	    // Crear panel de botones
-	    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+	    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	    buttonPanel.add(inscribirseButton);
 
 	    // Agregar la tabla y el panel de botones al panel principal
@@ -249,4 +241,15 @@ public class MenuPrincipalCliente extends JPanel {
 	
 
 	*/
+	
+	private class NonEditableTableModel extends DefaultTableModel {
+	    public NonEditableTableModel(Object[] columnNames, int rowCount) {
+	        super(columnNames, rowCount);
+	    }
+
+	    @Override
+	    public boolean isCellEditable(int row, int column) {
+	        return false;
+	    }
+	}
 }
