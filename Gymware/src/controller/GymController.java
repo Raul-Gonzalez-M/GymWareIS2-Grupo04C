@@ -408,6 +408,15 @@ public class GymController {
 		}
 	}
 
+	public void inscribirActividad(Cliente cliente, Actividad actividad) {
+		try {
+			cambios.inscribirActividad(cliente,actividad);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 
 
 }

@@ -46,12 +46,12 @@ public class Controller {
         return gymcontroller.getListaActividades();
     }
 
-    public Actividad getActividad(int selectedRow) {
-        return gymcontroller.getActividad(selectedRow);
-    }
-
     public void inscribirActividad(Cliente cliente, Actividad actividad) {
         gymcontroller.inscribirActividad(cliente, actividad);
+    }
+    
+    public Actividad getActividad(int selectedRow) {
+        return gymcontroller.getActividad(selectedRow);
     }
 
     public void addEncuesta(Encuesta encuesta) {

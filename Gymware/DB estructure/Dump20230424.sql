@@ -23,11 +23,15 @@ DROP TABLE IF EXISTS `actividad`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `actividad` (
+  `Id` int NOT NULL,
   `Nombre` varchar(20) NOT NULL,
-  `Horario` varchar(10) NOT NULL,
-  `DNI_Profesor` char(9) DEFAULT NULL,
-  `Aula` int NOT NULL,
-  PRIMARY KEY (`Nombre`)
+  `Horario` varchar(50) NOT NULL,
+  `Nombre_profesor` varchar(40) DEFAULT NULL,
+  `Id_Aula` int NOT NULL,
+  `PlazasDisponibles` int DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `actividad_ibfk_1` (`Id_Aula`),
+  CONSTRAINT `actividad_ibfk_1` FOREIGN KEY (`Id_Aula`) REFERENCES `aula` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -37,31 +41,8 @@ CREATE TABLE `actividad` (
 
 LOCK TABLES `actividad` WRITE;
 /*!40000 ALTER TABLE `actividad` DISABLE KEYS */;
+INSERT INTO `actividad` VALUES (1,'Spinning','13:00-15:00','juan',1,29);
 /*!40000 ALTER TABLE `actividad` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `asiste`
---
-
-DROP TABLE IF EXISTS `asiste`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `asiste` (
-  `DNI` char(9) NOT NULL,
-  `Nombre` varchar(20) NOT NULL,
-  `FECHA` date NOT NULL,
-  PRIMARY KEY (`DNI`,`Nombre`,`FECHA`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `asiste`
---
-
-LOCK TABLES `asiste` WRITE;
-/*!40000 ALTER TABLE `asiste` DISABLE KEYS */;
-/*!40000 ALTER TABLE `asiste` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -72,9 +53,9 @@ DROP TABLE IF EXISTS `aula`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `aula` (
-  `Numero` int NOT NULL,
-  `Actividad` varchar(20) NOT NULL DEFAULT 'Musculación',
-  PRIMARY KEY (`Numero`)
+  `Id` int NOT NULL,
+  `Capacidad` int NOT NULL,
+  PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -84,6 +65,7 @@ CREATE TABLE `aula` (
 
 LOCK TABLES `aula` WRITE;
 /*!40000 ALTER TABLE `aula` DISABLE KEYS */;
+INSERT INTO `aula` VALUES (1,30);
 /*!40000 ALTER TABLE `aula` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,14 +77,14 @@ DROP TABLE IF EXISTS `cliente`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cliente` (
-  `DNI` int NOT NULL,
+  `DNI` varchar(9) NOT NULL,
   `Nombre` varchar(40) NOT NULL,
   `Apellidos` varchar(45) NOT NULL,
   `Contrasenya` varchar(20) NOT NULL,
   `FechaAlta` date NOT NULL,
   `Saldo` decimal(12,2) NOT NULL DEFAULT '0.00',
   PRIMARY KEY (`DNI`),
-  CONSTRAINT `fk_cliente_usuarios` FOREIGN KEY (`DNI`) REFERENCES `usuarios` (`DNI`)
+  CONSTRAINT `fk_cliente_usuario` FOREIGN KEY (`DNI`) REFERENCES `usuarios` (`DNI`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -112,7 +94,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES (1,'admin','a','adminpass','2023-04-19',100.00);
+INSERT INTO `cliente` VALUES ('1','admin','a','adminpass','2023-04-19',100.00);
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -192,6 +174,33 @@ LOCK TABLES `material` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `participantes`
+--
+
+DROP TABLE IF EXISTS `participantes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `participantes` (
+  `Id_actividad` int NOT NULL,
+  `DNICliente` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`Id_actividad`),
+  KEY `participantes_ibfk_1` (`DNICliente`),
+  CONSTRAINT `fk_participantes_actividad` FOREIGN KEY (`Id_actividad`) REFERENCES `actividad` (`Id`),
+  CONSTRAINT `participantes_ibfk_1` FOREIGN KEY (`DNICliente`) REFERENCES `cliente` (`DNI`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `participantes`
+--
+
+LOCK TABLES `participantes` WRITE;
+/*!40000 ALTER TABLE `participantes` DISABLE KEYS */;
+INSERT INTO `participantes` VALUES (1,'1');
+/*!40000 ALTER TABLE `participantes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `personal`
 --
 
@@ -199,11 +208,12 @@ DROP TABLE IF EXISTS `personal`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `personal` (
-  `DNI` int NOT NULL,
+  `DNI` varchar(9) NOT NULL,
   `Nombre` varchar(40) NOT NULL,
   `Contrasenya` varchar(20) NOT NULL,
   PRIMARY KEY (`DNI`),
-  CONSTRAINT `fk_personal_usuarios` FOREIGN KEY (`DNI`) REFERENCES `usuarios` (`DNI`)
+  UNIQUE KEY `Nombre_UNIQUE` (`Nombre`),
+  CONSTRAINT `fk_personal_usuario` FOREIGN KEY (`DNI`) REFERENCES `usuarios` (`DNI`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -213,6 +223,7 @@ CREATE TABLE `personal` (
 
 LOCK TABLES `personal` WRITE;
 /*!40000 ALTER TABLE `personal` DISABLE KEYS */;
+INSERT INTO `personal` VALUES ('2','juan','123');
 /*!40000 ALTER TABLE `personal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -248,7 +259,7 @@ DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuarios` (
-  `DNI` int NOT NULL,
+  `DNI` varchar(9) NOT NULL,
   `Nombre` varchar(45) DEFAULT NULL,
   `Contraseña` varchar(45) DEFAULT NULL,
   `TipoUsuario` varchar(45) DEFAULT NULL,
@@ -262,7 +273,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'admin','adminpass','cliente');
+INSERT INTO `usuarios` VALUES ('1','admin','adminpass','cliente'),('2','juan','123','personal');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -275,4 +286,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-19 11:35:47
+-- Dump completed on 2023-04-24 23:30:16

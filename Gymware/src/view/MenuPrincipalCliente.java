@@ -82,17 +82,14 @@ public class MenuPrincipalCliente extends JPanel {
 	            // Comprobar si el usuario ya está inscrito en la actividad
 	            if (usuario instanceof Cliente) {
 	                Cliente cliente = (Cliente) usuario;
-	                if (cliente.getActividades().contains(actividad)) {
-	                    JOptionPane.showMessageDialog(null, "Ya estás inscrito en esta actividad");
-	                    return;
-	                }
 	                
-	                cliente.inscribirActividad(actividad);
-	                controller.inscribirActividad(cliente, actividad);
+	                if(cliente.inscribirActividad(actividad)) {
+	                	controller.inscribirActividad(cliente, actividad);           
+		                JOptionPane.showMessageDialog(null, "Te has inscrito en la actividad: " + actividad.getNombre());
+	                }
 	                
 	                int rowIndex = activitiesTable.convertRowIndexToView(selectedRow);
 	                model.setValueAt(actividad.getPlazasDisponibles(), rowIndex, 3);
-	                JOptionPane.showMessageDialog(null, "Te has inscrito en la actividad: " + actividad.getNombre());
 	            } else {
 	                JOptionPane.showMessageDialog(null, "Solo los clientes pueden inscribirse en actividades");
 	            }

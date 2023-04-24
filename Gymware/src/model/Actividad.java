@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class Actividad {
+	private int id_actividad;
     private String nombre;
     private String horario;
     private String nombre_profesor;
@@ -11,6 +12,7 @@ public class Actividad {
 	private ArrayList<Cliente> participantes;
 
     private Actividad(ActividadBuilder builder) {
+    	this.id_actividad = builder.id_actividad;
         this.nombre = builder.nombre;
         this.horario = builder.horario;
         this.nombre_profesor = builder.nombre_profesor;
@@ -29,6 +31,10 @@ public class Actividad {
     
     public void incPlazasDisponibles(int n) {
     	this.plazasDisponibles += n;
+    }
+    
+    public int getId() {
+    	return id_actividad;
     }
     
 	public String getNombre() {
@@ -87,6 +93,7 @@ public class Actividad {
 	
 	// Clase Builder
 	public static class ActividadBuilder {
+		private int id_actividad;
 	    private String nombre;
 	    private String horario;
 	    private String nombre_profesor;
@@ -94,12 +101,13 @@ public class Actividad {
 	    private int plazasDisponibles;
 	    private ArrayList<Cliente> participantes;
 
-	    public ActividadBuilder(String nombre, String horario, String nombre_profesor, Aula aula) {
+	    public ActividadBuilder(int id_actividad, String nombre, String horario, String nombre_profesor, Aula aula , int plazasDisponibles) {
+	    	this.id_actividad = id_actividad;
 	        this.nombre = nombre;
 	        this.horario = horario;
 	        this.nombre_profesor = nombre_profesor;
 	        this.aula = aula;
-	        this.plazasDisponibles = aula.getCapacidad();
+	        this.plazasDisponibles = plazasDisponibles;
 			this.participantes = new ArrayList<Cliente>();
 	    }
 
