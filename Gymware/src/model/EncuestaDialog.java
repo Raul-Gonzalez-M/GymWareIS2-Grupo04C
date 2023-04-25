@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -13,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import model.Encuesta;
 
@@ -78,15 +80,15 @@ public class EncuestaDialog extends JDialog {
         btnGuardar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (validarCampos()) {
-                    encuesta = new Encuesta(txtNombre.getText(), Integer.parseInt(txtEdad.getText()),
-                            Double.parseDouble(txtPeso.getText()), Double.parseDouble(txtAltura.getText()),
-                            txtObjetivo.getText());
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(EncuestaDialog.this, "Por favor ingrese todos los campos.",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                }
+//                if (validarCampos()) {
+//                    encuesta = new Encuesta(txtNombre.getText(), Integer.parseInt(txtEdad.getText()),
+//                            Double.parseDouble(txtPeso.getText()), Double.parseDouble(txtAltura.getText()),
+//                            txtObjetivo.getText());
+//                    dispose();
+//                } else {
+//                    JOptionPane.showMessageDialog(EncuestaDialog.this, "Por favor ingrese todos los campos.",
+//                            "Error", JOptionPane.ERROR_MESSAGE);
+//                }
             }
         });
         panel.add(btnGuardar, gbc);
@@ -105,6 +107,10 @@ public class EncuestaDialog extends JDialog {
 	public boolean isOk() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
+		SwingUtilities.invokeAndWait(() -> new EncuestaDialog());
 	}
 
 }

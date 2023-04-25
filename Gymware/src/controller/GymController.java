@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import BD.ConexionBD;
 import BD.DAOCambios;
 import BD.DAOConsultas;
 import model.*;
@@ -15,10 +16,12 @@ public class GymController {
     private DAOCambios cambios;
     private DAOConsultas consulta;
     private Usuario user;
+    private ConexionBD bd;
     
     public GymController() {
-        this.cambios = new DAOCambios();
-        this.consulta = new DAOConsultas();
+    	this.bd = new ConexionBD();
+        this.cambios = new DAOCambios(bd);
+        this.consulta = new DAOConsultas(bd);
     }
     
     public Usuario getUsuario() {
@@ -36,14 +39,19 @@ public class GymController {
      */
     public void agregarCliente(Cliente user) throws SQLException{
         try {
-			cambios.insertarCliente(user);
+			cambios.insertarCliente(user.getDNI(), user.getNombre(), user.getContrasena(), user.getSaldo());
 		} catch (SQLException e) {
 			throw new SQLException("No se ha podido agregar el cliente.", e);
 		} 
     }
     
     public boolean existeDni(String DNI) {
-        return consulta.existeDni(DNI);
+        try {
+			return !consulta.DNIDisponible(DNI);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
     } 
     
     public void eliminarCliente(Cliente cliente) {
@@ -83,8 +91,13 @@ public class GymController {
 		}
     }
     
-    public Usuario verificarCredenciales(String DNI, String password) {
-    	return consulta.verificarCredenciales(DNI, password);
+    public boolean verificarCredenciales(String DNI, String password) {
+    	try {
+			return consulta.accesoCorrecto(DNI, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
     }
     /*
      * ACTIVIDAD
@@ -184,7 +197,11 @@ public class GymController {
      */
     public void agregarEncuesta(String DNI, String fecha, int satisfaccion, String cambios, String participa) {
         Encuesta nuevaEncuesta = new Encuesta(DNI, fecha, satisfaccion, cambios, participa);
-        DAOCambios.insertarEncuesta(nuevaEncuesta);
+       try {
+		this. cambios.insertarEncuesta(nuevaEncuesta);
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
     }
 
     public void eliminarEncuesta(Encuesta encuesta) {
@@ -204,27 +221,26 @@ public class GymController {
 		} 
     }
 
-    public Encuesta obtenerEncuestaPorTitulo(String titulo) {
-        return consulta.obtenerEncuestaPorTitulo(titulo); 
-    }
-
     public void actualizarEncuesta(Encuesta encuesta) {
         try {
 			cambios.actualizarEncuesta(encuesta);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
 		} 
     }
 
-    public void responderEncuesta(Encuesta encuesta, Cliente cliente, List<Respuesta> respuestas) {
-        // Agrega las respuestas del cliente a la encuesta
-        encuesta.agregarRespuestas(cliente, respuestas);
-        cambios.actualizarEncuesta(encuesta); // se actualiza la información de la encuesta en la BD
+    public void responderEncuesta(Cliente cliente) {
+        //Encuesta encuesta = cliente.responderEncuesta();
+        //cambios.actualizarEncuesta(encuesta); // se actualiza la información de la encuesta en la BD
     }
 
-    public List<Respuesta> obtenerRespuestasDeEncuestaPorCliente(Encuesta encuesta, Cliente cliente) {
-        return consulta.obtenerRespuestasDeEncuestaPorCliente(encuesta, cliente); // obtiene las respuestas de un cliente específico para una encuesta
+    public Encuesta obtenerRespuestasDeEncuestaPorCliente(String DNI, String fecha) {
+        try {
+			return consulta.obtenerEncuestaPorDNI(DNI, fecha);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} // obtiene las respuestas de un cliente específico para una encuesta
     }
 
     /*
@@ -240,7 +256,7 @@ public class GymController {
 		} // inserta el nuevo material en la BD
     }
 
-    public void eliminarMaterial(String nombre) {
+    public void eliminarMaterial(Material nombre) {
         try {
 			cambios.eliminarMaterial(nombre);
 		} catch (SQLException e) {
@@ -263,7 +279,7 @@ public class GymController {
 			return consulta.obtenerMaterialPorNombre(nombre);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;;
+			return null;
 		} // busca el material en la BD según su nombre
     }
 
@@ -339,9 +355,14 @@ public class GymController {
     /*
      * VENTA
      */
-    public void agregarVenta(LocalDateTime fecha, Cliente cliente, List<Producto> productos, double total) {
-        Venta nuevaVenta = new Venta(fecha, cliente, productos, total);
-        cambios.insertarVenta(nuevaVenta); // se inserta la nueva venta en la BD
+    public void agregarVenta(String nombreMaterial, String DNI, String fecha, int cantidad){
+        Venta nuevaVenta = new Venta(nombreMaterial, DNI, fecha, cantidad);
+        try {
+			cambios.insertarVenta(nuevaVenta);
+		} catch (SQLException e) {
+			System.out.println("Compra fallida...");
+			e.printStackTrace();
+		} // se inserta la nueva venta en la BD
     }
     
     public void eliminarVenta(Venta venta) {
@@ -363,8 +384,8 @@ public class GymController {
 
     }
     
-    public Venta obtenerVentaPorId(int id) {
-        return consulta.obtenerVentaPorId(id); // se busca la venta en la BD según su ID
+    public List<Venta> obtenerVentaPorId(String DNI) throws SQLException {
+        return consulta.obtenerVentasCliente(DNI); // se busca la venta en la BD según su ID
     }
     
     public void actualizarVenta(Venta venta) {
@@ -399,9 +420,9 @@ public class GymController {
 		
 	}
 
-	public Actividad[] getListaActividades() {
+	public List<Actividad> getListaActividades() {
 		try {
-			return consulta.obtenerListaActividades();
+			return consulta.obtenerActividades();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -410,7 +431,7 @@ public class GymController {
 
 	public void inscribirActividad(Cliente cliente, Actividad actividad) {
 		try {
-			cambios.inscribirActividad(cliente,actividad);
+			cambios.inscribirActividad(cliente, actividad);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

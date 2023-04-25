@@ -228,7 +228,7 @@ public class DAOConsultas {
 	 * Devuelve una encuesta segun el DNI del cliente y la fecha cuando al realizo
 	 * ()
 	 */
-	public Encuesta obtenerEncuestaPorTitulo(String DNI, String fecha) throws SQLException {
+	public Encuesta obtenerEncuestaPorDNI(String DNI, String fecha) throws SQLException {
 		String query = "SELECT * "
 					 + "FROM Encuesta "
 					 + "WHERE ((DNI = '" + DNI + "') AND (Fecha = '" + fecha + "'));";

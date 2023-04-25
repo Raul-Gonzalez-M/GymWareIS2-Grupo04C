@@ -179,7 +179,6 @@ public class DAOCambios{
 					 + "SET Nombre = '" + cliente.getNombre() + "', "
 					 + "Contrasenya = '" + cliente.getContrasena() + "', "
 					 + "FechaAlta = date'" + cliente.getFechaAlta() + "', "
-					 + "FechaBaja = " + ((cliente.getFechaBaja().equals("null")) ? ("null, ") : ("date'" + cliente.getFechaBaja() + "', ")) 
 					 + "Saldo = " + cliente.getSaldo() + " "
 					 + "WHERE DNI = '" + cliente.getDNI() + "';";
 		
@@ -291,6 +290,14 @@ public class DAOCambios{
 				 	 + "WHERE DNI = '" + venta.getDNI() + "' AND"
 				 	 		+ "Nombre = '" + venta.getNombreMaterial() + "';";
 	
+		executeUpdate(query);
+	}
+
+	public void inscribirActividad(Cliente cliente, Actividad actividad) throws SQLException {
+		String query = "INSERT INTO PARTICIPA "
+				+ "VALUES('" + cliente.getDNI() + "', '" 
+				+ actividad.getNombre() + "');";
+		
 		executeUpdate(query);
 	}
 	

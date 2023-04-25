@@ -14,9 +14,7 @@ public class Material {
     }
     
     public Material(String nombre, double precio) {
-    	this.nombre = nombre;
-    	this.precio = precio;
-    	this.unidades = 1;
+    	this(nombre, precio, 1);
     }
 
     public int getId() {
