@@ -184,7 +184,7 @@ public class GymController {
      */
     public void agregarEncuesta(String DNI, String fecha, int satisfaccion, String cambios, String participa) {
         Encuesta nuevaEncuesta = new Encuesta(DNI, fecha, satisfaccion, cambios, participa);
-        DAOCambios.insertarEncuesta(nuevaEncuesta);
+        cambios.insertarEncuesta(nuevaEncuesta);
     }
 
     public void eliminarEncuesta(Encuesta encuesta) {

@@ -1,13 +1,12 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Actividad {
 	private int id_actividad;
     private String nombre;
     private String horario;
-    private String DNIProfesor;
+    private String nombre_profesor;
     private Aula aula;
     private int plazasDisponibles;
 	private ArrayList<Cliente> participantes;
@@ -54,6 +53,14 @@ public class Actividad {
 		this.horario = horario;
 	}
 
+	public String getNombre_profesor() {
+		return nombre_profesor;
+	}
+
+	public void setNombre_profesor(String dNIProfesor) {
+		nombre_profesor = dNIProfesor;
+	}
+
 	public Aula getAula() {
 		return aula;
 	}
@@ -75,9 +82,9 @@ public class Actividad {
 	}
 
 	public boolean borrarParticipante(Cliente cliente){
-		for(String c : participantes){
-            if(c.equals(cliente.getDNI())){
-                participantes.remove(cliente.getDNI());
+		for(Cliente c : participantes){
+            if(c.equals(cliente)){
+                participantes.remove(cliente);
                 return true;
             }
         }
