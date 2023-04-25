@@ -11,7 +11,7 @@ public class Actividad {
     private Aula aula;
 	private List<String> participantes;
 
-    private Actividad(String nombre, String horario, String DNIProfesor, Aula aula) {
+    public Actividad(String nombre, String horario, String DNIProfesor, Aula aula) {
         this.nombre = nombre;
         this.horario = horario;
         this.DNIProfesor = DNIProfesor;

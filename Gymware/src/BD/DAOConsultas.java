@@ -15,10 +15,10 @@ import model.Venta;
 import tipos.DatosCliente;
 import tipos.DatosMaterial;
 
-public class ConsultasBD {
+public class DAOConsultas {
     private ConexionBD bd;
 
-    public ConsultasBD(ConexionBD bd){
+    public DAOConsultas(ConexionBD bd){
         this.bd = bd;
     }
 
@@ -118,7 +118,7 @@ public class ConsultasBD {
 		
 		if(rs.next())
 			return new Cliente(rs.getString("DNI"), rs.getString("Nombre"), rs.getString("Contrasenya")
-				         , rs.getString("FechaAlta"), rs.getString("fechaBaja"), rs.getDouble("Saldo"));
+				         , rs.getString("FechaAlta"), rs.getDouble("Saldo"));
 		return null;
 	}
 	
@@ -136,7 +136,7 @@ public class ConsultasBD {
 		
 		while(rs.next()) {
 			ret.add(new Cliente(rs.getString("DNI"), rs.getString("Nombre"), rs.getString("Contrasenya")
-				         , rs.getString("FechaAlta"), rs.getString("fechaBaja"), rs.getDouble("Saldo")));
+				         , rs.getString("FechaAlta"),  rs.getDouble("Saldo")));
 		}
 		
 		return ret;
