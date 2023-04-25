@@ -5,14 +5,18 @@ public class Material {
     private String nombre;
     private String descripcion;
     private double precio;
-    private int cantidad;
+    private int unidades;
 
-    public Material(int id, String nombre, String descripcion, double precio, int cantidad){
-        this.id = id;
+    public Material(String nombre, double precio, int unidades){
         this.nombre = nombre;
-        this.descripcion = descripcion;
         this.precio = precio;
-        this.cantidad = cantidad;
+        this.unidades = unidades;
+    }
+    
+    public Material(String nombre, double precio) {
+    	this.nombre = nombre;
+    	this.precio = precio;
+    	this.unidades = 1;
     }
 
     public int getId() {
@@ -47,15 +51,15 @@ public class Material {
         this.precio = precio;
     }
 
-    public int getCantidad(){
-        return this.cantidad;
+    public int getUnidades(){
+        return this.unidades;
     }
 
-    public void setCantidad(int cantidad){
-        this.cantidad = cantidad;
+    public void setCantidad(int unidades){
+        this.unidades = unidades;
     }
 
-    public void incCantidad(){
-        this.cantidad++;
+    public void incUnidades(){
+        this.unidades++;
     }
 }
