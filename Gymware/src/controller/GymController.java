@@ -197,11 +197,15 @@ public class GymController {
      */
     public void agregarEncuesta(String DNI, String fecha, int satisfaccion, String cambios, String participa) {
         Encuesta nuevaEncuesta = new Encuesta(DNI, fecha, satisfaccion, cambios, participa);
+<<<<<<< HEAD
        try {
 		this. cambios.insertarEncuesta(nuevaEncuesta);
 	} catch (SQLException e) {
 		e.printStackTrace();
 	}
+=======
+        cambios.insertarEncuesta(nuevaEncuesta);
+>>>>>>> 4223452bf3045e145755da389bd99b711cce84eb
     }
 
     public void eliminarEncuesta(Encuesta encuesta) {
