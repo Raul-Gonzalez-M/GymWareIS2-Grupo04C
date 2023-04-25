@@ -21,6 +21,11 @@ public class DAOConsultas implements Interface_DAOConsultas{
     public DAOConsultas() {
 		this.bd = new ConexionBD();
     }
+
+
+	public DAOConsultas(ConexionBD _bd) {
+		this.bd = _bd;
+    }
     
     private ResultSet executeQueryAux(String query) throws SQLException {
     	try(Statement stmt = bd.getConnection().createStatement()){

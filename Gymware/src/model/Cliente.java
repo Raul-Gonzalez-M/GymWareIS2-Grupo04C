@@ -19,6 +19,14 @@ public class Cliente extends Usuario {
         this.actividades = new ArrayList<Actividad>();
     }
 
+	public Cliente(String DNI, String nombre, String contrasena, String fechaAlta, double saldo) {
+        super(DNI,nombre,contrasena);
+        this.apellidos = "";
+        this.fechaAlta = fechaAlta;
+        this.saldo = saldo;
+        this.actividades = new ArrayList<Actividad>();
+    }
+
 	public String getFechaAlta() {
 		return fechaAlta;
 	}

@@ -39,7 +39,7 @@ public class GymController {
      */
     public void agregarCliente(Cliente user) throws SQLException{
         try {
-			cambios.insertarCliente(user.getDNI(), user.getNombre(), user.getContrasena(), user.getSaldo());
+			cambios.insertarCliente(user);
 		} catch (SQLException e) {
 			throw new SQLException("No se ha podido agregar el cliente.", e);
 		} 

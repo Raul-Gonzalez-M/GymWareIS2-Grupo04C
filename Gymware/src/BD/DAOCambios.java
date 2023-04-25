@@ -17,6 +17,10 @@ public class DAOCambios implements Interface_DAOCambios{
 	public DAOCambios() {
 		this.bd = new ConexionBD();
 	}
+
+	public DAOCambios(ConexionBD _bd) {
+		this.bd = _bd;
+	}
 	
 	private void executeUpdate(String query) throws SQLException {
 		try(PreparedStatement st = bd.getConnection().prepareStatement(query)){
