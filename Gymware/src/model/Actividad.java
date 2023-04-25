@@ -1,16 +1,24 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Actividad {
+	private final int MAX_PLAZAS = 25;
 	private int id_actividad;
     private String nombre;
     private String horario;
     private String nombre_profesor;
     private Aula aula;
-    private int plazasDisponibles;
-	private ArrayList<Cliente> participantes;
+	private List<Cliente> participantes;
 
+    private Actividad(String nombre, String horario, String DNIProfesor, Aula aula) {
+        this.nombre = nombre;
+        this.horario = horario;
+        this.DNIProfesor = DNIProfesor;
+        this.aula = aula;
+		this.participantes = new ArrayList<>();
+=======
     private Actividad(ActividadBuilder builder) {
     	this.id_actividad = builder.id_actividad;
         this.nombre = builder.nombre;
@@ -35,6 +43,7 @@ public class Actividad {
     
     public int getId() {
     	return id_actividad;
+>>>>>>> 82da2e9af95ee7c4133a6a3b7cf310541d52cbf7
     }
     
 	public String getNombre() {
@@ -68,16 +77,20 @@ public class Actividad {
 	public void setAula(Aula aula) {
 		this.aula = aula;
 	}
+	
+	public int plazasDisponibles() {
+		return (MAX_PLAZAS - participantes.size());
+	}
 
 	public boolean aniadirParticipante(Cliente user){ //Devuelve true si se le ha podido añadir y false en caso contrario
-		if(participantes.size() < plazasDisponibles){
+		if(participantes.size() < MAX_PLAZAS){
 			participantes.add(user);
 			return true;
 		}
 		return false;
 	}
 
-	public ArrayList<Cliente> getParticipantes(){
+	public List<Cliente> getParticipantes(){
 		return participantes;
 	}
 
@@ -119,5 +132,6 @@ public class Actividad {
 	        return new Actividad(this);
 	    }
 	}
+>>>>>>> 82da2e9af95ee7c4133a6a3b7cf310541d52cbf7
 }
 

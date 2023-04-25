@@ -4,6 +4,9 @@ public class Aula {
     private int id;
     private int capacidad;
 
+<<<<<<< HEAD
+    private Aula(int id, Actividad actividad) {}
+=======
     public static class Builder {
         private int id;
         private int capacidad;
@@ -27,6 +30,7 @@ public class Aula {
     }
 
     private Aula() {}
+>>>>>>> 82da2e9af95ee7c4133a6a3b7cf310541d52cbf7
 
     public int getId() {
         return id;
