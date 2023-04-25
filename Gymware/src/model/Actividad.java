@@ -3,11 +3,16 @@ package model;
 import java.util.ArrayList;
 
 public class Actividad {
+<<<<<<< HEAD
 	private int id_actividad;
+=======
+	private final int MAX_PLAZAS = 25;
+>>>>>>> 92f038a (aa)
     private String nombre;
     private String horario;
-    private String nombre_profesor;
+    private String DNIProfesor;
     private Aula aula;
+<<<<<<< HEAD
     private int plazasDisponibles;
 	private ArrayList<Cliente> participantes;
 
@@ -23,18 +28,33 @@ public class Actividad {
 
     public int getPlazasDisponibles() {
     	return this.plazasDisponibles;
+=======
+	private List<String> participantes;
+
+    private Actividad(String nombre, String horario, String DNIProfesor, Aula aula) {
+        this.nombre = nombre;
+        this.horario = horario;
+        this.DNIProfesor = DNIProfesor;
+        this.aula = aula;
+		this.participantes = new ArrayList<>();
+>>>>>>> 92f038a (aa)
     }
     
-    public void setPlazasDisponibles(int n) {
-    	this.plazasDisponibles = n;
+    public String getDNIProfesor() {
+    	return this.DNIProfesor;
     }
     
+<<<<<<< HEAD
     public void incPlazasDisponibles(int n) {
     	this.plazasDisponibles += n;
     }
     
     public int getId() {
     	return id_actividad;
+=======
+    public void setDNIProfesor(String dni) {
+    	this.DNIProfesor = dni;
+>>>>>>> 92f038a (aa)
     }
     
 	public String getNombre() {
@@ -53,14 +73,6 @@ public class Actividad {
 		this.horario = horario;
 	}
 
-	public String getNombre_profesor() {
-		return nombre_profesor;
-	}
-
-	public void setNombre_profesor(String dNIProfesor) {
-		nombre_profesor = dNIProfesor;
-	}
-
 	public Aula getAula() {
 		return aula;
 	}
@@ -69,27 +81,37 @@ public class Actividad {
 		this.aula = aula;
 	}
 
+<<<<<<< HEAD
 	public boolean aniadirParticipante(Cliente user){ //Devuelve true si se le ha podido añadir y false en caso contrario
 		if(participantes.size() < plazasDisponibles){
+=======
+	public boolean aniadirParticipante(String user){ //Devuelve true si se le ha podido añadir y false en caso contrario
+		if(participantes.size() < MAX_PLAZAS){
+>>>>>>> 92f038a (aa)
 			participantes.add(user);
 			return true;
 		}
 		return false;
 	}
 
+<<<<<<< HEAD
 	public ArrayList<Cliente> getParticipantes(){
+=======
+	public List<String> getParticipantes(){
+>>>>>>> 92f038a (aa)
 		return participantes;
 	}
 
 	public boolean borrarParticipante(Cliente cliente){
-		for(Cliente c : participantes){
-            if(c.equals(cliente)){
-                participantes.remove(cliente);
+		for(String c : participantes){
+            if(c.equals(cliente.getDNI())){
+                participantes.remove(cliente.getDNI());
                 return true;
             }
         }
 		return false;
 	}
+<<<<<<< HEAD
 	
 	// Clase Builder
 	public static class ActividadBuilder {
@@ -119,5 +141,7 @@ public class Actividad {
 	        return new Actividad(this);
 	    }
 	}
+=======
+>>>>>>> 92f038a (aa)
 }
 
