@@ -22,6 +22,10 @@ public class Controller {
 	public boolean verificarCredenciales(String DNI, String password) {
 		return gymcontroller.verificarCredenciales(DNI, password);
 	}
+
+	public Usuario obtenerClientePorId(String DNI) {
+        return gymcontroller.obtenerUsuarioPorDNI(DNI);
+    }
 	
 	public boolean registrarUsuario(String DNI, String nombre, String apellidos, String password, String fechaActual, double saldo){
 		Cliente user = new Cliente(DNI, nombre, password, fechaActual, saldo);
