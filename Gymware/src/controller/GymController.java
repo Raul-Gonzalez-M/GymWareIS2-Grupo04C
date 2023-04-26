@@ -87,9 +87,8 @@ public class GymController {
 		}
     }
     
-    public Usuario verificarCredenciales(String DNI, String password) {
-    	Usuario u =  consulta.verificarCredenciales(DNI, password);
-		return u;
+    public boolean verificarCredenciales(String DNI, String password) {
+    	return consulta.verificarCredenciales(DNI, password);
     }
     /*
      * ACTIVIDAD

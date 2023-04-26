@@ -123,6 +123,8 @@ public class DAOConsultas {
         return usuario;
     }
     
+    
+    
     public DatosCliente datosCliente(String DNI) throws SQLException {
     	String query =    "select DNI, Nombre, FechaAlta, FechaBaja, Saldo "
     					+ "from cliente "

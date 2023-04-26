@@ -58,9 +58,9 @@ public class LoginWindow extends JPanel {
 		        String DNI = textField.getText();
 		        String password = new String(passwordField.getPassword());
 				Usuario usuarioActual = null;
-				controller.verificarCredenciales(DNI, password);
-					usuarioActual = controller.obtenerClientePorId(DNI);
-				
+				if(controller.verificarCredenciales(DNI, password)){
+					usuarioActual = controller.obtenerClientePorDNI(DNI);
+				}
 		        if(usuarioActual != null) {
 		        	controller.setUsuario(usuarioActual);
 		            JOptionPane.showMessageDialog(LoginWindow.this, "¡Bienvenido " + usuarioActual.getNombre() + "!", "Inicio de sesión exitoso", JOptionPane.INFORMATION_MESSAGE);

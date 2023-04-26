@@ -28,7 +28,6 @@ CREATE TABLE `actividad` (
   `Horario` varchar(50) NOT NULL,
   `Nombre_profesor` varchar(40) DEFAULT NULL,
   `Id_Aula` int NOT NULL,
-  `PlazasDisponibles` int DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `actividad_ibfk_1` (`Id_Aula`),
   CONSTRAINT `actividad_ibfk_1` FOREIGN KEY (`Id_Aula`) REFERENCES `aula` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -41,7 +40,7 @@ CREATE TABLE `actividad` (
 
 LOCK TABLES `actividad` WRITE;
 /*!40000 ALTER TABLE `actividad` DISABLE KEYS */;
-INSERT INTO `actividad` VALUES (1,'Spinning','13:00-15:00','juan',1,29);
+INSERT INTO `actividad` VALUES (1,'Spinning','13:00-15:00','juan',1);
 /*!40000 ALTER TABLE `actividad` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,7 +53,6 @@ DROP TABLE IF EXISTS `aula`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `aula` (
   `Id` int NOT NULL,
-  `Capacidad` int NOT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -65,7 +63,7 @@ CREATE TABLE `aula` (
 
 LOCK TABLES `aula` WRITE;
 /*!40000 ALTER TABLE `aula` DISABLE KEYS */;
-INSERT INTO `aula` VALUES (1,30);
+INSERT INTO `aula` VALUES (1);
 /*!40000 ALTER TABLE `aula` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -79,7 +77,6 @@ DROP TABLE IF EXISTS `cliente`;
 CREATE TABLE `cliente` (
   `DNI` varchar(9) NOT NULL,
   `Nombre` varchar(40) NOT NULL,
-  `Apellidos` varchar(45) NOT NULL,
   `Contrasenya` varchar(20) NOT NULL,
   `FechaAlta` date NOT NULL,
   `Saldo` decimal(12,2) NOT NULL DEFAULT '0.00',
@@ -94,7 +91,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES ('1','admin','a','adminpass','2023-04-19',100.00);
+INSERT INTO `cliente` VALUES ('1','admin','adminpass','2023-04-19',100.00);
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,7 +270,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES ('1','admin','adminpass','cliente'),('2','juan','123','personal');
+INSERT INTO `usuarios` VALUES ('1','admin','adminpass','cliente'),('2','juan','123','personal'),('3','alex','123','cliente');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -286,4 +283,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-24 23:30:16
+-- Dump completed on 2023-04-26 23:08:25

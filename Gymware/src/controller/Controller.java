@@ -19,11 +19,11 @@ public class Controller {
     	this.gymcontroller = new GymController();
     }
 
-	public void verificarCredenciales(String DNI, String password) {
-		Usuario u = gymcontroller.verificarCredenciales(DNI, password);
+	public boolean verificarCredenciales(String DNI, String password) {
+		return gymcontroller.verificarCredenciales(DNI, password);
 	}
 
-	public Usuario obtenerClientePorId(String DNI) {
+	public Usuario obtenerClientePorDNI(String DNI) {
         return gymcontroller.obtenerUsuarioPorDNI(DNI);
     }
 	
