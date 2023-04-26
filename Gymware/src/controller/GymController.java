@@ -1,11 +1,7 @@
 package controller;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.List;
-
 import BD.ConexionBD;
 import BD.DAOCambios;
 import BD.DAOConsultas;
@@ -39,7 +35,7 @@ public class GymController {
      */
     public void agregarCliente(Cliente user) throws SQLException{
         try {
-			cambios.insertarCliente(user);
+			cambios.insertarCliente(user.getDNI(), user.getNombre(), user.getContrasena(), user.getSaldo());
 		} catch (SQLException e) {
 			throw new SQLException("No se ha podido agregar el cliente.", e);
 		} 
@@ -197,15 +193,11 @@ public class GymController {
      */
     public void agregarEncuesta(String DNI, String fecha, int satisfaccion, String cambios, String participa) {
         Encuesta nuevaEncuesta = new Encuesta(DNI, fecha, satisfaccion, cambios, participa);
-<<<<<<< HEAD
        try {
 		this. cambios.insertarEncuesta(nuevaEncuesta);
 	} catch (SQLException e) {
 		e.printStackTrace();
 	}
-=======
-        cambios.insertarEncuesta(nuevaEncuesta);
->>>>>>> 4223452bf3045e145755da389bd99b711cce84eb
     }
 
     public void eliminarEncuesta(Encuesta encuesta) {
