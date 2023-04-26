@@ -27,6 +27,10 @@ public class Controller {
         return gymcontroller.obtenerUsuarioPorDNI(DNI);
     }
 	
+	public List<Encuesta> getEncuestas() {
+        return gymcontroller.obtenerEncuestas();
+    }
+
 	public boolean registrarUsuario(String DNI, String nombre, String apellidos, String password, String fechaActual, double saldo){
 		Cliente user = new Cliente(DNI, nombre, password, fechaActual, saldo);
 		try {

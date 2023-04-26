@@ -23,6 +23,10 @@ public class Actividad {
     	return this.DNIProfesor;
     }
     
+	public int getPlazasDisponibles(){
+		return MAX_PLAZAS - participantes.size();
+	}
+
     public void setDNIProfesor(String dni) {
     	this.DNIProfesor = dni;
     }

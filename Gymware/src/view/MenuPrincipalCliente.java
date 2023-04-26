@@ -52,7 +52,7 @@ public class MenuPrincipalCliente extends JPanel {
 	        model.addRow(new Object[]{
 	                actividad.getNombre(),
 	                actividad.getHorario(),
-	                actividad.getNombre_profesor(),
+	                actividad.getDNIProfesor(),
 	                actividad.getPlazasDisponibles()
 	        });
 	    }
