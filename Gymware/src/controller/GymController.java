@@ -425,11 +425,17 @@ public class GymController {
 		}
 	}
 
-	public void inscribirActividad(Cliente cliente, Actividad actividad) {
+	public boolean inscribirActividad(Cliente cliente, Actividad actividad) {
 		try {
-			cambios.inscribirActividad(cliente, actividad);
+			if(actividad.aniadirParticipante(cliente.getDNI())){
+				cambios.inscribirActividad(cliente, actividad);
+				return true;
+			}
+			return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			return false;
 		}
 		
 	}

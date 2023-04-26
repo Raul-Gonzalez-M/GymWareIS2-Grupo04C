@@ -83,8 +83,7 @@ public class MenuPrincipalCliente extends JPanel {
 	            if (usuario instanceof Cliente) {
 	                Cliente cliente = (Cliente) usuario;
 	                
-	                if(cliente.inscribirActividad(actividad)) {
-	                	controller.inscribirActividad(cliente, actividad);           
+	                if(controller.inscribirActividad(cliente, actividad)) {
 		                JOptionPane.showMessageDialog(null, "Te has inscrito en la actividad: " + actividad.getNombre());
 	                }
 	                

@@ -60,7 +60,7 @@ public class Actividad {
 	}
 
 	public boolean aniadirParticipante(String user){ //Devuelve true si se le ha podido añadir y false en caso contrario
-		if(participantes.size() < MAX_PLAZAS){
+		if(participantes.size() < MAX_PLAZAS && !participantes.contains(user)){
 			participantes.add(user);
 			return true;
 		}

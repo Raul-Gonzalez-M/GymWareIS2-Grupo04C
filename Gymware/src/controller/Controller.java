@@ -55,9 +55,13 @@ public class Controller {
         return gymcontroller.getListaActividades();
     }
 
-    public void inscribirActividad(Cliente cliente, Actividad actividad) {
-        gymcontroller.inscribirActividad(cliente, actividad);
+    public boolean inscribirActividad(Cliente cliente, Actividad actividad) {
+        return gymcontroller.inscribirActividad(cliente, actividad);
     }
+
+	public void addEncuesta(Encuesta encuesta){
+		gymcontroller.agregarEncuesta(encuesta.getDNI(), encuesta.getFecha(), encuesta.getSatisfaccion(), encuesta.getCambios(), encuesta.getParticipa());
+	}
     
 //    public Actividad getActividad(int selectedRow) {
 //        return gymcontroller.getActividad(selectedRow);
