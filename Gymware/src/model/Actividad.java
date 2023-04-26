@@ -4,19 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Actividad {
-	private final int MAX_PLAZAS = 25;
+	private int id;
+	private final int MAX_PLAZAS = 30;
     private String nombre;
     private String horario;
     private String DNIProfesor;
     private Aula aula;
 	private List<String> participantes;
 
-    public Actividad(String nombre, String horario, String DNIProfesor, Aula aula) {
+    public Actividad(int id, String nombre, String horario, String DNIProfesor, Aula aula, int plazas) {
+    	this.id = id;
         this.nombre = nombre;
         this.horario = horario;
         this.DNIProfesor = DNIProfesor;
         this.aula = aula;
 		this.participantes = new ArrayList<>();
+    }
+    
+    public int getId() {
+    	return this.id;
     }
     
     public String getDNIProfesor() {

@@ -19,8 +19,8 @@ public class Controller {
     	this.gymcontroller = new GymController();
     }
 
-	public boolean verificarCredenciales(String DNI, String password) {
-		return gymcontroller.verificarCredenciales(DNI, password);
+	public void verificarCredenciales(String DNI, String password) {
+		Usuario u = gymcontroller.verificarCredenciales(DNI, password);
 	}
 
 	public Usuario obtenerClientePorId(String DNI) {

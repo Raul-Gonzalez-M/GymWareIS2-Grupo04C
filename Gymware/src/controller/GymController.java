@@ -87,13 +87,9 @@ public class GymController {
 		}
     }
     
-    public boolean verificarCredenciales(String DNI, String password) {
-    	try {
-			return consulta.accesoCorrecto(DNI, password);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
+    public Usuario verificarCredenciales(String DNI, String password) {
+    	Usuario u =  consulta.verificarCredenciales(DNI, password);
+		return u;
     }
     /*
      * ACTIVIDAD

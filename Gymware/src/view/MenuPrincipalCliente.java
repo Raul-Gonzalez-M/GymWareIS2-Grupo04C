@@ -34,7 +34,7 @@ public class MenuPrincipalCliente extends JPanel {
 	    //tabbedPane.addTab("Encuestas", createSurveyPanel());
 	    //tabbedPane.addTab("Materiales", createMaterialsPanel());
 	    //tabbedPane.addTab("Mi Perfil", createProfilePanel());
-
+	    
 	    setLayout(new BorderLayout());
 	    add(tabbedPane, BorderLayout.CENTER);
 

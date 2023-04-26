@@ -22,10 +22,6 @@ public class DAOConsultas {
         this.bd = bd;
     }
 
-    /*
-     * Comprueba si el DNI es correcto, es decir, no existe ningun usuario con el mismo y es un DNI correcto (9 caracteres) 
-     * (Probada)
-     */
     public boolean DNIDisponible(String DNI) throws SQLException{
         if(DNI.length() != 9)
             return false;
@@ -50,25 +46,83 @@ public class DAOConsultas {
     	}
     }
     
-    /*
-     * Comprueba el login, al que se acede con el DNI y la contrasenya
-     * (Probada)
-     */
-    public boolean accesoCorrecto(String DNI, String contrasenya) throws SQLException {
-    	String query =    "SELECT contrasenya FROM CLIENTE WHERE DNI = '" + DNI
-    					+ "' UNION"
-    					+ " SELECT contrasenya FROM PERSONAL WHERE DNI = '" + DNI + "';";
-    	
-    	ResultSet rs = executeQueryAux(query);
-    	if(rs.next() && rs.getString("Contrasenya").equals(contrasenya))
-    		return true;
-    	return false;
+    public Usuario verificarCredenciales(String DNI, String password) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Usuario usuario = null;
+        
+        try {
+            connection = bd.getConnection();
+            String query = "SELECT * FROM usuarios WHERE DNI = ? AND Contraseña = ?";
+            String participantesQuery = "SELECT actividad.* FROM actividad INNER JOIN participantes ON actividad.Id = participantes.Id_actividad WHERE participantes.DNICliente = ?";
+            String capacidadQuery = "SELECT Capacidad FROM Aula WHERE Id = ?";
+            String clienteQuery = "SELECT * FROM cliente WHERE DNI = ?";
+            
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, DNI);
+            preparedStatement.setString(2, password);
+            resultSet = preparedStatement.executeQuery();
+            
+            if (resultSet.next()) {
+                String tipoUsuario = resultSet.getString("TipoUsuario");
+                if (tipoUsuario.equals("cliente")) {
+
+                    PreparedStatement clienteStatement = connection.prepareStatement(clienteQuery);
+                    clienteStatement.setString(1, DNI);
+                    ResultSet clienteResult = clienteStatement.executeQuery();
+                    if (clienteResult.next()) {
+                        String nombre = clienteResult.getString("Nombre");
+                        String apellidos = clienteResult.getString("Apellidos");
+                        String fechaAlta = clienteResult.getString("FechaAlta");
+                        double saldo = clienteResult.getDouble("Saldo");
+                        usuario = new Cliente(DNI, nombre,apellidos, password, saldo);
+                    }
+                    //Obtiene las actividades
+                    PreparedStatement participantesStatement = connection.prepareStatement(participantesQuery);
+                    participantesStatement.setString(1, usuario.getDNI());
+                    ResultSet participantesResult = participantesStatement.executeQuery();
+                    while (participantesResult.next()) {
+        	        	int id = participantesResult.getInt("Id");
+        	            String nombre = participantesResult.getString("Nombre");
+        	            String horario = participantesResult.getString("Horario");
+        	            String dniProfesor = participantesResult.getString("Nombre_profesor");
+        	            int idAula = participantesResult.getInt("Id_Aula");
+        	            int plazas = participantesResult.getInt("PlazasDisponibles");
+        	            int capacidad = 0;
+        	            try (PreparedStatement capacidadStatement = connection.prepareStatement(capacidadQuery)) {
+        	                capacidadStatement.setInt(1, idAula);
+        	                try (ResultSet capacidadResult = capacidadStatement.executeQuery()) {
+        	                    if (capacidadResult.next()) {
+        	                        capacidad = capacidadResult.getInt("Capacidad");
+        	                    }
+        	                }
+        	            }
+        	            Aula aula = new Aula(capacidad, null);
+                        Actividad actividad = new Actividad(id, nombre, horario, dniProfesor, aula,plazas);   
+                        Cliente cliente = (Cliente) usuario;
+                        cliente.getActividades().add(actividad);
+
+                    }
+                } else if (tipoUsuario.equals("personal")) {
+                    String nombre = resultSet.getString("Nombre");
+                    usuario = new Personal(DNI, nombre, password);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return usuario;
     }
     
-    /*
-     * Devuelve los datos de un cliente. Si no existe el cliente devuelve null (deberia existir y comprobarse fuera de la clase
-     * () 
-     */
     public DatosCliente datosCliente(String DNI) throws SQLException {
     	String query =    "select DNI, Nombre, FechaAlta, FechaBaja, Saldo "
     					+ "from cliente "
@@ -84,10 +138,6 @@ public class DAOConsultas {
     }
     
     
-    /*
-     * Devuelve la lista de materiales que tienen un numero de unidades mayor o igual que el entero pasado como parametro
-     * ()
-     */
     public List<DatosMaterial> listaMateriales(int unidades) throws SQLException{
     	List<DatosMaterial> ret = new ArrayList<>();
     	
@@ -105,10 +155,6 @@ public class DAOConsultas {
     	return ret;
     }
 
-    /*
-     * Devuelve un cliente por su DNI
-     * ()
-     */
 	public Cliente obtenerClientePorId(String DNI) throws SQLException {
 		String query = "SELECT * "
 					 + "FROM Cliente "
@@ -121,11 +167,7 @@ public class DAOConsultas {
 				         , rs.getString("FechaAlta"), rs.getDouble("Saldo"));
 		return null;
 	}
-	
-	/*
-	 * Devuelve la lista con todos los clientes
-	 * ()
-	 */
+
 	public List<Cliente> obtenerClientes() throws SQLException {
 		List<Cliente> ret = new ArrayList<>();
 		
@@ -143,11 +185,8 @@ public class DAOConsultas {
 	}
 
 	
-	/*
-	 * Devuelve un aula segun su id
-	 * ()
-	 */
-	public Aula obtenerAulaPorId(int id) throws SQLException {
+	/*public Aula obtenerAulaPorId(int id) throws SQLException {
+
 		String query = "SELECT * "
 				+ "FROM Aula "
 				+ "WHERE Numero = " + id + ";";
@@ -162,10 +201,7 @@ public class DAOConsultas {
 		return new Aula(rs.getInt("Numero"), act);
 	}
 
-	/*
-	 * Devuelve la lista de todas las aulas
-	 * ()
-	 */
+
 	public List<Aula> obtenerAulas() throws SQLException {
 		List<Aula> ret = new ArrayList<>();
 		String query= "SELECT * "
@@ -183,10 +219,7 @@ public class DAOConsultas {
 		return ret;
 	}
 
-	/*
-	 * Devuelve una actividad por su nombre
-	 * ()
-	 */
+
 	public Actividad obtenerActividadPorNombre(String nombre) throws SQLException {
 		String query = "SELECT * "
 					 + "FROM Actividad "
@@ -202,10 +235,7 @@ public class DAOConsultas {
 		return new Actividad(rs.getString("Nombre"), rs.getString("Horario"), rs.getString("DNI_Profesor"), aula);
 	}
 
-	/*
-	 * Devuelve la lista de todas las actividades
-	 * ()
-	 */
+
 	public List<Actividad> obtenerActividades() throws SQLException {
 		List<Actividad> ret = new ArrayList<>();
 		
@@ -222,12 +252,8 @@ public class DAOConsultas {
 		}
 		
 		return ret;
-	}
+	}*/
 
-	/*
-	 * Devuelve una encuesta segun el DNI del cliente y la fecha cuando al realizo
-	 * ()
-	 */
 	public Encuesta obtenerEncuestaPorDNI(String DNI, String fecha) throws SQLException {
 		String query = "SELECT * "
 					 + "FROM Encuesta "
@@ -241,10 +267,6 @@ public class DAOConsultas {
 				, rs.getString("Cambios"), rs.getString("Participa"));
 	}
 
-	/*
-	 * Devuelve la lista de todas las encuestas
-	 * ()
-	 */
 	public List<Encuesta> obtenerEncuestas() throws SQLException {
 		List<Encuesta> ret = new ArrayList<>();
 		
@@ -261,10 +283,6 @@ public class DAOConsultas {
 		return ret;
 	}
 
-	/*
-	 * Devuelve un material segun su nombre
-	 * ()
-	 */
 	public Material obtenerMaterialPorNombre(String nombre) throws SQLException {
 		String query = "SELECT * "
 					 + "FROM Material "
@@ -277,10 +295,6 @@ public class DAOConsultas {
 		return new Material(rs.getString("Nombre"), rs.getDouble("Precio"), rs.getInt("Unidades"));
 	}
 
-	/*
-	 * Devuelve la lista de todos los materiales
-	 * ()
-	 */
 	public List<Material> obtenerMateriales() throws SQLException {
 		List<Material> ret = new ArrayList<>();
 		
@@ -296,10 +310,6 @@ public class DAOConsultas {
 		return ret;
 	}
 
-	/*
-	 * Devuelve un miembro del personal segun su dni
-	 * ()
-	 */
 	public Personal obtenerPersonalPorDNI(String DNI) throws SQLException {
 		String query = "SELECT * "
 					 + "FROM Personal "
@@ -312,10 +322,6 @@ public class DAOConsultas {
 		return null;
 	}
 
-	/*
-	 * Devuelve la lista de todos los miembros del personal
-	 * ()
-	 */
 	public List<Personal> obtenerPersonal() throws SQLException {
 		List<Personal> ret = new ArrayList<Personal>();
 		
@@ -331,10 +337,6 @@ public class DAOConsultas {
 		return ret;
 	}
 	
-	/*
-	 * Obtiene el usuario por DNI, independientemente de si es cliente o usuario
-	 * ()
-	 */
 	public Usuario obtenerUsuarioPorDNI(String DNI) throws SQLException {
 		Usuario ret = obtenerClientePorId(DNI);
 		if(ret != null) {
@@ -343,10 +345,6 @@ public class DAOConsultas {
 		return obtenerPersonalPorDNI(DNI);
 	}
 
-	/*
-	 * Se obtiene una venta concreta segun el dni del cliente, el nombre del material y la fecha cuando se realizo
-	 * ()
-	 */
 	public Venta obtenerVenta(String nombre, String DNI, String fecha) throws SQLException {
 		String query = "SELECT * "
 					 + "FROM compra_material "
@@ -360,10 +358,6 @@ public class DAOConsultas {
 		return new Venta(rs.getString("Nombre"), rs.getString("DNI"), rs.getString("Fecha"), rs.getInt("Cantidad"));
 	}
 
-	/*
-	 * Obtiene todas las ventas de un determinado cliente
-	 * ()
-	 */
 	public List<Venta> obtenerVentasCliente(String DNI) throws SQLException {
 		List<Venta> ret = new ArrayList<>();
 		
@@ -380,10 +374,6 @@ public class DAOConsultas {
 		return ret;
 	}
 	
-	/*
-	 * Devuelve todas las ventas de todos los clientes
-	 * ()
-	 */
 	public List<Venta> obtenerVentas() throws SQLException{
 		List<Venta> ret = new ArrayList<>();
 		
