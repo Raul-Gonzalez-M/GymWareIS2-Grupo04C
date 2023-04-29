@@ -34,7 +34,7 @@ public class MenuPrincipalCliente extends JPanel {
 	    tabbedPane.addTab("Actividades Inscritas", createActividadesInscritas());
 	    //tabbedPane.addTab("Encuestas", createSurveyPanel());
 	    //tabbedPane.addTab("Materiales", createMaterialsPanel());
-	    //tabbedPane.addTab("Mi Perfil", createProfilePanel());
+	    tabbedPane.addTab("Mi Perfil", createProfilePanel());
 	    
 	    setLayout(new BorderLayout());
 	    add(tabbedPane, BorderLayout.CENTER);
@@ -83,8 +83,6 @@ public class MenuPrincipalCliente extends JPanel {
 		                updateActividadesDisponibles(activitiesTable);
 	                }
 	                
-	                int rowIndex = activitiesTable.convertRowIndexToView(selectedRow);
-	                model.setValueAt(actividad.getPlazasDisponibles(), rowIndex, 3);
 	            } else {
 	                JOptionPane.showMessageDialog(null, "Solo los clientes pueden inscribirse en actividades");
 	            }
@@ -198,7 +196,7 @@ public class MenuPrincipalCliente extends JPanel {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	private JPanel createSurveyPanel() {
+	/*private JPanel createSurveyPanel() {
 	    JPanel surveyPanel = new JPanel();
 	    surveyPanel.setLayout(new BorderLayout());
 
@@ -291,44 +289,102 @@ public class MenuPrincipalCliente extends JPanel {
 	    }
 
 	    return panel;
-	}
+	}*/
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/*private JPanel createProfilePanel() {
-	    JPanel profilePanel = new JPanel(new BorderLayout());
-	    JPanel formPanel = new JPanel(new GridLayout(3, 2));
+	private JPanel createProfilePanel() {
+	    Cliente cliente = (Cliente) usuario;
+	    JPanel userPanel = new JPanel(new BorderLayout());
+	    JPanel formPanel = new JPanel();
+	    formPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+	    JLabel dniLabel = new JLabel("DNI:");
+	    dniLabel.setBounds(425, 152, 54, 33);
+	    JLabel dniField = new JLabel(cliente.getDNI());
+	    dniField.setBounds(569, 152, 179, 33);
+	    dniLabel.setFont(new Font("Arial", Font.BOLD, 12));
+	    dniField.setFont(new Font("Arial", Font.PLAIN, 12));
+	    dniField.setFocusable(false);
 
 	    JLabel nameLabel = new JLabel("Nombre:");
-	    JTextField nameField = new JTextField(usuario.getNombre());
-	    JLabel dniLabel = new JLabel("DNI:");
-	    JTextField dniField = new JTextField(usuario.getDNI());
+	    nameLabel.setBounds(425, 287, 54, 36);
+	    JLabel nameField = new JLabel(cliente.getNombre());
+	    nameField.setBounds(569, 289, 173, 33);
+	    nameLabel.setFont(new Font("Arial", Font.BOLD, 12));
+	    nameField.setFont(new Font("Arial", Font.PLAIN, 12));
+	    nameLabel.setFocusable(false);
 
-	    formPanel.add(nameLabel);
-	    formPanel.add(nameField);
+	    JLabel passwordLabel = new JLabel("Contraseña:");
+	    passwordLabel.setBounds(425, 439, 100, 33);
+	    JPasswordField passwordField = new JPasswordField(cliente.getContrasena());
+	    passwordField.setBounds(569, 439, 173, 33);
+	    passwordLabel.setFont(new Font("Arial", Font.BOLD, 12));
+	    passwordField.setFont(new Font("Arial", Font.PLAIN, 12));
+
+	    JLabel fechaAltaLabel = new JLabel("Fecha de alta:");
+	    fechaAltaLabel.setBounds(425, 217, 122, 33);
+	    JLabel fechaAltaField = new JLabel(cliente.getFechaAlta());
+	    fechaAltaField.setBounds(569, 217, 173, 33);
+	    fechaAltaLabel.setFont(new Font("Arial", Font.BOLD, 12));
+	    fechaAltaField.setFont(new Font("Arial", Font.PLAIN, 12));
+	    fechaAltaField.setFocusable(false);
+
+	    JLabel saldoLabel = new JLabel("Saldo:");
+	    saldoLabel.setBounds(425, 365, 54, 33);
+	    JLabel saldoField = new JLabel(Double.toString(cliente.getSaldo()));
+	    saldoField.setBounds(569, 365, 173, 33);
+	    saldoLabel.setFont(new Font("Arial", Font.BOLD, 12));
+	    saldoField.setFont(new Font("Arial", Font.PLAIN, 12));
+	    formPanel.setLayout(null);
+	    saldoField.setFocusable(false);
+
 	    formPanel.add(dniLabel);
 	    formPanel.add(dniField);
+	    formPanel.add(nameLabel);
+	    formPanel.add(nameField);
+	    formPanel.add(passwordLabel);
+	    formPanel.add(passwordField);
+	    formPanel.add(fechaAltaLabel);
+	    formPanel.add(fechaAltaField);
+	    formPanel.add(saldoLabel);
+	    formPanel.add(saldoField);
 
 	    JButton saveButton = new JButton("Guardar cambios");
 	    saveButton.addActionListener(new ActionListener() {
-	        @Override
 	        public void actionPerformed(ActionEvent e) {
-	            // actualiza los datos del usuario con los valores del formulario
-	            usuario.setNombre(nameField.getText());
-	            // guarda los cambios en la base de datos
-	            gymController.actualizarCliente((Cliente)usuario);
-	            // muestra un mensaje de confirmación
-	            JOptionPane.showMessageDialog(profilePanel, "Los cambios se han guardado correctamente.");
+
 	        }
 	    });
+	    
+	    JButton bajaButton = new JButton("Darse de baja");
+	    saveButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
 
-	    profilePanel.add(formPanel, BorderLayout.CENTER);
-	    profilePanel.add(saveButton, BorderLayout.SOUTH);
+	        }
+	    });
+	    
+	    JButton saldoButton = new JButton("Recargar saldo");
+	    saldoButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            cliente.setSaldo(cliente.getSaldo() + 100);
+	            controller.setSaldo(cliente);
+	            saldoField.setText(Double.toString(cliente.getSaldo()));
+	            formPanel.repaint();
+	        }
+	    });
+	    
+	    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	    buttonPanel.add(saveButton);
+	    buttonPanel.add(bajaButton);
+	    buttonPanel.add(saldoButton);
+	    userPanel.add(buttonPanel, BorderLayout.SOUTH);
+	    userPanel.add(formPanel, BorderLayout.CENTER);
 
-	    return profilePanel;
+	    return userPanel;
 	}
-	
 
-	*/
+
 	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private class NonEditableTableModel extends DefaultTableModel {
 	    public NonEditableTableModel(Object[] columnNames, int rowCount) {
 	        super(columnNames, rowCount);

@@ -44,6 +44,10 @@ public class Controller {
 		return true;
 	}
 	
+	public void setSaldo(Cliente cliente) {
+		gymcontroller.setSaldo(cliente);
+	}
+	
 	public boolean existeDni(String DNI) {
         return gymcontroller.existeDni(DNI);
     } 

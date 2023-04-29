@@ -255,5 +255,10 @@ public class DAOCambios{
 	    executeUpdate(query);
 	}
 
+	public void setSaldo(Cliente cliente) throws SQLException{
+		String query = "UPDATE usuarios SET saldo = " + cliente.getSaldo() + " WHERE dni = '" + cliente.getDNI() + "';";
+	    executeUpdate(query);
+	}
+
 	
 }

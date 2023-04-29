@@ -441,5 +441,15 @@ public class GymController {
 		return false;
 	}
 
+	public void setSaldo(Cliente cliente) {
+		try {
+			cambios.setSaldo(cliente);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();	
+			
+		}
+	}
+
 
 }

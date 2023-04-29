@@ -81,12 +81,14 @@ public class Actividad {
 	}
 
 	public boolean borrarParticipante(Cliente cliente){
-		for(String c : participantes){
-            if(c.equals(cliente.getNombre())){
-                participantes.remove(cliente.getNombre());
-                return true;
-            }
-        }
+		if (!participantes.isEmpty()) {
+			for(String c : participantes){
+	            if(c.equals(cliente.getNombre())){
+	                participantes.remove(cliente.getNombre());
+	                return true;
+	            }
+	        }
+		}
 		return false;
 	}
 }
