@@ -17,7 +17,12 @@ public class GymController {
     public GymController() {
     	this.bd = new ConexionBD();
         this.cambios = new DAOCambios(bd);
-        this.consulta = new DAOConsultas(bd);
+        try {
+			this.consulta = new DAOConsultas(bd);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     public Usuario getUsuario() {

@@ -6,7 +6,7 @@ public class ConexionBD {
 	static String DRIVER = "com.mysql.cj.jdbc.Driver"; /*com.mysql.jdbc.Driver */
     static String BD = "gymware";
     static String login = "root";
-    static String password = "Gymware23!";
+    static String password = "Gymware_2023!";
     static String url = "jdbc:mysql://localhost:3306/"+BD;
 
     Connection connection = null;

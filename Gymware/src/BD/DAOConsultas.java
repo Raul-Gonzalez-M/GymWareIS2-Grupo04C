@@ -17,21 +17,22 @@ import tipos.DatosMaterial;
 
 public class DAOConsultas {
     private ConexionBD bd;
+    private Statement stmt;
 
-    public DAOConsultas(ConexionBD bd){
+    public DAOConsultas(ConexionBD bd) throws SQLException{
         this.bd = bd;
+        this.stmt = bd.getConnection().createStatement();
     }
 
     public boolean DNIDisponible(String DNI) throws SQLException{
         if(DNI.length() != 9)
             return false;
 
-        String query =    "SELECT DNI FROM CLIENTE"
-        				+ " UNION"
-        				+ "	SELECT DNI FROM PERSONAL;";
+        String query = "SELECT DNI FROM usuarios;";
         
         boolean ret = true;
 	    ResultSet rs = executeQueryAux(query);
+	    
 	    while(rs.next() && ret){
 	        if(rs.getString("DNI").equals(DNI))
 	            ret = false;
@@ -41,20 +42,23 @@ public class DAOConsultas {
     }
     
     private ResultSet executeQueryAux(String query) throws SQLException {
-    	try(Statement stmt = bd.getConnection().createStatement()){
+    	try{
     		return stmt.executeQuery(query);
+    	} catch(SQLException e) {
+    		e.printStackTrace();
+    		return null;
     	}
     }
     
     public boolean verificarCredenciales(String DNI, String password) throws SQLException {
     	String query = "SELECT * "
-    				 + "FROM Usuario "
+    				 + "FROM Usuarios "
     				 + "WHERE DNI = '" + DNI + "' AND "
     				 + "Contrasenya = '" + password + "';";
     	
     	ResultSet rs = executeQueryAux(query);
     	
-    	if(rs.getFetchSize() == 1)
+    	if(rs.next())
     		return true;
     	return false;
     }
@@ -78,7 +82,7 @@ public class DAOConsultas {
 
 	public Cliente obtenerClientePorId(String DNI) throws SQLException {
 		String query = "SELECT * "
-					 + "FROM Usuario "
+					 + "FROM Usuarios "
 					 + "WHERE DNI = '" + DNI + "'"
 					 		+ "AND TipoUsuario = 'Cliente';";
 		
@@ -94,7 +98,7 @@ public class DAOConsultas {
 		List<Cliente> ret = new ArrayList<>();
 		
 		String query = "SELECT * "
-					 + "FROM Usuario "
+					 + "FROM Usuarios "
 					 + "WHERE TipoUsuario = 'Cliente'";
 		
 		ResultSet rs = executeQueryAux(query);
@@ -165,7 +169,7 @@ public class DAOConsultas {
 
 	public Personal obtenerPersonalPorDNI(String DNI) throws SQLException {
 		String query = "SELECT * "
-					 + "FROM Usuario "
+					 + "FROM Usuarios "
 					 + "WHERE DNI = '" + DNI + "'"
 					 + "AND TipoUsuario = 'Personal';";
 		
@@ -180,7 +184,7 @@ public class DAOConsultas {
 		List<Personal> ret = new ArrayList<Personal>();
 		
 		String query = "SELECT * "
-					 + "FROM Usuario"
+					 + "FROM Usuarios"
 					 + "WHERE TipoUsuario = 'Personal';";
 		
 		ResultSet rs = executeQueryAux(query);

@@ -88,7 +88,6 @@ public class RegisterWindow extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String dni = dniTextField.getText();
 				String nombre = nombreTextField.getText();
-				String apellidos = apellidosTextField.getText();
 				String password = new String(passwordField.getPassword());
 				
 				// Comprobamos que el DNI no esté vaco y tenga el formato correcto
@@ -103,7 +102,7 @@ public class RegisterWindow extends JPanel {
 				}
 				else {
 
-					if (nombre.isEmpty() || apellidos.isEmpty() ||  password.isEmpty()) {
+					if (nombre.isEmpty() ||  password.isEmpty()) {
 						JOptionPane.showMessageDialog(null, "Rellena todos los campos.");
 						return;
 					}
@@ -112,7 +111,9 @@ public class RegisterWindow extends JPanel {
 					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 					String fecha = fechaActual.format(formatter);
 	
-					boolean registrado = controller.registrarUsuario(dni,nombre,apellidos,password, fecha, 0);
+					boolean registrado = controller.registrarUsuario(dni,nombre,password, fecha, 0);
+					
+					System.out.println(registrado?"si":"no");
 					
 					if (registrado) {
 						JOptionPane.showMessageDialog(null, "Usuario registrado correctamente.");

@@ -31,12 +31,13 @@ public class Controller {
         return gymcontroller.obtenerEncuestas();
     }
 
-	public boolean registrarUsuario(String DNI, String nombre, String apellidos, String password, String fechaActual, double saldo){
-		Cliente user = new Cliente(DNI, nombre, password, fechaActual, saldo);
+	public boolean registrarUsuario(String DNI, String nombre, String password, String fecha, double saldo){
+		Cliente user = new Cliente(DNI, nombre, password, fecha, saldo);
 		try {
 			gymcontroller.agregarCliente(user);
 		}
 		catch(SQLException e){
+			e.printStackTrace();
 			return false;
 		}
 		

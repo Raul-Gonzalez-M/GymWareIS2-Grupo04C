@@ -22,7 +22,7 @@ public class DAOCambios{
 	 * (Probada)
 	 */
 	public void insertarCliente(String DNI, String nombre, String contrasenya, double saldo) throws SQLException{
-		String query = "INSERT INTO Usuario values(?, ?, ?, 'Cliente', curdate(), ?)";
+		String query = "INSERT INTO Usuarios values(?, ?, ?, 'Cliente', curdate(), ?)";
 		try ( PreparedStatement st = bd.getConnection().prepareStatement( query )) {
 			st.setString(1, DNI);
 			st.setString (2, nombre);
