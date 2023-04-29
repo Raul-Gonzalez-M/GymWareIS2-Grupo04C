@@ -63,7 +63,7 @@ public class LoginWindow extends JPanel {
 				}
 		        if(usuarioActual != null) {
 		        	controller.setUsuario(usuarioActual);
-		        	usuarioActual.setActividades(controller.getListaActividades(usuarioActual.getDNI()));
+		        	usuarioActual.setActividades(controller.obtenerActividadPorDNI(usuarioActual.getDNI()));
 		            JOptionPane.showMessageDialog(LoginWindow.this, "¡Bienvenido " + usuarioActual.getNombre() + "!", "Inicio de sesión exitoso", JOptionPane.INFORMATION_MESSAGE);
 		            if (usuarioActual instanceof Cliente) {
 		            	MenuPrincipalCliente menuCliente = new MenuPrincipalCliente(controller, usuarioActual);

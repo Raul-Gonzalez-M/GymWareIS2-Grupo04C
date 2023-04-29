@@ -36,8 +36,6 @@ public class Cliente extends Usuario {
 	    return actividades;
 	}
 
-
-	@Override
 	public void setActividades(List<Actividad> listaActividades) {
 		this.actividades = listaActividades;
 	}

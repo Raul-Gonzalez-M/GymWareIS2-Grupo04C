@@ -52,10 +52,15 @@ public class Controller {
     	gymcontroller.setUsuario(usuario);
     }
 
-    public List<Actividad> getListaActividades() {
-        return gymcontroller.getListaActividades();
+    public List<Actividad> obtenerActividadPorDNI(String DNI) {
+        return gymcontroller.getListaActividadesPorDNI(DNI);
     }
-
+	public List<Actividad> getListaActividades() {
+		return gymcontroller.getListaActividades();
+	}
+	public List<Actividad> getActNoInscrito(String DNI) {
+		return gymcontroller.getActNoInscrito(DNI);
+	}
     public boolean inscribirActividad(Cliente cliente, Actividad actividad) {
         return gymcontroller.inscribirActividad(cliente, actividad);
     }
@@ -64,13 +69,9 @@ public class Controller {
 		gymcontroller.agregarEncuesta(encuesta.getDNI(), encuesta.getFecha(), encuesta.getSatisfaccion(), encuesta.getCambios(), encuesta.getParticipa());
 	}
 
-	public List<Actividad> getListaActividades(String dni) {
-		try {
-			return gymcontroller.getListaActividades(dni);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
+	public boolean borrarUsuarioActividad(Cliente cliente, Actividad actividad) {
+		return gymcontroller.borrarUsuarioActividad(cliente,actividad);
 	}
+
 }
 

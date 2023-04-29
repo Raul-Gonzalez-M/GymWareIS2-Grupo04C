@@ -17,10 +17,11 @@ public class DAOCambios{
 		this.bd = bd;
 	}
 	
-	/*
-	 * Inserta un cliente con los datos pasados por parámetro, los cuales deben ser ya correctos
-	 * (Probada)
-	 */
+	private void executeUpdate(String query) throws SQLException {
+		try(PreparedStatement st = bd.getConnection().prepareStatement(query)){
+			st.executeUpdate();
+		}
+	}
 	public void insertarCliente(String DNI, String nombre, String contrasenya, double saldo) throws SQLException{
 		String query = "INSERT INTO Usuarios values(?, ?, ?, 'Cliente', curdate(), ?)";
 		try ( PreparedStatement st = bd.getConnection().prepareStatement( query )) {
@@ -31,11 +32,7 @@ public class DAOCambios{
 			st.executeUpdate ();
 		}
 	}
-	
-	/*
-	 * Inserta un personal con los datos pasados por parámetro, los cuales deben ser ya correctos
-	 * (Probada)
-	 */
+
 	public void insertarPersonal(Personal personal) throws SQLException{
 		String query = "INSERT INTO Usuario values(?, ?, ?, 'Personal', curdate(), null)";
 		try ( PreparedStatement st = bd.getConnection().prepareStatement( query )) {
@@ -45,11 +42,7 @@ public class DAOCambios{
 			st.executeUpdate ();
 		}
 	}
-	
-	/*
-	 * Actualiza el historial de compras. Los datos deben ser correctos
-	 * ()
-	 */
+
 	public void guardarCompra(String nombre, String DNI, String fecha, int cantidad) throws SQLException{
 		String query = "INSERT INTO Compra_material VALUES('?', '?', '?' ,?)";
 		
@@ -61,12 +54,7 @@ public class DAOCambios{
 			st.executeUpdate();
 		}
 	}
-	
-	/*
-	 * Elimina el numero de unidades al material con dicho nombre.
-	 * El numero de unidades debe ser menor o igual que el de unidades disponibles
-	 * ()
-	 */
+
 	public void eliminarUnidades(String nombre, int unidades) throws SQLException {
 		String query =    "UPDATE material"
 						+ "SET Unidades = Unidades - " + unidades 
@@ -75,10 +63,6 @@ public class DAOCambios{
 		executeUpdate(query);
 	}
 	
-	/*
-	 * Incrementa el numero de unidades al material con dicho nombre.
-	 * ()
-	 */
 	public void reponerUnidades(String nombre, int unidades) throws SQLException {
 		String query =    "UPDATE material"
 						+ "SET Unidades = Unidades + " + unidades 
@@ -86,11 +70,7 @@ public class DAOCambios{
 		
 		executeUpdate(query);
 	}
-	
-	/*
-	 * Cambia a "precio" el precio del material con ese nombre
-	 * ()
-	 */
+
 	public void cambiarPrecio(String nombre, double precio) throws SQLException {
 		String query = "UPDATE Material"
 				+ "SET Precio = " + precio +
@@ -98,31 +78,13 @@ public class DAOCambios{
 		
 		executeUpdate(query);
 	}
-	
-	/*
-	 * Ejecuta una sentencia de insert, update o delete, con la consulta pasada como parametro
-	 * (Probada)
-	 */
-	private void executeUpdate(String query) throws SQLException {
-		try(PreparedStatement st = bd.getConnection().prepareStatement(query)){
-			st.executeUpdate();
-		}
-	}
 
-	/*
-	 * inserta un aula nueva en la tabla
-	 * ()
-	 */
 	public void insertarAula(Aula nuevaAula) throws SQLException {
 		String query = "INSERT INTO Aula VALUES(" + nuevaAula.getId() + ", '" + nuevaAula.getActividad() + "');";
 		
 		executeUpdate(query);
 	}
 
-	/*
-	 * elimina el aula con el mismo numero que aula
-	 * ()
-	 */
 	public void eliminarAula(Aula aula) throws SQLException {
 		String query = "DELETE FROM Aula "
 					 + "WHERE Numero = " + aula.getId() + ";";
@@ -130,10 +92,6 @@ public class DAOCambios{
 		executeUpdate(query);
 	}
 
-	/*
-	 * 
-	 * 
-	 */
 	public void actualizarAula(Aula aula) throws SQLException {
 		String query = "UPDATE TABLE Aula "
 					 + "SET Actividad = " + aula.getActividad() + " "
@@ -285,11 +243,17 @@ public class DAOCambios{
 	}
 
 	public void inscribirActividad(Cliente cliente, Actividad actividad) throws SQLException {
-		String query = "INSERT INTO PARTICIPA "
-				+ "VALUES('" + cliente.getDNI() + "', '" 
-				+ actividad.getNombre() + "');";
+		String query = "INSERT INTO participantes "
+				+ "VALUES('" + actividad.getId() + "', '" 
+				+ cliente.getDNI() + "');";
 		
 		executeUpdate(query);
 	}
+
+	public void borrarUsuarioActividad(Cliente cliente, Actividad actividad) throws SQLException {
+	    String query = "DELETE FROM participantes WHERE DNICliente = '" + cliente.getDNI() + "' AND Id_actividad = " + actividad.getId() + ";";
+	    executeUpdate(query);
+	}
+
 	
 }

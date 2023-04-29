@@ -16,14 +16,24 @@ import tipos.DatosCliente;
 import tipos.DatosMaterial;
 
 public class DAOConsultas {
-    private ConexionBD bd;
+	
     private Statement stmt;
-
+    private ConexionBD bd;
+    
     public DAOConsultas(ConexionBD bd) throws SQLException{
-        this.bd = bd;
+    	this.bd = bd;
         this.stmt = bd.getConnection().createStatement();
     }
-
+    
+    private ResultSet executeQueryAux(String query) throws SQLException {
+    	try{
+    		return stmt.executeQuery(query);
+    	} catch(SQLException e) {
+    		e.printStackTrace();
+    		return null;
+    	}
+    }
+    
     public boolean DNIDisponible(String DNI) throws SQLException{
         if(DNI.length() != 9)
             return false;
@@ -41,14 +51,6 @@ public class DAOConsultas {
         return ret;
     }
     
-    private ResultSet executeQueryAux(String query) throws SQLException {
-    	try{
-    		return stmt.executeQuery(query);
-    	} catch(SQLException e) {
-    		e.printStackTrace();
-    		return null;
-    	}
-    }
     
     public boolean verificarCredenciales(String DNI, String password) throws SQLException {
     	String query = "SELECT * "
@@ -265,39 +267,6 @@ public class DAOConsultas {
 		return ret;
 	}
 
-	public List<Actividad> obtenerActividades() throws SQLException {
-		List<Actividad> ret = new ArrayList<>();
-		
-		String query = "SELECT * "
-					 + "FROM Actividad;";
-		
-		ResultSet rs = executeQueryAux(query);
-		
-		while(rs.next()) {
-			ret.add(new Actividad(rs.getInt("id"), rs.getString("Nombre"), rs.getString("Horario"), rs.getString("DNI_Profesor")
-					, rs.getInt("aula")));
-		}
-		
-		return ret;
-	}
-
-	public List<Actividad> obtenerActividadPorNombre(String nombre) throws SQLException {
-		List<Actividad> ret = new ArrayList<>();
-		
-		String query = "SELECT * "
-				+ "FROM Actividad "
-				+ "WHERE Nombre = '" + nombre + "';";
-		
-		ResultSet rs = executeQueryAux(query);
-		
-		while(rs.next()) {
-			ret.add(new Actividad(rs.getInt("id"), rs.getString("Nombre"), rs.getString("Horario"), rs.getString("DNI_Profesor")
-					, rs.getInt("aula")));
-		}
-		
-		return ret;
-	}
-
 	public List<Aula> obtenerAulas() throws SQLException {
 		List<Aula> ret = new ArrayList<>();
 		
@@ -323,10 +292,71 @@ public class DAOConsultas {
 		ResultSet rs = executeQueryAux(query);
 		
 		while(rs.next()) {
-			ret.add(new Actividad(rs.getInt("id"), rs.getString("Nombre"), rs.getString("Horario"), rs.getString("DNI_Profesor")
-					, rs.getInt("aula")));
+	        List<String> participantes = getListaParticipantes(rs.getInt("id"));
+	        ret.add(new Actividad(rs.getInt("id"), rs.getString("Nombre"), rs.getString("Horario"), rs.getString("Nombre_profesor"), rs.getInt("id_Aula"), participantes));
 		}
 		
 		return ret;
 	}
+	
+	public List<Actividad> getActNoInscrito(String dni) throws SQLException {
+	    List<Actividad> ret = new ArrayList<>();
+
+	    String query = "SELECT A.Id, A.Nombre, A.horario, A.Nombre_profesor, A.id_Aula " +
+	                   "FROM Actividad A " +
+	                   "WHERE A.Id NOT IN (SELECT Id_Actividad FROM participantes WHERE DNICliente = '" + dni + "')";
+
+	    ResultSet rs = executeQueryAux(query);
+
+	    while(rs.next()) {
+	        List<String> participantes = getListaParticipantes(rs.getInt("id"));
+	        ret.add(new Actividad(rs.getInt("id"), rs.getString("Nombre"), rs.getString("Horario"), rs.getString("Nombre_profesor"), rs.getInt("id_Aula"), participantes));
+	    }
+
+	    return ret;
+	}
+
+	public List<Actividad> getListaActividades() throws SQLException {
+		List<Actividad> ret = new ArrayList<>();
+
+	    String query = "SELECT * "
+	                 + "FROM Actividad;";
+
+	    ResultSet rs = executeQueryAux(query);
+
+	    while(rs.next()) {
+
+	        List<String> participantes = getListaParticipantes(rs.getInt("id"));
+
+	        ret.add(new Actividad(rs.getInt("id"), rs.getString("Nombre"), rs.getString("Horario"), rs.getString("Nombre_profesor"), rs.getInt("id_Aula"), participantes));
+	    }
+
+	    return ret;
+	}
+	
+	public List<String> getListaParticipantes(int idActividad) throws SQLException {
+	    List<String> ret = new ArrayList<>();
+
+	    String query = "SELECT Usuarios.nombre "
+	            + "FROM Usuarios "
+	            + "JOIN Participantes "
+	            + "ON Usuarios.DNI = Participantes.DNIcliente "
+	            + "WHERE Participantes.id_actividad = ?;";
+
+	    PreparedStatement stmt = bd.getConnection().prepareStatement(query);
+	    stmt.setInt(1, idActividad);
+	    ResultSet rs = stmt.executeQuery();
+
+	    while (rs.next()) {
+	        ret.add(rs.getString("nombre"));
+	    }
+
+	    rs.close();
+	    stmt.close();
+
+	    return ret;
+	}
+
+
+
 }

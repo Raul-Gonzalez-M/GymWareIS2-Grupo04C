@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Actividad {
@@ -12,13 +11,13 @@ public class Actividad {
     private int num_aula;
 	private List<String> participantes;
 
-    public Actividad(int id, String nombre, String horario, String DNI_profesor, int num_aula) {
+    public Actividad(int id, String nombre, String horario, String DNI_profesor, int num_aula, List<String> participantes) {
     	this.id = id;
         this.nombre = nombre;
         this.horario = horario;
         this.DNI_profesor = DNI_profesor;
         this.num_aula = num_aula;
-		this.participantes = new ArrayList<>();
+		this.participantes = participantes;
     }
     
     public int getId() {
@@ -61,6 +60,10 @@ public class Actividad {
 		this.num_aula = aula;
 	}
 	
+	public void setParticipantes(List<String> participantes) {
+	    this.participantes = participantes;
+	}
+
 	public int plazasDisponibles() {
 		return (MAX_PLAZAS - participantes.size());
 	}
@@ -79,8 +82,8 @@ public class Actividad {
 
 	public boolean borrarParticipante(Cliente cliente){
 		for(String c : participantes){
-            if(c.equals(cliente.getDNI())){
-                participantes.remove(cliente.getDNI());
+            if(c.equals(cliente.getNombre())){
+                participantes.remove(cliente.getNombre());
                 return true;
             }
         }

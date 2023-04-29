@@ -1,8 +1,6 @@
-CREATE DATABASE  IF NOT EXISTS `gymware` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `gymware`;
 -- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: gymware
+-- Host: localhost    Database: gymware
 -- ------------------------------------------------------
 -- Server version	8.0.32
 
@@ -42,7 +40,7 @@ CREATE TABLE `actividad` (
 
 LOCK TABLES `actividad` WRITE;
 /*!40000 ALTER TABLE `actividad` DISABLE KEYS */;
-INSERT INTO `actividad` VALUES (1,'Spinning','13:00-15:00','juan',1);
+INSERT INTO `actividad` VALUES (1,'Spinning','13:00-15:00','juan',1),(2,'Pole','14:00-15:00','alex',1),(3,'AguaGym','17:00-19:00','pepe',1);
 /*!40000 ALTER TABLE `actividad` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -156,9 +154,9 @@ CREATE TABLE `participantes` (
   `Id_actividad` int NOT NULL,
   `DNICliente` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Id_actividad`),
-  KEY `participantes_ibfk_1` (`DNICliente`),
+  KEY `fk_participantes_usuario_idx` (`DNICliente`),
   CONSTRAINT `fk_participantes_actividad` FOREIGN KEY (`Id_actividad`) REFERENCES `actividad` (`Id`),
-  CONSTRAINT `participantes_ibfk_1` FOREIGN KEY (`DNICliente`) REFERENCES `cliente` (`DNI`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_participantes_usuario` FOREIGN KEY (`DNICliente`) REFERENCES `usuarios` (`DNI`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -168,7 +166,7 @@ CREATE TABLE `participantes` (
 
 LOCK TABLES `participantes` WRITE;
 /*!40000 ALTER TABLE `participantes` DISABLE KEYS */;
-INSERT INTO `participantes` VALUES (1,'1');
+INSERT INTO `participantes` VALUES (1,'1'),(2,'1');
 /*!40000 ALTER TABLE `participantes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,4 +231,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-29 12:12:02
+-- Dump completed on 2023-04-29 14:42:09

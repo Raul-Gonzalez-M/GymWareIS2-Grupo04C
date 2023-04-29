@@ -30,7 +30,8 @@ public class MenuPrincipalCliente extends JPanel {
 	private void initComponents() {
 	    tabbedPane = new JTabbedPane();
 
-	    tabbedPane.addTab("Actividades", createActivitiesPanel());
+	    tabbedPane.addTab("Actividades Disponibles", createActividadesDisponibles());
+	    tabbedPane.addTab("Actividades Inscritas", createActividadesInscritas());
 	    //tabbedPane.addTab("Encuestas", createSurveyPanel());
 	    //tabbedPane.addTab("Materiales", createMaterialsPanel());
 	    //tabbedPane.addTab("Mi Perfil", createProfilePanel());
@@ -42,13 +43,13 @@ public class MenuPrincipalCliente extends JPanel {
 	}
 
 
-	private JPanel createActivitiesPanel() {
+	private JPanel createActividadesDisponibles() {
 	    JPanel activitiesPanel = new JPanel(new BorderLayout());
 
 	    // Crear tabla con las actividades disponibles
 	    JTable activitiesTable = new JTable();
 	    NonEditableTableModel model = new NonEditableTableModel(new Object[]{"Actividad", "Horario", "Instructor", "Plazas Disponibles"}, 0);
-	    for (Actividad actividad : controller.getListaActividades()) {
+	    for (Actividad actividad : controller.getActNoInscrito(usuario.getDNI())) {
 	        model.addRow(new Object[]{
 	                actividad.getNombre(),
 	                actividad.getHorario(),
@@ -58,20 +59,15 @@ public class MenuPrincipalCliente extends JPanel {
 	    }
 	    activitiesTable.setModel(model);
 
-	    // Crear botón para inscribirse
 	    JButton inscribirseButton = new JButton("Inscribirse");
 	    inscribirseButton.addActionListener(new ActionListener() {
-	        @Override
 	        public void actionPerformed(ActionEvent e) {
-	            // Obtener la fila seleccionada
 	            int selectedRow = activitiesTable.getSelectedRow();
 	            if (selectedRow == -1) {
 	                JOptionPane.showMessageDialog(null, "Por favor, selecciona una actividad");
 	                return;
 	            }
-	            // Obtener el nombre de la actividad seleccionada
 	            String actividadSeleccionada = (String) model.getValueAt(selectedRow, 0);
-	            // Buscar la actividad en la lista de actividades
 	            Actividad actividad = null;
 	            for (Actividad a : controller.getListaActividades()) {
 	                if (a.getNombre().equals(actividadSeleccionada)) {
@@ -79,12 +75,12 @@ public class MenuPrincipalCliente extends JPanel {
 	                    break;
 	                }
 	            }
-	            // Comprobar si el usuario ya está inscrito en la actividad
 	            if (usuario instanceof Cliente) {
 	                Cliente cliente = (Cliente) usuario;
 	                
 	                if(controller.inscribirActividad(cliente, actividad)) {
 		                JOptionPane.showMessageDialog(null, "Te has inscrito en la actividad: " + actividad.getNombre());
+		                updateActividadesDisponibles(activitiesTable);
 	                }
 	                
 	                int rowIndex = activitiesTable.convertRowIndexToView(selectedRow);
@@ -94,19 +90,114 @@ public class MenuPrincipalCliente extends JPanel {
 	            }
 	        }
 	    });
-
-	    // Crear panel de botones
+	    
+	    JButton actualizarButton = new JButton("Actualizar");
+	    actualizarButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	        	updateActividadesDisponibles(activitiesTable);
+	        }
+	    });
+	    
 	    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	    buttonPanel.add(inscribirseButton);
-
-	    // Agregar la tabla y el panel de botones al panel principal
+	    buttonPanel.add(actualizarButton);
 	    activitiesPanel.add(new JScrollPane(activitiesTable), BorderLayout.CENTER);
 	    activitiesPanel.add(buttonPanel, BorderLayout.SOUTH);
 
 	    return activitiesPanel;
 	}
+	
+	private void updateActividadesDisponibles(JTable activitiesTable) {
 
+	    NonEditableTableModel model = (NonEditableTableModel) activitiesTable.getModel();
+	    model.setRowCount(0); // Borrar filas anteriores
+	    for (Actividad actividad : controller.getActNoInscrito(usuario.getDNI())) {
+	        model.addRow(new Object[]{
+	                actividad.getNombre(),
+	                actividad.getHorario(),
+	                actividad.getDNIProfesor(),
+	                actividad.getPlazasDisponibles()
+	        });
+	    }
+	    activitiesTable.setModel(model); // Actualizar vista de la tabla
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	private JPanel createActividadesInscritas() {
+	    JPanel activitiesPanel = new JPanel(new BorderLayout());
 
+	    // Crear tabla con las actividades inscritas
+	    JTable activitiesTable = new JTable();
+	    NonEditableTableModel model = new NonEditableTableModel(new Object[]{"Actividad", "Horario", "Instructor", "Plazas Disponibles"}, 0);
+	    for (Actividad actividad : controller.obtenerActividadPorDNI(usuario.getDNI())) {
+	        model.addRow(new Object[]{
+	                actividad.getNombre(),
+	                actividad.getHorario(),
+	                actividad.getDNIProfesor(),
+	                actividad.getPlazasDisponibles()
+	        });
+	    }
+	    activitiesTable.setModel(model);
+	    
+	    JButton inscribirseButton = new JButton("Desinscribirse");
+	    inscribirseButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            int selectedRow = activitiesTable.getSelectedRow();
+	            if (selectedRow == -1) {
+	                JOptionPane.showMessageDialog(null, "Por favor, selecciona una actividad");
+	                return;
+	            }
+	            String actividadSeleccionada = (String) model.getValueAt(selectedRow, 0);
+	            Actividad actividad = null;
+	            for (Actividad a : controller.getListaActividades()) {
+	                if (a.getNombre().equals(actividadSeleccionada)) {
+	                    actividad = a;
+	                    break;
+	                }
+	            }
+	            if (usuario instanceof Cliente) {
+	                Cliente cliente = (Cliente) usuario;
+	                if (controller.borrarUsuarioActividad(cliente, actividad)) {
+	                    JOptionPane.showMessageDialog(null, "Te has desinscrito de la actividad: " + actividad.getNombre());
+	                    updateActividadesInscritas(activitiesTable); // Actualizar tabla después de borrar al usuario
+	                }
+	                else {
+	                    JOptionPane.showMessageDialog(null, "Ha habido un problema al desinscibirse en la actividad: " + actividad.getNombre());
+	                }
+	            }
+	        }
+	    });
+	    JButton actualizarButton = new JButton("Actualizar");
+	    actualizarButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	        	updateActividadesInscritas(activitiesTable);
+	        }
+	    });
+	    
+	    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	    buttonPanel.add(inscribirseButton);
+	    buttonPanel.add(actualizarButton);
+	    activitiesPanel.add(new JScrollPane(activitiesTable), BorderLayout.CENTER);
+	    activitiesPanel.add(buttonPanel, BorderLayout.SOUTH);
+	    
+	    return activitiesPanel;
+	}
+
+	private void updateActividadesInscritas(JTable activitiesTable) {
+
+	    NonEditableTableModel model = (NonEditableTableModel) activitiesTable.getModel();
+	    model.setRowCount(0); // Borrar filas anteriores
+	    for (Actividad actividad : controller.obtenerActividadPorDNI(usuario.getDNI())) {
+	        model.addRow(new Object[]{
+	                actividad.getNombre(),
+	                actividad.getHorario(),
+	                actividad.getDNIProfesor(),
+	                actividad.getPlazasDisponibles()
+	        });
+	    }
+	    activitiesTable.setModel(model); // Actualizar vista de la tabla
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private JPanel createSurveyPanel() {
 	    JPanel surveyPanel = new JPanel();
 	    surveyPanel.setLayout(new BorderLayout());
@@ -146,7 +237,7 @@ public class MenuPrincipalCliente extends JPanel {
 
 	    return surveyPanel;
 	}
-
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/*private JPanel createMaterialsPanel() {
 	    JPanel panel = new JPanel();
 	    panel.setLayout(new BorderLayout());
@@ -201,7 +292,7 @@ public class MenuPrincipalCliente extends JPanel {
 
 	    return panel;
 	}
-
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/*private JPanel createProfilePanel() {
 	    JPanel profilePanel = new JPanel(new BorderLayout());
 	    JPanel formPanel = new JPanel(new GridLayout(3, 2));

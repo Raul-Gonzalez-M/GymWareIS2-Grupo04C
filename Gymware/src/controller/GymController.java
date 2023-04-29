@@ -103,52 +103,32 @@ public class GymController {
     /*
      * ACTIVIDAD
      */
-    public void agregarActividad(int id, String nombre, String horario, String DNIProfesor, int num_aula) {
-        Actividad nuevaActividad = new Actividad(id, nombre, horario, DNIProfesor, num_aula);
+    public void agregarActividad(int id, String nombre, String horario, String DNIProfesor, int num_aula, List<String> participantes) {
+        Actividad nuevaActividad = new Actividad(id, nombre, horario, DNIProfesor, num_aula, participantes);
         try {
 			cambios.insertarActividad(nuevaActividad);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
-		} // se inserta la nueva actividad en la BD
+		} 
     }
     
     public void eliminarActividad(Actividad actividad) {
     	try {
 			cambios.eliminarActividad(actividad);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
-		} // se elimina la actividad de la BD
+		} 
     }
-    
-    public List<Actividad> obtenerActividades() {
-    	try {
-    		return consulta.obtenerActividades(); // se obtienen todas las actividades de la BD
-    	} catch (SQLException e) {
-    		e.printStackTrace();
-    		System.out.println(e.getMessage());
-    		return null;
-    	}
-    }
-    
-    public List<Actividad> obtenerActividadPorNombre(String nombre) {
-        try {
-			return consulta.obtenerActividadPorNombre(nombre);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return null;
-		}
-    }
+
     
     public void actualizarActividad(Actividad actividad) {
         try {
 			cambios.actualizarActividad(actividad);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} // se actualiza la información de la actividad en la BD
+		} 
     }
     
     /*
@@ -410,35 +390,56 @@ public class GymController {
 		// TODO Auto-generated method stub
 		
 	}
-
-	public List<Actividad> getListaActividades() {
+	
+	public List<Actividad> getListaActividadesPorDNI(String DNI) {
 		try {
-			return consulta.obtenerActividades();
+			return consulta.obtenerActividadPorDNI(DNI);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-
+	
+	public List<Actividad> getListaActividades() {
+		try {
+			return consulta.getListaActividades();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public List<Actividad> getActNoInscrito(String DNI) {
+		try {
+			return consulta.getActNoInscrito(DNI);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	public boolean inscribirActividad(Cliente cliente, Actividad actividad) {
 		try {
 			if(actividad.aniadirParticipante(cliente.getDNI())){
 				cambios.inscribirActividad(cliente, actividad);
 				return true;
 			}
-			return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
-			return false;
 		}
-		
+		return false;
 	}
 
-	public List<Actividad> getListaActividades(String dni) throws SQLException {
-		return consulta.obtenerActividadPorDNI(dni);
+	public boolean borrarUsuarioActividad(Cliente cliente, Actividad actividad) {
+		try {
+			if(actividad.borrarParticipante(cliente)){
+				cambios.borrarUsuarioActividad(cliente, actividad);
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();	
+			
+		}
+		return false;
 	}
-
 
 
 }
