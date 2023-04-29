@@ -1,6 +1,8 @@
 package model;
 
-public class Usuario {
+import java.util.List;
+
+public abstract class Usuario {
     private String DNI;
     private String nombre;
     private String contrasena;
@@ -30,6 +32,8 @@ public class Usuario {
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
+
+	public abstract void setActividades(List<Actividad> listaActividades);
     
 
 }

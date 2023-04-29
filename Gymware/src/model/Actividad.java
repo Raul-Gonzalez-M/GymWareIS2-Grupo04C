@@ -8,16 +8,16 @@ public class Actividad {
 	private final int MAX_PLAZAS = 30;
     private String nombre;
     private String horario;
-    private String Nombre_profesor;
-    private Aula aula;
+    private String DNI_profesor;
+    private int num_aula;
 	private List<String> participantes;
 
-    public Actividad(int id, String nombre, String horario, String Nombre_profesor, Aula aula, int plazas) {
+    public Actividad(int id, String nombre, String horario, String DNI_profesor, int num_aula) {
     	this.id = id;
         this.nombre = nombre;
         this.horario = horario;
-        this.Nombre_profesor = Nombre_profesor;
-        this.aula = aula;
+        this.DNI_profesor = DNI_profesor;
+        this.num_aula = num_aula;
 		this.participantes = new ArrayList<>();
     }
     
@@ -25,16 +25,16 @@ public class Actividad {
     	return this.id;
     }
     
-    public String getNombre_profesor() {
-    	return this.Nombre_profesor;
+    public String getDNIProfesor() {
+    	return this.DNI_profesor;
     }
     
 	public int getPlazasDisponibles(){
 		return MAX_PLAZAS - participantes.size();
 	}
 
-    public void setNombre_profesor(String dni) {
-    	this.Nombre_profesor = dni;
+    public void setDNIProfesor(String dni) {
+    	this.DNI_profesor = dni;
     }
     
 	public String getNombre() {
@@ -53,12 +53,12 @@ public class Actividad {
 		this.horario = horario;
 	}
 
-	public Aula getAula() {
-		return aula;
+	public int getNumAula() {
+		return num_aula;
 	}
 
-	public void setAula(Aula aula) {
-		this.aula = aula;
+	public void setNumAula(int aula) {
+		this.num_aula = aula;
 	}
 	
 	public int plazasDisponibles() {

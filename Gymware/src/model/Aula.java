@@ -2,11 +2,11 @@ package model;
 
 public class Aula {
     private int id;
-    private String tipoActividad;
+    private String Actividad;
     
     public Aula(int id, String tipoActividad) {
     	this.id = id;
-    	this.tipoActividad = tipoActividad;
+    	this.Actividad = tipoActividad;
     }
     public int getId() {
         return id;
@@ -16,11 +16,11 @@ public class Aula {
         this.id = id;
     }
 
-    public String getTipoActividad() {
-    	return this.tipoActividad;
+    public String getActividad() {
+    	return this.Actividad;
     }
     
     public void setActividad(String tipoActividad) {
-    	this.tipoActividad = tipoActividad;
+    	this.Actividad = tipoActividad;
     }
 }

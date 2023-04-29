@@ -62,26 +62,14 @@ public class Controller {
 	public void addEncuesta(Encuesta encuesta){
 		gymcontroller.agregarEncuesta(encuesta.getDNI(), encuesta.getFecha(), encuesta.getSatisfaccion(), encuesta.getCambios(), encuesta.getParticipa());
 	}
-    
-//    public Actividad getActividad(int selectedRow) {
-//        return gymcontroller.getActividad(selectedRow);
-//    }
-//
-//    public void addEncuesta(Encuesta encuesta) {
-//        gymcontroller.addEncuesta(encuesta);
-//    }
-//
-//    public Encuesta[] getEncuestas() {
-//        return gymcontroller.getEncuestas();
-//    }
-//
-//    public void eliminarMaterial(String id) {
-//        gymcontroller.eliminarMaterial(id);
-//    }
-//
-//    public Material[] obtenerMateriales() {
-//        return gymcontroller.obtenerMateriales();
-//    }
 
+	public List<Actividad> getListaActividades(String dni) {
+		try {
+			return gymcontroller.getListaActividades(dni);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
 

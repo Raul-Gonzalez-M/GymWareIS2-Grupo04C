@@ -88,13 +88,18 @@ public class GymController {
     }
     
     public boolean verificarCredenciales(String DNI, String password) {
-    	return consulta.verificarCredenciales(DNI, password);
+    	try {
+			return consulta.verificarCredenciales(DNI, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
     }
     /*
      * ACTIVIDAD
      */
-    public void agregarActividad(String nombre, String horario, String DNIProfesor, Aula aula) {
-        Actividad nuevaActividad = new Actividad(nombre, horario, DNIProfesor, aula);
+    public void agregarActividad(int id, String nombre, String horario, String DNIProfesor, int num_aula) {
+        Actividad nuevaActividad = new Actividad(id, nombre, horario, DNIProfesor, num_aula);
         try {
 			cambios.insertarActividad(nuevaActividad);
 		} catch (SQLException e) {
@@ -122,7 +127,7 @@ public class GymController {
     	}
     }
     
-    public Actividad obtenerActividadPorNombre(String nombre) {
+    public List<Actividad> obtenerActividadPorNombre(String nombre) {
         try {
 			return consulta.obtenerActividadPorNombre(nombre);
 		} catch (SQLException e) {
@@ -144,7 +149,7 @@ public class GymController {
     /*
      * AULAS
      */
-    public void agregarAula(int id, Actividad actividad) {
+    public void agregarAula(int id, String actividad) {
         Aula nuevaAula = new Aula(id, actividad);
         try {
 			cambios.insertarAula(nuevaAula);
@@ -171,16 +176,6 @@ public class GymController {
 			System.out.println(e.getMessage());
 			return null;
 		}
-    }
-    
-    public Aula obtenerAulaPorId(int id) {
-        try {
-			return consulta.obtenerAulaPorId(id); // se busca la aula en la BD según su ID
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return null;
-		} 
     }
     
     /*
@@ -285,8 +280,8 @@ public class GymController {
     /*
      * PERSONAL
      */
-    public void agregarPersonal(String DNI, String nombre, String apellido, int edad, String correoElectronico, String contrasena, int idPersonal, String puesto) {
-        Personal nuevoPersonal = new Personal(DNI, nombre, apellido);
+    public void agregarPersonal(String DNI, String nombre, String contrasena) {
+        Personal nuevoPersonal = new Personal(DNI, nombre, contrasena);
         try {
 			cambios.insertarPersonal(nuevoPersonal);
 		} catch (SQLException e) {
@@ -433,6 +428,10 @@ public class GymController {
 			return false;
 		}
 		
+	}
+
+	public List<Actividad> getListaActividades(String dni) throws SQLException {
+		return consulta.obtenerActividadPorDNI(dni);
 	}
 
 

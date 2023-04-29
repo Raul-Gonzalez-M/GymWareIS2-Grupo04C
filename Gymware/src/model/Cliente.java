@@ -15,6 +15,7 @@ public class Cliente extends Usuario {
         this.actividades = new ArrayList<Actividad>();
     }
 
+
 	public String getFechaAlta() {
 		return fechaAlta;
 	}
@@ -33,6 +34,12 @@ public class Cliente extends Usuario {
 
 	public List<Actividad> getActividades() {
 	    return actividades;
+	}
+
+
+	@Override
+	public void setActividades(List<Actividad> listaActividades) {
+		this.actividades = listaActividades;
 	}
 
     

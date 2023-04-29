@@ -22,7 +22,7 @@ public class DAOCambios{
 	 * (Probada)
 	 */
 	public void insertarCliente(String DNI, String nombre, String contrasenya, double saldo) throws SQLException{
-		String query = "INSERT INTO Cliente values(?, ?, ?, curdate(), null, ?)";
+		String query = "INSERT INTO Usuario values(?, ?, ?, 'Cliente', curdate(), ?)";
 		try ( PreparedStatement st = bd.getConnection().prepareStatement( query )) {
 			st.setString(1, DNI);
 			st.setString (2, nombre);
@@ -36,12 +36,12 @@ public class DAOCambios{
 	 * Inserta un personal con los datos pasados por parámetro, los cuales deben ser ya correctos
 	 * (Probada)
 	 */
-	public void insertarPersonal(String DNI, String nombre, String contrasenya) throws SQLException{
-		String query = "INSERT INTO Cliente values('?', '?', '?')";
+	public void insertarPersonal(Personal personal) throws SQLException{
+		String query = "INSERT INTO Usuario values(?, ?, ?, 'Personal', curdate(), null)";
 		try ( PreparedStatement st = bd.getConnection().prepareStatement( query )) {
-			st.setString(1, DNI);
-			st.setString (2, nombre);
-			st.setString (3, contrasenya);
+			st.setString(1, personal.getDNI());
+			st.setString (2, personal.getNombre());
+			st.setString (3, personal.getContrasena());
 			st.executeUpdate ();
 		}
 	}
@@ -114,7 +114,7 @@ public class DAOCambios{
 	 * ()
 	 */
 	public void insertarAula(Aula nuevaAula) throws SQLException {
-		String query = "INSERT INTO Aula VALUES(" + nuevaAula.getId() + ", '" + nuevaAula.getActividad().getNombre() + "');";
+		String query = "INSERT INTO Aula VALUES(" + nuevaAula.getId() + ", '" + nuevaAula.getActividad() + "');";
 		
 		executeUpdate(query);
 	}
@@ -136,7 +136,7 @@ public class DAOCambios{
 	 */
 	public void actualizarAula(Aula aula) throws SQLException {
 		String query = "UPDATE TABLE Aula "
-					 + "SET Actividad = " + aula.getActividad().getNombre() + " "
+					 + "SET Actividad = " + aula.getActividad() + " "
 					 + "WHERE Numero = " + aula.getId() + ";";
 		
 		executeUpdate(query);
@@ -145,7 +145,7 @@ public class DAOCambios{
 	public void insertarActividad(Actividad nuevaActividad) throws SQLException {
 		String query = "INSERT INTO Actividad VALUES('" 
 					 + nuevaActividad.getNombre() + "', '" + nuevaActividad.getHorario() + "', '"
-					 + nuevaActividad.getDNIProfesor() + "', " + nuevaActividad.getAula().getId() + ");";
+					 + nuevaActividad.getDNIProfesor() + "', " + nuevaActividad.getNumAula() + ");";
 		
 		executeUpdate(query);
 	}
@@ -161,21 +161,21 @@ public class DAOCambios{
 		String query = "UPDATE TABLE Actividad "
 				 	 + "SET Horario = '" + actividad.getHorario() + "', "
 				 	 + "SET DNI_Profesor = '" + actividad.getDNIProfesor() + "', "
-				 	 + "SET Aula = " + actividad.getAula().getId() + " "
+				 	 + "SET Aula = " + actividad.getNumAula() + " "
 				 	 + "WHERE Nombre = '" + actividad.getNombre() + "';";
 		
 		executeUpdate(query);
 	}
 
 	public void eliminarCliente(Cliente cliente) throws SQLException {
-		String query = "DELETE FROM Cliente "
+		String query = "DELETE FROM Usuario "
 				+ "WHERE DNI = '" + cliente.getDNI() + "';";
 		
 		executeUpdate(query);
 	}
 
 	public void actualizarCliente(Cliente cliente) throws SQLException {
-		String query = "UPDATE TABLE Cliente "
+		String query = "UPDATE TABLE Usuario "
 					 + "SET Nombre = '" + cliente.getNombre() + "', "
 					 + "Contrasenya = '" + cliente.getContrasena() + "', "
 					 + "FechaAlta = date'" + cliente.getFechaAlta() + "', "
@@ -240,17 +240,8 @@ public class DAOCambios{
 		executeUpdate(query);
 	}
 
-	public void insertarPersonal(Personal nuevoPersonal) throws SQLException {
-		String query = "INSERT INTO Personal VALUES('"
-				+ nuevoPersonal.getDNI() + "', '"
-				+ nuevoPersonal.getNombre() + "', '"
-				+ nuevoPersonal.getContrasena() + "');";
-		
-		executeUpdate(query);
-	}
-
 	public void eliminarPersonal(Personal personal) throws SQLException {
-		String query = "DELETE FROM Personal "
+		String query = "DELETE FROM Usuario "
 				 + "WHERE DNI = '" + personal.getDNI() + "';";
 
 		executeUpdate(query);

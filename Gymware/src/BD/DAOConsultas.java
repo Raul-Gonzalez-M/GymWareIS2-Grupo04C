@@ -46,99 +46,18 @@ public class DAOConsultas {
     	}
     }
     
-    public Usuario verificarCredenciales(String DNI, String password) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        Usuario usuario = null;
-        
-        try {
-            connection = bd.getConnection();
-            String query = "SELECT * FROM usuarios WHERE DNI = ? AND Contraseña = ?";
-            String participantesQuery = "SELECT actividad.* FROM actividad INNER JOIN participantes ON actividad.Id = participantes.Id_actividad WHERE participantes.DNICliente = ?";
-            String capacidadQuery = "SELECT Capacidad FROM Aula WHERE Id = ?";
-            String clienteQuery = "SELECT * FROM cliente WHERE DNI = ?";
-            
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, DNI);
-            preparedStatement.setString(2, password);
-            resultSet = preparedStatement.executeQuery();
-            
-            if (resultSet.next()) {
-                String tipoUsuario = resultSet.getString("TipoUsuario");
-                if (tipoUsuario.equals("cliente")) {
-
-                    PreparedStatement clienteStatement = connection.prepareStatement(clienteQuery);
-                    clienteStatement.setString(1, DNI);
-                    ResultSet clienteResult = clienteStatement.executeQuery();
-                    if (clienteResult.next()) {
-                        String nombre = clienteResult.getString("Nombre");
-                        String apellidos = clienteResult.getString("Apellidos");
-                        String fechaAlta = clienteResult.getString("FechaAlta");
-                        double saldo = clienteResult.getDouble("Saldo");
-                        usuario = new Cliente(DNI, nombre,apellidos, password, saldo);
-                    }
-                    //Obtiene las actividades
-                    PreparedStatement participantesStatement = connection.prepareStatement(participantesQuery);
-                    participantesStatement.setString(1, usuario.getDNI());
-                    ResultSet participantesResult = participantesStatement.executeQuery();
-                    while (participantesResult.next()) {
-        	        	int id = participantesResult.getInt("Id");
-        	            String nombre = participantesResult.getString("Nombre");
-        	            String horario = participantesResult.getString("Horario");
-        	            String dniProfesor = participantesResult.getString("Nombre_profesor");
-        	            int idAula = participantesResult.getInt("Id_Aula");
-        	            int plazas = participantesResult.getInt("PlazasDisponibles");
-        	            int capacidad = 0;
-        	            try (PreparedStatement capacidadStatement = connection.prepareStatement(capacidadQuery)) {
-        	                capacidadStatement.setInt(1, idAula);
-        	                try (ResultSet capacidadResult = capacidadStatement.executeQuery()) {
-        	                    if (capacidadResult.next()) {
-        	                        capacidad = capacidadResult.getInt("Capacidad");
-        	                    }
-        	                }
-        	            }
-        	            Aula aula = new Aula(capacidad, null);
-                        Actividad actividad = new Actividad(id, nombre, horario, dniProfesor, aula,plazas);   
-                        Cliente cliente = (Cliente) usuario;
-                        cliente.getActividades().add(actividad);
-
-                    }
-                } else if (tipoUsuario.equals("personal")) {
-                    String nombre = resultSet.getString("Nombre");
-                    usuario = new Personal(DNI, nombre, password);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (resultSet != null) resultSet.close();
-                if (preparedStatement != null) preparedStatement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        
-        return usuario;
-    }
-    
-    
-    
-    public DatosCliente datosCliente(String DNI) throws SQLException {
-    	String query =    "select DNI, Nombre, FechaAlta, FechaBaja, Saldo "
-    					+ "from cliente "
-    					+ "where dni = '" + DNI + "';";
+    public boolean verificarCredenciales(String DNI, String password) throws SQLException {
+    	String query = "SELECT * "
+    				 + "FROM Usuario "
+    				 + "WHERE DNI = '" + DNI + "' AND "
+    				 + "Contrasenya = '" + password + "';";
     	
-    	ResultSet rs =  executeQueryAux(query);
+    	ResultSet rs = executeQueryAux(query);
     	
-    	if(rs.next())
-    		return new DatosCliente(rs.getString("DNI"), rs.getString("nombre"), rs.getString("FechaAlta"),
-    					       			rs.getString("FechaBaja"), rs.getDouble("saldo"));
-    	else
-    		return null;
+    	if(rs.getFetchSize() == 1)
+    		return true;
+    	return false;
     }
-    
     
     public List<DatosMaterial> listaMateriales(int unidades) throws SQLException{
     	List<DatosMaterial> ret = new ArrayList<>();
@@ -159,8 +78,9 @@ public class DAOConsultas {
 
 	public Cliente obtenerClientePorId(String DNI) throws SQLException {
 		String query = "SELECT * "
-					 + "FROM Cliente "
-					 + "WHERE DNI = '" + DNI + "';";
+					 + "FROM Usuario "
+					 + "WHERE DNI = '" + DNI + "'"
+					 		+ "AND TipoUsuario = 'Cliente';";
 		
 		ResultSet rs = executeQueryAux(query);
 		
@@ -174,7 +94,8 @@ public class DAOConsultas {
 		List<Cliente> ret = new ArrayList<>();
 		
 		String query = "SELECT * "
-					 + "FROM Cliente;";
+					 + "FROM Usuario "
+					 + "WHERE TipoUsuario = 'Cliente'";
 		
 		ResultSet rs = executeQueryAux(query);
 		
@@ -185,76 +106,6 @@ public class DAOConsultas {
 		
 		return ret;
 	}
-
-	
-	/*public Aula obtenerAulaPorId(int id) throws SQLException {
-
-		String query = "SELECT * "
-				+ "FROM Aula "
-				+ "WHERE Numero = " + id + ";";
-		
-		ResultSet rs = executeQueryAux(query);
-		
-		rs.next();
-		
-		String aux = rs.getString("Actividad");
-		Actividad act = obtenerActividadPorNombre(aux);
-		
-		return new Aula(rs.getInt("Numero"), act);
-	}
-
-
-	public List<Aula> obtenerAulas() throws SQLException {
-		List<Aula> ret = new ArrayList<>();
-		String query= "SELECT * "
-				+ "FROM Aula;";
-		
-		ResultSet rs = executeQueryAux(query);
-		
-		while(rs.next()) {
-			String aux = rs.getString("Actividad");
-			Actividad act = obtenerActividadPorNombre(aux);
-			
-			ret.add(new Aula(rs.getInt("Numero"), act));
-		}
-		
-		return ret;
-	}
-
-
-	public Actividad obtenerActividadPorNombre(String nombre) throws SQLException {
-		String query = "SELECT * "
-					 + "FROM Actividad "
-					 + "WHERE Nombre = '" + nombre + "';";
-		
-		ResultSet rs = executeQueryAux(query);
-		
-		rs.next();
-		
-		int aux = rs.getInt("Aula");
-		Aula aula = obtenerAulaPorId(aux);
-		
-		return new Actividad(rs.getString("Nombre"), rs.getString("Horario"), rs.getString("DNI_Profesor"), aula);
-	}
-
-
-	public List<Actividad> obtenerActividades() throws SQLException {
-		List<Actividad> ret = new ArrayList<>();
-		
-		String query = "SELECT * "
-					 + "FROM Actividad;";
-		
-		ResultSet rs = executeQueryAux(query);
-		
-		while(rs.next()) {
-			int aux = rs.getInt("Aula");
-			Aula aula = obtenerAulaPorId(aux);
-			
-			ret.add(new Actividad(rs.getString("Nombre"), rs.getString("Horario"), rs.getString("DNI_Profesor"), aula));
-		}
-		
-		return ret;
-	}*/
 
 	public Encuesta obtenerEncuestaPorDNI(String DNI, String fecha) throws SQLException {
 		String query = "SELECT * "
@@ -314,8 +165,9 @@ public class DAOConsultas {
 
 	public Personal obtenerPersonalPorDNI(String DNI) throws SQLException {
 		String query = "SELECT * "
-					 + "FROM Personal "
-					 + "WHERE DNI = '" + DNI + "';";
+					 + "FROM Usuario "
+					 + "WHERE DNI = '" + DNI + "'"
+					 + "AND TipoUsuario = 'Personal';";
 		
 		ResultSet rs = executeQueryAux(query);
 		
@@ -328,7 +180,8 @@ public class DAOConsultas {
 		List<Personal> ret = new ArrayList<Personal>();
 		
 		String query = "SELECT * "
-					 + "FROM Personal;";
+					 + "FROM Usuario"
+					 + "WHERE TipoUsuario = 'Personal';";
 		
 		ResultSet rs = executeQueryAux(query);
 		
@@ -394,7 +247,7 @@ public class DAOConsultas {
 	public List<String> inscritosActividad(Actividad actividad) throws SQLException{
 		List<String> ret = new ArrayList<>();
 		
-		String query = "SELECT *"
+		String query = "SELECT * "
 				+ "FROM Participa"
 				+ "WHERE Nombre_Actividad = '" + actividad.getNombre() + "';";
 		
@@ -404,6 +257,71 @@ public class DAOConsultas {
 			ret.add(rs.getString("DNI_Cliente"));
 		}
 		
+		
+		return ret;
+	}
+
+	public List<Actividad> obtenerActividades() throws SQLException {
+		List<Actividad> ret = new ArrayList<>();
+		
+		String query = "SELECT * "
+					 + "FROM Actividad;";
+		
+		ResultSet rs = executeQueryAux(query);
+		
+		while(rs.next()) {
+			ret.add(new Actividad(rs.getInt("id"), rs.getString("Nombre"), rs.getString("Horario"), rs.getString("DNI_Profesor")
+					, rs.getInt("aula")));
+		}
+		
+		return ret;
+	}
+
+	public List<Actividad> obtenerActividadPorNombre(String nombre) throws SQLException {
+		List<Actividad> ret = new ArrayList<>();
+		
+		String query = "SELECT * "
+				+ "FROM Actividad "
+				+ "WHERE Nombre = '" + nombre + "';";
+		
+		ResultSet rs = executeQueryAux(query);
+		
+		while(rs.next()) {
+			ret.add(new Actividad(rs.getInt("id"), rs.getString("Nombre"), rs.getString("Horario"), rs.getString("DNI_Profesor")
+					, rs.getInt("aula")));
+		}
+		
+		return ret;
+	}
+
+	public List<Aula> obtenerAulas() throws SQLException {
+		List<Aula> ret = new ArrayList<>();
+		
+		String query = "SELECT * "
+					 + "FROM Aula;";
+		
+		ResultSet rs = executeQueryAux(query);
+		
+		while(rs.next()) {
+			ret.add(new Aula(rs.getInt("Id"), rs.getString("Actividad")));
+		}
+		
+		return ret;
+	}
+
+	public List<Actividad> obtenerActividadPorDNI(String dni) throws SQLException {
+		List<Actividad> ret = new ArrayList<>();
+		
+		String query = "SELECT A.Id, A.Nombre, A.horario, A.Nombre_profesor, A.id_Aula "
+					 + "FROM Actividad A JOIN participantes P ON A.Id = P.Id_Actividad "
+					 + "WHERE P.DNICliente = '" + dni + "';";
+		
+		ResultSet rs = executeQueryAux(query);
+		
+		while(rs.next()) {
+			ret.add(new Actividad(rs.getInt("id"), rs.getString("Nombre"), rs.getString("Horario"), rs.getString("DNI_Profesor")
+					, rs.getInt("aula")));
+		}
 		
 		return ret;
 	}
