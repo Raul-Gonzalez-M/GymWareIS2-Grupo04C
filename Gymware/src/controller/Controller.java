@@ -23,7 +23,7 @@ public class Controller {
 		return gymcontroller.verificarCredenciales(DNI, password);
 	}
 
-	public Usuario obtenerClientePorDNI(String DNI) {
+	public Usuario obtenerUsuarioPorDNI(String DNI) {
         return gymcontroller.obtenerUsuarioPorDNI(DNI);
     }
 	
@@ -44,6 +44,9 @@ public class Controller {
 		return true;
 	}
 	
+	public void darBajaUsusario(String DNI) {
+		gymcontroller.darBajaUsusario(DNI);
+	}
 	public void setSaldo(Cliente cliente) {
 		gymcontroller.setSaldo(cliente);
 	}
@@ -76,6 +79,12 @@ public class Controller {
 	public boolean borrarUsuarioActividad(Cliente cliente, Actividad actividad) {
 		return gymcontroller.borrarUsuarioActividad(cliente,actividad);
 	}
+
+	public void cambiarContrasenya(Cliente cliente, String nuevaContra) {
+		gymcontroller.cambiarContrasenya(cliente,nuevaContra);
+		
+	}
+
 
 }
 

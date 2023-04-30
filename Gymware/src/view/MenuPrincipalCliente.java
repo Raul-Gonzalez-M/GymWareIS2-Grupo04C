@@ -19,11 +19,13 @@ public class MenuPrincipalCliente extends JPanel {
 	private Controller controller;
 	private JTabbedPane tabbedPane;
 	private Usuario usuario;
-
-	public MenuPrincipalCliente(Controller controller, Usuario usuarioActual) {
+	private JPanel parentPanel;
+	private CardLayout cardLayout;
+	public MenuPrincipalCliente(Controller controller, Usuario usuarioActual, JPanel parentPanel) {
 	    this.controller = controller;
 	    this.usuario = usuarioActual;
-	    
+	    this.parentPanel = parentPanel;
+        this.cardLayout = (CardLayout) parentPanel.getLayout();
 	    initComponents();
 	}
 	
@@ -32,8 +34,9 @@ public class MenuPrincipalCliente extends JPanel {
 
 	    tabbedPane.addTab("Actividades Disponibles", createActividadesDisponibles());
 	    tabbedPane.addTab("Actividades Inscritas", createActividadesInscritas());
-	    //tabbedPane.addTab("Encuestas", createSurveyPanel());
-	    //tabbedPane.addTab("Materiales", createMaterialsPanel());
+	    //tabbedPane.addTab("Encuestas", createEncuestaPanel());
+	    //tabbedPane.addTab("Mis Materiales", createMisMaterialesPanel());
+	    //tabbedPane.addTab("Compra Materiales", createMisMaterialesPanel());
 	    tabbedPane.addTab("Mi Perfil", createProfilePanel());
 	    
 	    setLayout(new BorderLayout());
@@ -53,7 +56,7 @@ public class MenuPrincipalCliente extends JPanel {
 	        model.addRow(new Object[]{
 	                actividad.getNombre(),
 	                actividad.getHorario(),
-	                actividad.getDNIProfesor(),
+	                controller.obtenerUsuarioPorDNI(actividad.getDNIProfesor()).getNombre(),
 	                actividad.getPlazasDisponibles()
 	        });
 	    }
@@ -113,7 +116,7 @@ public class MenuPrincipalCliente extends JPanel {
 	        model.addRow(new Object[]{
 	                actividad.getNombre(),
 	                actividad.getHorario(),
-	                actividad.getDNIProfesor(),
+	                controller.obtenerUsuarioPorDNI(actividad.getDNIProfesor()).getNombre(),
 	                actividad.getPlazasDisponibles()
 	        });
 	    }
@@ -196,7 +199,7 @@ public class MenuPrincipalCliente extends JPanel {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/*private JPanel createSurveyPanel() {
+	/*private JPanel createEncuestaPanel() {
 	    JPanel surveyPanel = new JPanel();
 	    surveyPanel.setLayout(new BorderLayout());
 
@@ -313,9 +316,9 @@ public class MenuPrincipalCliente extends JPanel {
 	    nameField.setFont(new Font("Arial", Font.PLAIN, 12));
 	    nameLabel.setFocusable(false);
 
-	    JLabel passwordLabel = new JLabel("Contraseña:");
-	    passwordLabel.setBounds(425, 439, 100, 33);
-	    JPasswordField passwordField = new JPasswordField(cliente.getContrasena());
+	    JLabel passwordLabel = new JLabel("Nueva Contraseña:");
+	    passwordLabel.setBounds(425, 439, 122, 33);
+	    JPasswordField passwordField = new JPasswordField();
 	    passwordField.setBounds(569, 439, 173, 33);
 	    passwordLabel.setFont(new Font("Arial", Font.BOLD, 12));
 	    passwordField.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -351,14 +354,18 @@ public class MenuPrincipalCliente extends JPanel {
 	    JButton saveButton = new JButton("Guardar cambios");
 	    saveButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-
+	        	char[] passwordChars = passwordField.getPassword();
+	        	String nuevaContra = new String(passwordChars);
+	        	controller.cambiarContrasenya(cliente,nuevaContra);
+	    	    cliente.setContrasena(nuevaContra);
 	        }
 	    });
 	    
 	    JButton bajaButton = new JButton("Darse de baja");
-	    saveButton.addActionListener(new ActionListener() {
+	    bajaButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-
+	        	controller.darBajaUsusario(cliente.getDNI());
+	        	cardLayout.show(parentPanel, "home");
 	        }
 	    });
 	    

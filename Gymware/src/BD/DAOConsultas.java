@@ -35,8 +35,6 @@ public class DAOConsultas {
     }
     
     public boolean DNIDisponible(String DNI) throws SQLException{
-        if(DNI.length() != 9)
-            return false;
 
         String query = "SELECT DNI FROM usuarios;";
         
@@ -285,7 +283,7 @@ public class DAOConsultas {
 	public List<Actividad> obtenerActividadPorDNI(String dni) throws SQLException {
 		List<Actividad> ret = new ArrayList<>();
 		
-		String query = "SELECT A.Id, A.Nombre, A.horario, A.Nombre_profesor, A.id_Aula "
+		String query = "SELECT A.Id, A.Nombre, A.horario, A.DNI_Profesor, A.id_Aula "
 					 + "FROM Actividad A JOIN participantes P ON A.Id = P.Id_Actividad "
 					 + "WHERE P.DNICliente = '" + dni + "';";
 		
@@ -293,7 +291,7 @@ public class DAOConsultas {
 		
 		while(rs.next()) {
 	        List<String> participantes = getListaParticipantes(rs.getInt("id"));
-	        ret.add(new Actividad(rs.getInt("id"), rs.getString("Nombre"), rs.getString("Horario"), rs.getString("Nombre_profesor"), rs.getInt("id_Aula"), participantes));
+	        ret.add(new Actividad(rs.getInt("id"), rs.getString("Nombre"), rs.getString("Horario"), rs.getString("DNI_Profesor"), rs.getInt("id_Aula"), participantes));
 		}
 		
 		return ret;
@@ -302,7 +300,7 @@ public class DAOConsultas {
 	public List<Actividad> getActNoInscrito(String dni) throws SQLException {
 	    List<Actividad> ret = new ArrayList<>();
 
-	    String query = "SELECT A.Id, A.Nombre, A.horario, A.Nombre_profesor, A.id_Aula " +
+	    String query = "SELECT A.Id, A.Nombre, A.horario, A.DNI_Profesor, A.id_Aula " +
 	                   "FROM Actividad A " +
 	                   "WHERE A.Id NOT IN (SELECT Id_Actividad FROM participantes WHERE DNICliente = '" + dni + "')";
 
@@ -310,7 +308,7 @@ public class DAOConsultas {
 
 	    while(rs.next()) {
 	        List<String> participantes = getListaParticipantes(rs.getInt("id"));
-	        ret.add(new Actividad(rs.getInt("id"), rs.getString("Nombre"), rs.getString("Horario"), rs.getString("Nombre_profesor"), rs.getInt("id_Aula"), participantes));
+	        ret.add(new Actividad(rs.getInt("id"), rs.getString("Nombre"), rs.getString("Horario"), rs.getString("DNI_Profesor"), rs.getInt("id_Aula"), participantes));
 	    }
 
 	    return ret;
@@ -328,7 +326,7 @@ public class DAOConsultas {
 
 	        List<String> participantes = getListaParticipantes(rs.getInt("id"));
 
-	        ret.add(new Actividad(rs.getInt("id"), rs.getString("Nombre"), rs.getString("Horario"), rs.getString("Nombre_profesor"), rs.getInt("id_Aula"), participantes));
+	        ret.add(new Actividad(rs.getInt("id"), rs.getString("Nombre"), rs.getString("Horario"), rs.getString("DNI_Profesor"), rs.getInt("id_Aula"), participantes));
 	    }
 
 	    return ret;

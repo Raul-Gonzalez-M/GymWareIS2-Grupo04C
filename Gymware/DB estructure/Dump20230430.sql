@@ -26,11 +26,13 @@ CREATE TABLE `actividad` (
   `Id` int NOT NULL,
   `Nombre` varchar(20) NOT NULL,
   `Horario` varchar(50) NOT NULL,
-  `Nombre_profesor` varchar(40) DEFAULT NULL,
+  `DNI_Profesor` varchar(9) NOT NULL,
   `Id_Aula` int NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `actividad_ibfk_1` (`Id_Aula`),
-  CONSTRAINT `actividad_ibfk_1` FOREIGN KEY (`Id_Aula`) REFERENCES `aula` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `fk_dniprofe_usuario_idx` (`DNI_Profesor`),
+  CONSTRAINT `actividad_ibfk_1` FOREIGN KEY (`Id_Aula`) REFERENCES `aula` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_dniprofe_usuario` FOREIGN KEY (`DNI_Profesor`) REFERENCES `usuarios` (`DNI`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -40,7 +42,7 @@ CREATE TABLE `actividad` (
 
 LOCK TABLES `actividad` WRITE;
 /*!40000 ALTER TABLE `actividad` DISABLE KEYS */;
-INSERT INTO `actividad` VALUES (1,'Spinning','13:00-15:00','juan',1),(2,'Pole','14:00-15:00','alex',1),(3,'AguaGym','17:00-19:00','pepe',1);
+INSERT INTO `actividad` VALUES (1,'Spinning','13:00-15:00','2',1),(2,'Pole','14:00-15:00','2',1),(3,'AguaGym','17:00-19:00','3',1);
 /*!40000 ALTER TABLE `actividad` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,10 +155,7 @@ DROP TABLE IF EXISTS `participantes`;
 CREATE TABLE `participantes` (
   `Id_actividad` int NOT NULL,
   `DNICliente` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`Id_actividad`),
-  KEY `fk_participantes_usuario_idx` (`DNICliente`),
-  CONSTRAINT `fk_participantes_actividad` FOREIGN KEY (`Id_actividad`) REFERENCES `actividad` (`Id`),
-  CONSTRAINT `fk_participantes_usuario` FOREIGN KEY (`DNICliente`) REFERENCES `usuarios` (`DNI`)
+  UNIQUE KEY `uc_actividad_cliente` (`Id_actividad`,`DNICliente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -166,7 +165,7 @@ CREATE TABLE `participantes` (
 
 LOCK TABLES `participantes` WRITE;
 /*!40000 ALTER TABLE `participantes` DISABLE KEYS */;
-INSERT INTO `participantes` VALUES (1,'1'),(2,'1');
+INSERT INTO `participantes` VALUES (1,'1'),(1,'3'),(2,'1');
 /*!40000 ALTER TABLE `participantes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,7 +217,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES ('1','admin','adminpass','cliente',NULL,NULL),('2','juan','123','personal',NULL,NULL),('3','alex','123','cliente',NULL,NULL),('77777777A','aaa','aaa','Cliente','2023-04-29',0.00);
+INSERT INTO `usuarios` VALUES ('1','admin','adminpass','cliente','2023-04-29',1000.00),('2','juan','123','personal','2023-04-29',0.00),('3','alex','123','cliente','2023-04-29',100.00);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -231,4 +230,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-29 14:42:09
+-- Dump completed on 2023-04-30 13:21:52

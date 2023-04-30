@@ -90,9 +90,8 @@ public class RegisterWindow extends JPanel {
 				String nombre = nombreTextField.getText();
 				String password = new String(passwordField.getPassword());
 				
-				// Comprobamos que el DNI no esté vaco y tenga el formato correcto
-				if (dni.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Introduce un DNI válido.");
+				if (dni.length() != 9) {
+					JOptionPane.showMessageDialog(null, "Introduce un DNI válido");
 					return;
 				}
 				

@@ -20,7 +20,6 @@ public class GymController {
         try {
 			this.consulta = new DAOConsultas(bd);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -444,6 +443,27 @@ public class GymController {
 	public void setSaldo(Cliente cliente) {
 		try {
 			cambios.setSaldo(cliente);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();	
+			
+		}
+	}
+
+	public void cambiarContrasenya(Cliente cliente, String nuevaContra) {
+		try {
+			cambios.cambiarContrasenya(cliente,nuevaContra);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();	
+			
+		}
+		
+	}
+
+	public void darBajaUsusario(String DNI) {
+		try {
+			cambios.darBajaUsusario(DNI);
 		}
 		catch (SQLException e) {
 			e.printStackTrace();	

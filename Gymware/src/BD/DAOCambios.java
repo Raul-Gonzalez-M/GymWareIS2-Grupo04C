@@ -23,7 +23,7 @@ public class DAOCambios{
 		}
 	}
 	public void insertarCliente(String DNI, String nombre, String contrasenya, double saldo) throws SQLException{
-		String query = "INSERT INTO Usuarios values(?, ?, ?, 'Cliente', curdate(), ?)";
+		String query = "INSERT INTO Usuarios values(?, ?, ?, 'cliente', curdate(), ?)";
 		try ( PreparedStatement st = bd.getConnection().prepareStatement( query )) {
 			st.setString(1, DNI);
 			st.setString (2, nombre);
@@ -259,6 +259,17 @@ public class DAOCambios{
 		String query = "UPDATE usuarios SET saldo = " + cliente.getSaldo() + " WHERE dni = '" + cliente.getDNI() + "';";
 	    executeUpdate(query);
 	}
+
+	public void cambiarContrasenya(Cliente cliente, String nuevaContra)throws SQLException {
+	    String query = "UPDATE usuarios SET Contrasenya = '" + nuevaContra + "' WHERE dni = '" + cliente.getDNI() + "';";
+	    executeUpdate(query);
+	}
+
+	public void darBajaUsusario(String DNI)throws SQLException {
+		String query = "DELETE FROM usuarios WHERE dni = '" + DNI + "';";
+	    executeUpdate(query);
+	}
+
 
 	
 }

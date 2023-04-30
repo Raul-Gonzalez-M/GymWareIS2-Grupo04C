@@ -32,6 +32,10 @@ public class LoginWindow extends JPanel {
 		this.parentPanel = pp;
         this.cardLayout = (CardLayout) parentPanel.getLayout();
 		setLayout(null);
+		inicializar();
+	}
+	
+	private void inicializar() {
 		
 		JLabel lblUsername = new JLabel("DNI");
 		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -59,19 +63,19 @@ public class LoginWindow extends JPanel {
 		        String password = new String(passwordField.getPassword());
 				Usuario usuarioActual = null;
 				if(controller.verificarCredenciales(DNI, password)){
-					usuarioActual = controller.obtenerClientePorDNI(DNI);
+					usuarioActual = controller.obtenerUsuarioPorDNI(DNI);
 				}
 		        if(usuarioActual != null) {
 		        	controller.setUsuario(usuarioActual);
 		        	usuarioActual.setActividades(controller.obtenerActividadPorDNI(usuarioActual.getDNI()));
 		            JOptionPane.showMessageDialog(LoginWindow.this, "¡Bienvenido " + usuarioActual.getNombre() + "!", "Inicio de sesión exitoso", JOptionPane.INFORMATION_MESSAGE);
 		            if (usuarioActual instanceof Cliente) {
-		            	MenuPrincipalCliente menuCliente = new MenuPrincipalCliente(controller, usuarioActual);
-		            	pp.add(menuCliente, "menuCliente");
+		            	MenuPrincipalCliente menuCliente = new MenuPrincipalCliente(controller, usuarioActual,parentPanel);
+		            	parentPanel.add(menuCliente, "menuCliente");
 		                cardLayout.show(parentPanel, "menuCliente");
 		            } else if (usuarioActual instanceof Personal) {
 		            	 MenuPrincipalPersonal menuPersonal = new MenuPrincipalPersonal(controller, usuarioActual);
-		            	 pp.add(menuPersonal, "menuPersonal");
+		            	 parentPanel.add(menuPersonal, "menuPersonal");
 		            	 cardLayout.show(parentPanel, "menuPersonal");
 		            } else {
 		                JOptionPane.showMessageDialog(LoginWindow.this, "Error al obtener el tipo de usuario", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
