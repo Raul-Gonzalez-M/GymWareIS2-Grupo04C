@@ -216,8 +216,8 @@ public class GymController {
     /*
      * MATERIAL
      */
-    public void agregarMaterial(String nombre, double precio) {
-        Material nuevoMaterial = new Material(nombre, precio);
+    public void agregarMaterial(int id, String nombre, int precio, int cantidad_disponible, String actividad_asociada) {
+        Material nuevoMaterial = new Material(id, nombre, precio, cantidad_disponible, actividad_asociada);
         try {
 			cambios.insertarMaterial(nuevoMaterial);
 		} catch (SQLException e) {
@@ -469,6 +469,17 @@ public class GymController {
 			e.printStackTrace();	
 			
 		}
+	}
+
+	public List<Cliente> getListaClientes() {
+		try {
+			return consulta.getListaClientes();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();	
+			
+		}
+		return null;
 	}
 
 

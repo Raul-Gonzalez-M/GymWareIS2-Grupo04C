@@ -2,11 +2,8 @@ package model;
 
 public class Pole extends Material {
 
-	public Pole(double precio, int unidades) {
-		super("Pole", precio, unidades);
+	public Pole(int id, String nombre, int precio, int cantidad_disponible, String actividad_asociada) {
+		super(id, "Pole", precio, cantidad_disponible, actividad_asociada);
 	}
-	
-	public Pole(double precio) {
-		super("Pole", precio);
-	}
+
 }

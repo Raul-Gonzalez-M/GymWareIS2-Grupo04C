@@ -3,7 +3,12 @@ import javax.swing.*;
 
 import controller.Controller;
 import controller.GymController;
+import model.Actividad;
+import model.Cliente;
 import model.Usuario;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 
 public class MenuPrincipalPersonal extends JPanel {
@@ -15,71 +20,59 @@ public class MenuPrincipalPersonal extends JPanel {
 	public MenuPrincipalPersonal(Controller controller, Usuario usuarioActual) {
 	    this.controller = controller;
 	    this.usuario = usuarioActual;
-	    //initComponents();
+	    initComponents();
 	}
 
 	private void initComponents() {
 	    tabbedPane = new JTabbedPane();
 	  
-	    //tabbedPane.addTab("Usuarios", createUserPanel());
+	    tabbedPane.addTab("Usuarios", createUserPanel());
 	    //tabbedPane.addTab("Actividades", createActivityPanel());
 	    //tabbedPane.addTab("Materiales", createMaterialPanel());
 	    
 
+	    setLayout(new BorderLayout());
+	    add(tabbedPane, BorderLayout.CENTER);
+
 	    setSize(1200, 800);
-	    getRootPane().add(tabbedPane, BorderLayout.CENTER);
 	}
 	
 	
-	/*public JPanel createUserPanel() {
-	    JPanel panel = new JPanel(new BorderLayout());
+	public JPanel createUserPanel() {
+	    JPanel userPanel = new JPanel(new BorderLayout());
 
-	    // Tabla de usuarios
-	    JTable table = new JTable();
-	    DefaultTableModel model = new DefaultTableModel(new Object[]{"DNI", "Nombre", "Apellido", "Email", "Rol"}, 0);
-	    for (Usuario usuario : gymController.obtenerUsuarios()) {
-	        model.addRow(new Object[]{usuario.getDNI(), usuario.getNombre(), usuario.getApellido(),
-	                                  usuario.getEmail(), usuario.getRol()});
+	    String[] columnNames = {"DNI", "Nombre", "Contraseña", "Saldo"};
+	    DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+	    for (Cliente cliente : controller.getListaClientes()) {
+	        model.addRow(new Object[]{
+	        		cliente.getDNI(),
+	        		cliente.getNombre(),
+	        		cliente.getContrasena(),
+	        		cliente.getSaldo(),
+	        });
 	    }
-	    table.setModel(model);
+	    JTable userTable = new JTable(model);
 
-	    // Botones para modificar y eliminar usuarios
-	    JPanel buttonsPanel = new JPanel(new FlowLayout());
-	    JButton modifyButton = new JButton("Modificar Usuario");
-	    modifyButton.addActionListener(e -> {
-	        int row = table.getSelectedRow();
-	        if (row != -1) {
-	            String dni = (String) model.getValueAt(row, 0);
-	            Usuario usuario = gymController.buscarUsuario(dni);
-	            if (usuario != null) {
-	                ModifyUserDialog modifyUserDialog = new ModifyUserDialog(this, "Modificar Usuario", true, usuario);
-	                modifyUserDialog.setVisible(true);
-	                if (modifyUserDialog.isModified()) {
-	                    model.setValueAt(()usuario.getNombre(), row, 1);
-	                    //model.setValueAt(usuario.getApellido(), row, 2);
-	                    //model.setValueAt(usuario.getEmail(), row, 3);
-	                    //model.setValueAt(usuario.getRol(), row, 4);
-	                }
-	            }
+	    userTable.setEnabled(true);
+	    userTable.setFillsViewportHeight(true);
+	    JScrollPane scrollPane = new JScrollPane(userTable);
+	    userPanel.add(scrollPane, BorderLayout.CENTER);
+
+	    JButton saveButton = new JButton("Guardar cambios");
+	    saveButton.addActionListener(e -> {
+	        for (int row = 0; row < model.getRowCount(); row++) {
+	            int DNI = (int) model.getValueAt(row, 0);
+	            String nombre = (String) model.getValueAt(row, 1);
+	            String contrasenya = (String) model.getValueAt(row, 2);
+	            double saldo = (int) model.getValueAt(row, 3);
+
+	            //controller.actualizarCliente(id, nombre, apellido, edad, correoElectronico);
 	        }
+	        JOptionPane.showMessageDialog(userPanel, "Los cambios se han guardado correctamente.");
 	    });
+	    userPanel.add(saveButton, BorderLayout.SOUTH);
 
-	    JButton deleteButton = new JButton("Eliminar Usuario");
-	    deleteButton.addActionListener(e -> {
-	        int row = table.getSelectedRow();
-	        if (row != -1) {
-	            String dni = (String) model.getValueAt(row, 0);
-	            gymController.eliminarUsuario(dni);
-	            model.removeRow(row);
-	        }
-	    });
+	    return userPanel;
+	}
 
-	    buttonsPanel.add(modifyButton);
-	    buttonsPanel.add(deleteButton);
-
-	    panel.add(new JScrollPane(table), BorderLayout.CENTER);
-	    panel.add(buttonsPanel, BorderLayout.SOUTH);
-
-	    return panel;
-	}*/
 }

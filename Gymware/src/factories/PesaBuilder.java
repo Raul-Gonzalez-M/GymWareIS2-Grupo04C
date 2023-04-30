@@ -10,11 +10,11 @@ public class PesaBuilder extends Builder<Material>{
 	}
 
 	@Override
-	protected Material createInstance(String name, double precio) {
+	protected Material createInstance(int id, String nombre, int precio, int cantidad_disponible, String actividad_asociada) {
 		if(precio <= 0)
 			throw new IllegalArgumentException("El precio debe ser mayor que cero.");
 		
-		return new Pesa(precio);
+		return new Pesa(id, nombre, precio, cantidad_disponible, actividad_asociada);
 	}
 
 }

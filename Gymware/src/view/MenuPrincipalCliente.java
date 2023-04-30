@@ -34,9 +34,9 @@ public class MenuPrincipalCliente extends JPanel {
 
 	    tabbedPane.addTab("Actividades Disponibles", createActividadesDisponibles());
 	    tabbedPane.addTab("Actividades Inscritas", createActividadesInscritas());
-	    //tabbedPane.addTab("Encuestas", createEncuestaPanel());
+	    //tabbedPane.addTab("Compra Materiales", createMaterialesPanel());
 	    //tabbedPane.addTab("Mis Materiales", createMisMaterialesPanel());
-	    //tabbedPane.addTab("Compra Materiales", createMisMaterialesPanel());
+	    //tabbedPane.addTab("Encuestas", createEncuestaPanel());
 	    tabbedPane.addTab("Mi Perfil", createProfilePanel());
 	    
 	    setLayout(new BorderLayout());
@@ -107,21 +107,6 @@ public class MenuPrincipalCliente extends JPanel {
 
 	    return activitiesPanel;
 	}
-	
-	private void updateActividadesDisponibles(JTable activitiesTable) {
-
-	    NonEditableTableModel model = (NonEditableTableModel) activitiesTable.getModel();
-	    model.setRowCount(0); // Borrar filas anteriores
-	    for (Actividad actividad : controller.getActNoInscrito(usuario.getDNI())) {
-	        model.addRow(new Object[]{
-	                actividad.getNombre(),
-	                actividad.getHorario(),
-	                controller.obtenerUsuarioPorDNI(actividad.getDNIProfesor()).getNombre(),
-	                actividad.getPlazasDisponibles()
-	        });
-	    }
-	    activitiesTable.setModel(model); // Actualizar vista de la tabla
-	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private JPanel createActividadesInscritas() {
 	    JPanel activitiesPanel = new JPanel(new BorderLayout());
@@ -133,7 +118,7 @@ public class MenuPrincipalCliente extends JPanel {
 	        model.addRow(new Object[]{
 	                actividad.getNombre(),
 	                actividad.getHorario(),
-	                actividad.getDNIProfesor(),
+	                controller.obtenerUsuarioPorDNI(actividad.getDNIProfesor()).getNombre(),
 	                actividad.getPlazasDisponibles()
 	        });
 	    }
@@ -183,21 +168,42 @@ public class MenuPrincipalCliente extends JPanel {
 	    return activitiesPanel;
 	}
 
-	private void updateActividadesInscritas(JTable activitiesTable) {
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/*private JPanel createMaterialesPanel() {
+		JPanel materialesPanel = new JPanel(new BorderLayout());
 
-	    NonEditableTableModel model = (NonEditableTableModel) activitiesTable.getModel();
-	    model.setRowCount(0); // Borrar filas anteriores
-	    for (Actividad actividad : controller.obtenerActividadPorDNI(usuario.getDNI())) {
+
+	    JTable materialesTable = new JTable();
+	    NonEditableTableModel model = new NonEditableTableModel(new Object[]{"Material", "Descripción", "Actividad asociada", "Precio"}, 0);
+	    for (Material material : controller.getMaterialesDisponibles()) {
 	        model.addRow(new Object[]{
-	                actividad.getNombre(),
-	                actividad.getHorario(),
-	                actividad.getDNIProfesor(),
-	                actividad.getPlazasDisponibles()
+	        		
 	        });
 	    }
-	    activitiesTable.setModel(model); // Actualizar vista de la tabla
-	}
+	    materialesTable.setModel(model);
 
+	    JButton comprarButton = new JButton("Comprar");
+	    comprarButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            
+	        }
+	    });
+	    
+	    JButton actualizarButton = new JButton("Actualizar");
+	    actualizarButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	        	updateMaterialesDisponibles(materialesTable);
+	        }
+	    });
+	    
+	    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	    buttonPanel.add(comprarButton);
+	    buttonPanel.add(actualizarButton);
+	    materialesPanel.add(new JScrollPane(materialesTable), BorderLayout.CENTER);
+	    materialesPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+	    return materialesPanel;
+	}*/
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/*private JPanel createEncuestaPanel() {
 	    JPanel surveyPanel = new JPanel();
@@ -237,62 +243,8 @@ public class MenuPrincipalCliente extends JPanel {
 	    }
 
 	    return surveyPanel;
-	}
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/*private JPanel createMaterialsPanel() {
-	    JPanel panel = new JPanel();
-	    panel.setLayout(new BorderLayout());
-
-	    // tabla de materiales
-	    DefaultTableModel model = new DefaultTableModel(new Object[]{"ID", "Nombre", "Descripción", "Cantidad", "Precio"}, 0);
-	    JTable table = new JTable(model);
-	    JScrollPane scrollPane = new JScrollPane(table);
-	    panel.add(scrollPane, BorderLayout.CENTER);
-
-	    // botón para agregar un nuevo material
-	    JButton addButton = new JButton("Agregar");
-	    addButton.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            MaterialDialog dialog = new MaterialDialog();
-	            dialog.setVisible(true);
-	            if (dialog.getMaterial() != null) {
-	            	controller.agregarMaterial(dialog.getMaterial());
-	                model.addRow(new Object[]{dialog.getMaterial().getId(), dialog.getMaterial().getNombre(),
-	                                          dialog.getMaterial().getDescripcion(), dialog.getMaterial().getCantidad(),
-	                                          dialog.getMaterial().getPrecio()});
-	            }
-	        }
-	    });
-
-	    // botón para eliminar un material seleccionado de la tabla
-	    JButton removeButton = new JButton("Eliminar");
-	    removeButton.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            int row = table.getSelectedRow();
-	            if (row != -1) {
-	                String id = model.getValueAt(row, 0).toString();
-	                controller.eliminarMaterial(id);
-	                model.removeRow(row);
-	            }
-	        }
-	    });
-
-	    // panel de botones de acción
-	    JPanel buttonPanel = new JPanel();
-	    buttonPanel.add(addButton);
-	    buttonPanel.add(removeButton);
-	    panel.add(buttonPanel, BorderLayout.SOUTH);
-
-	    // carga inicial de los materiales en la tabla
-	    for (Material material : controller.obtenerMateriales()) {
-	        model.addRow(new Object[]{material.getId(), material.getNombre(), material.getDescripcion(),
-	                                  material.getCantidad(), material.getPrecio()});
-	    }
-
-	    return panel;
 	}*/
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private JPanel createProfilePanel() {
 	    Cliente cliente = (Cliente) usuario;
@@ -392,6 +344,47 @@ public class MenuPrincipalCliente extends JPanel {
 
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	private void updateActividadesInscritas(JTable activitiesTable) {
+
+	    NonEditableTableModel model = (NonEditableTableModel) activitiesTable.getModel();
+	    model.setRowCount(0); // Borrar filas anteriores
+	    for (Actividad actividad : controller.obtenerActividadPorDNI(usuario.getDNI())) {
+	        model.addRow(new Object[]{
+	                actividad.getNombre(),
+	                actividad.getHorario(),
+	                controller.obtenerUsuarioPorDNI(actividad.getDNIProfesor()).getNombre(),
+	                actividad.getPlazasDisponibles()
+	        });
+	    }
+	    activitiesTable.setModel(model);
+	}
+	
+	private void updateActividadesDisponibles(JTable activitiesTable) {
+
+	    NonEditableTableModel model = (NonEditableTableModel) activitiesTable.getModel();
+	    model.setRowCount(0); // Borrar filas anteriores
+	    for (Actividad actividad : controller.getActNoInscrito(usuario.getDNI())) {
+	        model.addRow(new Object[]{
+	                actividad.getNombre(),
+	                actividad.getHorario(),
+	                controller.obtenerUsuarioPorDNI(actividad.getDNIProfesor()).getNombre(),
+	                actividad.getPlazasDisponibles()
+	        });
+	    }
+	    activitiesTable.setModel(model); // Actualizar vista de la tabla
+	}
+	
+	private void updateMaterialesDisponibles(JTable materialesTable) {
+
+	    NonEditableTableModel model = (NonEditableTableModel) materialesTable.getModel();
+	    model.setRowCount(0); 
+	    for (Actividad actividad : controller.getActNoInscrito(usuario.getDNI())) {
+	        model.addRow(new Object[]{
+	                
+	        });
+	    }
+	    materialesTable.setModel(model); // Actualizar vista de la tabla
+	}
 	private class NonEditableTableModel extends DefaultTableModel {
 	    public NonEditableTableModel(Object[] columnNames, int rowCount) {
 	        super(columnNames, rowCount);

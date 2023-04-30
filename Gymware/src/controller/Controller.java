@@ -85,6 +85,15 @@ public class Controller {
 		
 	}
 
+	public Material[] getMaterialesDisponibles() {
+
+		return null;
+	}
+
+	public List<Cliente> getListaClientes() {
+		return gymcontroller.getListaClientes();
+	}
+
 
 }
 

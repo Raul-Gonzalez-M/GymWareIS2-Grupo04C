@@ -89,8 +89,7 @@ public class DAOConsultas {
 		ResultSet rs = executeQueryAux(query);
 		
 		if(rs.next())
-			return new Cliente(rs.getString("DNI"), rs.getString("Nombre"), rs.getString("Contrasenya")
-				         , rs.getString("FechaAlta"), rs.getDouble("Saldo"));
+			return new Cliente(rs.getString("DNI"), rs.getString("Nombre"), rs.getString("Contrasenya"), rs.getString("FechaAlta"), rs.getDouble("Saldo"));
 		return null;
 	}
 
@@ -104,8 +103,7 @@ public class DAOConsultas {
 		ResultSet rs = executeQueryAux(query);
 		
 		while(rs.next()) {
-			ret.add(new Cliente(rs.getString("DNI"), rs.getString("Nombre"), rs.getString("Contrasenya")
-				         , rs.getString("FechaAlta"),  rs.getDouble("Saldo")));
+			ret.add(new Cliente(rs.getString("DNI"), rs.getString("Nombre"), rs.getString("Contrasenya"), rs.getString("FechaAlta"),  rs.getDouble("Saldo")));
 		}
 		
 		return ret;
@@ -149,7 +147,7 @@ public class DAOConsultas {
 		
 		rs.next();
 		
-		return new Material(rs.getString("Nombre"), rs.getDouble("Precio"), rs.getInt("Unidades"));
+		return new Material(rs.getInt("Id"),rs.getString("Nombre"), rs.getInt("Precio"), rs.getInt("Cantidad_disponible"), rs.getString("Actividad"));
 	}
 
 	public List<Material> obtenerMateriales() throws SQLException {
@@ -161,7 +159,7 @@ public class DAOConsultas {
 		ResultSet rs = executeQueryAux(query);
 		
 		while(rs.next()) {
-			ret.add(new Material(rs.getString("Nombre"), rs.getDouble("Precio"), rs.getInt("Unidades")));
+			ret.add(new Material(rs.getInt("Id"),rs.getString("Nombre"), rs.getInt("Precio"), rs.getInt("Cantidad_disponible"), rs.getString("Actividad")));
 		}
 		
 		return ret;
@@ -354,6 +352,25 @@ public class DAOConsultas {
 
 	    return ret;
 	}
+
+	public List<Cliente> getListaClientes() throws SQLException {
+	    List<Cliente> ret = new ArrayList<>();
+
+	    String query = "SELECT * FROM Usuarios;";
+
+	    PreparedStatement stmt = bd.getConnection().prepareStatement(query);
+	    ResultSet rs = stmt.executeQuery();
+
+	    while (rs.next()) {
+	    	ret.add(new Cliente(rs.getString("DNI"), rs.getString("Nombre"), rs.getString("Contrasenya"), rs.getString("FechaAlta"),  rs.getDouble("Saldo")));
+	    }
+
+	    rs.close();
+	    stmt.close();
+
+	    return ret;
+	}
+
 
 
 

@@ -20,11 +20,11 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 	}
 
 
-	public T createInstance(String name, double precio) {
+	public T createInstance(int id, String nombre, int precio, int cantidad_disponible, String actividad_asociada) {
 		T ret;
 		
-		if(builders.containsKey(name))
-			ret = builders.get(name).createInstance(name, precio);
+		if(builders.containsKey(nombre))
+			ret = builders.get(nombre).createInstance(id, nombre, precio, cantidad_disponible, actividad_asociada);
 		else
 			throw new IllegalArgumentException("Material no valido...");
 		

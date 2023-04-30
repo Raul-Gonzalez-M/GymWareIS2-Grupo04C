@@ -3,18 +3,16 @@ package model;
 public class Material {
     private int id;
     private String nombre;
-    private String descripcion;
-    private double precio;
-    private int unidades;
-
-    public Material(String nombre, double precio, int unidades){
+    private int precio;
+    private int cantidad_disponible;
+    private String actividad_asociada;
+    
+    
+    public Material(int id, String nombre, int precio, int cantidad_disponible, String actividad_asociada){
         this.nombre = nombre;
         this.precio = precio;
-        this.unidades = unidades;
-    }
-    
-    public Material(String nombre, double precio) {
-    	this(nombre, precio, 1);
+        this.cantidad_disponible = cantidad_disponible;
+        this.actividad_asociada = actividad_asociada;
     }
 
     public int getId() {
@@ -33,31 +31,28 @@ public class Material {
         this.nombre = nombre;
     }
 
-    public String getDescripcion(){
-        return this.descripcion;
-    }
-
-    public void setDescripcion(String descripcion){
-        this.descripcion = descripcion;
-    }
-
     public double getPrecio(){
         return this.precio;
     }
 
-    public void setPrecio(double precio){
+    public void setPrecio(int precio){
         this.precio = precio;
     }
-
-    public int getUnidades(){
-        return this.unidades;
+    
+    public double getCantidad_disponible(){
+        return this.cantidad_disponible;
     }
 
-    public void setCantidad(int unidades){
-        this.unidades = unidades;
+    public void setCantidad_disponible(int cantidad_disponible){
+        this.cantidad_disponible = cantidad_disponible;
+    }
+    
+    public String getActividad_asociada(){
+        return this.actividad_asociada;
     }
 
-    public void incUnidades(){
-        this.unidades++;
+    public void setActividad_asociada(String marca){
+        this.actividad_asociada = marca;
     }
+
 }

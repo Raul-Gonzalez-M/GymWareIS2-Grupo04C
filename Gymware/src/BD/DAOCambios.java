@@ -177,7 +177,7 @@ public class DAOCambios{
 		String query = "INSERT INTO Material VALUES('" 
 					  + nuevoMaterial.getNombre() + "', "
 					  + nuevoMaterial.getPrecio() + ", "
-					  + nuevoMaterial.getUnidades() + ");";
+					  + nuevoMaterial.getCantidad_disponible() + ");";
 		
 		executeUpdate(query);
 	}
@@ -192,7 +192,7 @@ public class DAOCambios{
 	public void actualizarMaterial(Material material) throws SQLException {
 		String query = "UPDATE TABLE Material "
 					 + "SET Precio = " + material.getPrecio() + ", "
-					 + "Unidades = " + material.getUnidades() + " "
+					 + "Unidades = " + material.getCantidad_disponible() + " "
 					 + "WHERE Nombre = '" + material.getNombre() + "';";
 		
 		executeUpdate(query);

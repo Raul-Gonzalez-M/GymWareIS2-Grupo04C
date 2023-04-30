@@ -16,5 +16,5 @@ public abstract class Builder<T> {
 		return this.tag;
 	}
 	
-	protected abstract T createInstance(String name, double precio);
+	protected abstract T createInstance(int id, String nombre, int precio, int cantidad_disponible, String actividad_asociada);
 }

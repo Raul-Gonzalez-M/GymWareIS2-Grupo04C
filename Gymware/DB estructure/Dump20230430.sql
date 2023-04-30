@@ -129,10 +129,12 @@ DROP TABLE IF EXISTS `material`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `material` (
-  `Nombre` varchar(20) NOT NULL,
-  `Precio` decimal(12,2) DEFAULT NULL,
-  `Unidades` int NOT NULL,
-  PRIMARY KEY (`Nombre`)
+  `Id` int NOT NULL,
+  `Nombre` varchar(45) DEFAULT NULL,
+  `Precio` int DEFAULT NULL,
+  `Actividad` varchar(45) DEFAULT NULL,
+  `Cantidad_disponible` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -142,6 +144,7 @@ CREATE TABLE `material` (
 
 LOCK TABLES `material` WRITE;
 /*!40000 ALTER TABLE `material` DISABLE KEYS */;
+INSERT INTO `material` VALUES (0,'Pesa',10,'Gym','50');
 /*!40000 ALTER TABLE `material` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,7 +220,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES ('1','admin','adminpass','cliente','2023-04-29',1000.00),('2','juan','123','personal','2023-04-29',0.00),('3','alex','123','cliente','2023-04-29',100.00);
+INSERT INTO `usuarios` VALUES ('1','admin','adminpass','cliente','2023-04-29',1000.00),('2','juan','123','personal','2023-04-29',0.00),('3','alex','123','cliente','2023-04-29',500.00),('4','pepe','123','personal','2023-04-30',500.00);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -230,4 +233,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-30 13:21:52
+-- Dump completed on 2023-04-30 20:25:35

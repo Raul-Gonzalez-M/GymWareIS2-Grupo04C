@@ -9,12 +9,11 @@ public class EsterillaBuilder extends Builder<Material>{
 		super("Esterilla");
 	}
 
-	@Override
-	protected Material createInstance(String name, double precio) {
+	protected Material createInstance(int id, String nombre, int precio, int cantidad_disponible, String actividad_asociada) {
 		if(precio <= 0)
 			throw new IllegalArgumentException("El precio debe ser mayor que cero.");
 		
-		return new Esterilla(precio);
+		return new Esterilla(id, nombre, precio, cantidad_disponible, actividad_asociada);
 	}
 
 }

@@ -76,8 +76,8 @@ public class MaterialDialog extends JDialog {
                         return;
                     }
                     
-                    Material material = new Material(nombre, precio, 1);
-                    gymController.agregarMaterial(material);
+                    //Material material = new Material(nombre, precio, 1);
+                    //gymController.agregarMaterial(material);
                     
                     JOptionPane.showMessageDialog(MaterialDialog.this, "Material agregado exitosamente.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
                     dispose();
