@@ -1,9 +1,17 @@
 package BD;
 
 import java.sql.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import factories.Builder;
+import factories.BuilderBasedFactory;
+import factories.ChurroBuilder;
+import factories.EsterillaBuilder;
+import factories.Factory;
+import factories.PesaBuilder;
+import factories.PoleBuilder;
 import model.Actividad;
 import model.Aula;
 import model.Cliente;
@@ -19,10 +27,17 @@ public class DAOConsultas {
 	
     private Statement stmt;
     private ConexionBD bd;
+    private Factory<Material> materialFactory;
     
     public DAOConsultas(ConexionBD bd) throws SQLException{
     	this.bd = bd;
         this.stmt = bd.getConnection().createStatement();
+        ArrayList<Builder<Material>> matBuilder = new ArrayList<>();
+        matBuilder.add(new ChurroBuilder());
+        matBuilder.add(new EsterillaBuilder());
+        matBuilder.add(new PesaBuilder());
+        matBuilder.add(new PoleBuilder());
+        materialFactory = new BuilderBasedFactory<Material>(matBuilder);
     }
     
     private ResultSet executeQueryAux(String query) throws SQLException {
@@ -369,6 +384,21 @@ public class DAOConsultas {
 	    stmt.close();
 
 	    return ret;
+	}
+
+	public List<Material> getListaMateriales() throws SQLException {
+		List<Material> ret = new ArrayList<>();
+		
+		String query = "SELECT * FROM MATERIAL";
+		
+		PreparedStatement stmt = bd.getConnection().prepareStatement(query);
+	    ResultSet rs = stmt.executeQuery();
+	    
+	    while(rs.next()) {
+	    	ret.add(materialFactory.createInstance(rs.getInt("Id"), rs.getString("Nombre"), rs.getInt("Precio"), rs.getInt("Cantidad_disponible"), rs.getString("Actividad")));
+	    }
+		
+		return ret;
 	}
 
 

@@ -17,6 +17,7 @@ import model.Usuario;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class LoginWindow extends JPanel {
@@ -70,7 +71,13 @@ public class LoginWindow extends JPanel {
 		        	usuarioActual.setActividades(controller.obtenerActividadPorDNI(usuarioActual.getDNI()));
 		            JOptionPane.showMessageDialog(LoginWindow.this, "¡Bienvenido " + usuarioActual.getNombre() + "!", "Inicio de sesión exitoso", JOptionPane.INFORMATION_MESSAGE);
 		            if (usuarioActual instanceof Cliente) {
-		            	MenuPrincipalCliente menuCliente = new MenuPrincipalCliente(controller, usuarioActual,parentPanel);
+		            	MenuPrincipalCliente menuCliente;
+						try {
+							menuCliente = new MenuPrincipalCliente(controller, usuarioActual,parentPanel);
+						} catch (SQLException e1) {
+							menuCliente = null;
+							e1.printStackTrace();
+						}
 		            	parentPanel.add(menuCliente, "menuCliente");
 		                cardLayout.show(parentPanel, "menuCliente");
 		            } else if (usuarioActual instanceof Personal) {

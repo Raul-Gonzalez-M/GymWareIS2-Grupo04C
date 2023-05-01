@@ -482,5 +482,17 @@ public class GymController {
 		return null;
 	}
 
+	public List<Material> getMaterialesDisponibles() throws SQLException {
+		return consulta.getListaMateriales();
+	}
+
+	public void updateMaterial(String valueAt) throws SQLException {
+		cambios.actualizarMaterial(valueAt);
+	}
+
+	public void setSaldo(double saldo, String string) throws SQLException {
+		cambios.setSaldo(saldo, string);
+	}
+
 
 }

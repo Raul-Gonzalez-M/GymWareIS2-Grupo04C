@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import model.Actividad;
 import model.Cliente;
 import model.Encuesta;
@@ -85,13 +87,30 @@ public class Controller {
 		
 	}
 
-	public Material[] getMaterialesDisponibles() {
-
-		return null;
+	public List<Material> getMaterialesDisponibles() throws SQLException {
+			return gymcontroller.getMaterialesDisponibles();
 	}
 
 	public List<Cliente> getListaClientes() {
 		return gymcontroller.getListaClientes();
+	}
+
+	public void updateMaterial(String valueAt) {
+		try {
+			gymcontroller.updateMaterial(valueAt);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void setSaldo(double saldo, String string) {
+		try {
+			gymcontroller.setSaldo(saldo, string);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 

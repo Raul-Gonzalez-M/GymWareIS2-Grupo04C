@@ -197,6 +197,14 @@ public class DAOCambios{
 		
 		executeUpdate(query);
 	}
+	
+	public void actualizarMaterial(String material) throws SQLException {
+		String query = "UPDATE TABLE Material "
+				+ "SET Cantidad_disponible = Cantidad_Disponible - 1 "
+				+ "WHERE Nombre = '" + material + "';";
+		
+		executeUpdate(query);
+	}
 
 	public void eliminarPersonal(Personal personal) throws SQLException {
 		String query = "DELETE FROM Usuario "
@@ -268,6 +276,14 @@ public class DAOCambios{
 	public void darBajaUsusario(String DNI)throws SQLException {
 		String query = "DELETE FROM usuarios WHERE dni = '" + DNI + "';";
 	    executeUpdate(query);
+	}
+
+	public void setSaldo(double saldo, String string) throws SQLException {
+		String query = "UPDATE TABLE Usuarios "
+				+ "SET Saldo = " + saldo + " "
+						+ "WHERE DNI = '" + string + "';";
+		
+		executeUpdate(query);
 	}
 
 

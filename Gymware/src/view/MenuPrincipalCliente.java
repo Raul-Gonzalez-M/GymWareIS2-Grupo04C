@@ -13,6 +13,8 @@ import controller.Controller;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class MenuPrincipalCliente extends JPanel {
 
@@ -21,7 +23,9 @@ public class MenuPrincipalCliente extends JPanel {
 	private Usuario usuario;
 	private JPanel parentPanel;
 	private CardLayout cardLayout;
-	public MenuPrincipalCliente(Controller controller, Usuario usuarioActual, JPanel parentPanel) {
+	JLabel saldoField;
+	
+	public MenuPrincipalCliente(Controller controller, Usuario usuarioActual, JPanel parentPanel) throws SQLException {
 	    this.controller = controller;
 	    this.usuario = usuarioActual;
 	    this.parentPanel = parentPanel;
@@ -29,12 +33,12 @@ public class MenuPrincipalCliente extends JPanel {
 	    initComponents();
 	}
 	
-	private void initComponents() {
+	private void initComponents() throws SQLException {
 	    tabbedPane = new JTabbedPane();
 
 	    tabbedPane.addTab("Actividades Disponibles", createActividadesDisponibles());
 	    tabbedPane.addTab("Actividades Inscritas", createActividadesInscritas());
-	    //tabbedPane.addTab("Compra Materiales", createMaterialesPanel());
+	    tabbedPane.addTab("Compra Materiales", createMaterialesPanel());
 	    //tabbedPane.addTab("Mis Materiales", createMisMaterialesPanel());
 	    //tabbedPane.addTab("Encuestas", createEncuestaPanel());
 	    tabbedPane.addTab("Mi Perfil", createProfilePanel());
@@ -168,24 +172,45 @@ public class MenuPrincipalCliente extends JPanel {
 	    return activitiesPanel;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/*private JPanel createMaterialesPanel() {
+	private JPanel createMaterialesPanel() throws SQLException {
 		JPanel materialesPanel = new JPanel(new BorderLayout());
 
 
-	    JTable materialesTable = new JTable();
-	    NonEditableTableModel model = new NonEditableTableModel(new Object[]{"Material", "Descripción", "Actividad asociada", "Precio"}, 0);
+		JTable materialesTable = new JTable();
+	    NonEditableTableModel model = new NonEditableTableModel(new Object[]{"Material", "Precio", "Unidades", "Actividad asociada"}, 0);
 	    for (Material material : controller.getMaterialesDisponibles()) {
 	        model.addRow(new Object[]{
-	        		
+	                material.getNombre(),
+	                material.getPrecio(),
+	                material.getCantidad_disponible(),
+	                material.getActividad_asociada()
 	        });
 	    }
+	    
 	    materialesTable.setModel(model);
 
 	    JButton comprarButton = new JButton("Comprar");
 	    comprarButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
+	        	int selectedRow = materialesTable.getSelectedRow();
+	            if (selectedRow == -1) {
+	                JOptionPane.showMessageDialog(null, "Por favor, selecciona un material");
+	                return;
+	            }
+	            double materialSeleccionado = (double) model.getValueAt(selectedRow, 1);
+	            Cliente cliente = (Cliente) usuario;
 	            
+	            if(cliente.getSaldo() > materialSeleccionado) {
+	            	cliente.setSaldo(cliente.getSaldo() - materialSeleccionado);
+	            	saldoField.setText(""+cliente.getSaldo());
+	            	controller.setSaldo(cliente);
+	            	Utils.showErrorMsg("Compra realizada!");
+	            	model.setValueAt((double)model.getValueAt(selectedRow, 2) - 1, selectedRow, 2);
+	            	controller.updateMaterial((String) model.getValueAt(selectedRow, 0));
+	            	model.fireTableDataChanged();
+	            } else {
+	            	Utils.showErrorMsg("No tienes suficiente dinero en tu cuenta");
+	            }
 	        }
 	    });
 	    
@@ -203,8 +228,8 @@ public class MenuPrincipalCliente extends JPanel {
 	    materialesPanel.add(buttonPanel, BorderLayout.SOUTH);
 
 	    return materialesPanel;
-	}*/
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	}
+	
 	/*private JPanel createEncuestaPanel() {
 	    JPanel surveyPanel = new JPanel();
 	    surveyPanel.setLayout(new BorderLayout());
@@ -285,7 +310,7 @@ public class MenuPrincipalCliente extends JPanel {
 
 	    JLabel saldoLabel = new JLabel("Saldo:");
 	    saldoLabel.setBounds(425, 365, 54, 33);
-	    JLabel saldoField = new JLabel(Double.toString(cliente.getSaldo()));
+	    saldoField = new JLabel(Double.toString(cliente.getSaldo()));
 	    saldoField.setBounds(569, 365, 173, 33);
 	    saldoLabel.setFont(new Font("Arial", Font.BOLD, 12));
 	    saldoField.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -316,8 +341,10 @@ public class MenuPrincipalCliente extends JPanel {
 	    JButton bajaButton = new JButton("Darse de baja");
 	    bajaButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	        	controller.darBajaUsusario(cliente.getDNI());
-	        	cardLayout.show(parentPanel, "home");
+	        	if(JOptionPane.showConfirmDialog(formPanel, "¿Está seguro de que desea darse de baja?", "DARSE DE BAJA", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+	        		controller.darBajaUsusario(cliente.getDNI());
+	        		cardLayout.show(parentPanel, "home");
+	        	}
 	        }
 	    });
 	    

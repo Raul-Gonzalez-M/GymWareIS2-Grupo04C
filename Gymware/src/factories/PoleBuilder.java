@@ -5,7 +5,7 @@ import model.Pole;
 
 public class PoleBuilder extends Builder<Material>{
 
-	public PoleBuilder(String tag) {
+	public PoleBuilder() {
 		super("Pole");
 	}
 
