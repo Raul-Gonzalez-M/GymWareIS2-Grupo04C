@@ -57,21 +57,44 @@ public class MenuPrincipalPersonal extends JPanel {
 	    userTable.setFillsViewportHeight(true);
 	    JScrollPane scrollPane = new JScrollPane(userTable);
 	    userPanel.add(scrollPane, BorderLayout.CENTER);
-
-	    JButton saveButton = new JButton("Guardar cambios");
-	    saveButton.addActionListener(e -> {
-	        for (int row = 0; row < model.getRowCount(); row++) {
-	            int DNI = (int) model.getValueAt(row, 0);
-	            String nombre = (String) model.getValueAt(row, 1);
-	            String contrasenya = (String) model.getValueAt(row, 2);
-	            double saldo = (int) model.getValueAt(row, 3);
-
-	            //controller.actualizarCliente(id, nombre, apellido, edad, correoElectronico);
+	    
+	    model.addTableModelListener(e -> {
+	        int row = e.getFirstRow();
+	        int column = e.getColumn();
+	        Object newValue = model.getValueAt(row, column);
+	        boolean nuevo = false;
+	        Cliente cliente = controller.getListaClientes().get(row);
+	        switch (column) {
+	            case 0:
+		        	if(controller.existeDni(cliente.getDNI())) {
+		                cliente.setDNI((String) newValue);
+		                nuevo = true;
+		        	}
+	                break;
+	            case 1:
+	                cliente.setNombre((String) newValue);
+	                break;
+	            case 2:
+	                cliente.setContrasena((String) newValue);
+	                break;
+	            case 3:
+	            	cliente.setSaldo(Double.parseDouble((String) newValue));
+	                break;
+	            default:
+	                break;
+	                
 	        }
-	        JOptionPane.showMessageDialog(userPanel, "Los cambios se han guardado correctamente.");
+	        if(nuevo) {
+	        	controller.darBajaUsusario(cliente.getDNI());
+	        	controller.registrarUsuario(cliente.getDNI(),cliente.getNombre(), cliente.getContrasena(),cliente.getFechaAlta(), cliente.getSaldo());
+	        }
+	        else {
+		        controller.actualizarCliente(cliente);
+		        JOptionPane.showMessageDialog(userPanel, "Los cambios se han guardado correctamente.");
+	        }
 	    });
-	    userPanel.add(saveButton, BorderLayout.SOUTH);
 
+	    
 	    return userPanel;
 	}
 

@@ -88,7 +88,7 @@ public class Controller {
 	}
 
 	public List<Material> getMaterialesDisponibles() throws SQLException {
-			return gymcontroller.getMaterialesDisponibles();
+		return gymcontroller.getMaterialesDisponibles();
 	}
 
 	public List<Cliente> getListaClientes() {
@@ -111,6 +111,10 @@ public class Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void actualizarCliente(Cliente cliente) {
+		gymcontroller.actualizaCliente(cliente);	
 	}
 
 

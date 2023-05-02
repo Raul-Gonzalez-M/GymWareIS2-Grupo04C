@@ -494,5 +494,16 @@ public class GymController {
 		cambios.setSaldo(saldo, string);
 	}
 
+	public void actualizaCliente(Cliente cliente) {
+		try {
+			cambios.actualizaCliente(cliente);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();	
+			
+		}
+		
+	}
+
 
 }

@@ -286,6 +286,12 @@ public class DAOCambios{
 		executeUpdate(query);
 	}
 
-
+	public void actualizaCliente(Cliente cliente) throws SQLException {
+	    String query = "UPDATE usuarios SET Nombre = '" + cliente.getNombre() + "', " +
+	                   "Contrasenya = '" + cliente.getContrasena() + "', " +
+	                   "Saldo = " + cliente.getSaldo() + " " +
+	                   "WHERE DNI = '" + cliente.getDNI() + "';";
+	    executeUpdate(query);
+	}
 	
 }
