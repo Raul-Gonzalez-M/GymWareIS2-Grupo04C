@@ -24,6 +24,7 @@ public class MenuPrincipalCliente extends JPanel {
 	private JPanel parentPanel;
 	private CardLayout cardLayout;
 	JLabel saldoField;
+	JSpinner part;
 	
 	public MenuPrincipalCliente(Controller controller, Usuario usuarioActual, JPanel parentPanel) throws SQLException {
 	    this.controller = controller;
@@ -40,7 +41,7 @@ public class MenuPrincipalCliente extends JPanel {
 	    tabbedPane.addTab("Actividades Inscritas", createActividadesInscritas());
 	    tabbedPane.addTab("Compra Materiales", createMaterialesPanel());
 	    //tabbedPane.addTab("Mis Materiales", createMisMaterialesPanel());
-	    //tabbedPane.addTab("Encuestas", createEncuestaPanel());
+	    tabbedPane.addTab("Encuestas", createEncuestaPanel());
 	    tabbedPane.addTab("Mi Perfil", createProfilePanel());
 	    
 	    setLayout(new BorderLayout());
@@ -230,47 +231,55 @@ public class MenuPrincipalCliente extends JPanel {
 	    return materialesPanel;
 	}
 	
-	/*private JPanel createEncuestaPanel() {
+	private JPanel createEncuestaPanel() {
 	    JPanel surveyPanel = new JPanel();
-	    surveyPanel.setLayout(new BorderLayout());
-
-	    DefaultTableModel tableModel = new DefaultTableModel();
-	    tableModel.addColumn("Fecha");
-	    tableModel.addColumn("Pregunta");
-	    tableModel.addColumn("Respuesta");
-
-	    JTable surveyTable = new JTable(tableModel);
-	    JScrollPane scrollPane = new JScrollPane(surveyTable);
-
-	    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-	    JButton addButton = new JButton("Agregar Encuesta");
-	    addButton.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            EncuestaDialog dialog = new EncuestaDialog();
-	            dialog.setVisible(true);
-	            if (dialog.isOk()) {
-	                Encuesta encuesta = dialog.getEncuesta();
-	                controller.addEncuesta(encuesta);
-	                Object[] row = {encuesta.getFecha(), encuesta.getPregunta(), encuesta.getRespuesta()};
-	                tableModel.addRow(row);
-	            }
-	        }
-	    });
-	    buttonPanel.add(addButton);
-
-	    surveyPanel.add(scrollPane, BorderLayout.CENTER);
-	    surveyPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-	    for (Encuesta encuesta : controller.getEncuestas()) {
-	        Object[] row = {encuesta.getFecha(), encuesta.getPregunta(), encuesta.getRespuesta()};
-	        tableModel.addRow(row);
+	    surveyPanel.setLayout(new BoxLayout(surveyPanel, BoxLayout.PAGE_AXIS));
+	    
+	    JLabel title = new JLabel("Rellene los siguientes campos conforme a su opinión:");
+	    
+	    JPanel ratePanel = new JPanel();
+	    JLabel rateLabel = new JLabel("Cual es tu nivel de satisfacción con nuestro gimnasio:   ");
+	    DefaultComboBoxModel<Integer> model  = new DefaultComboBoxModel<>();
+	    model.setSelectedItem(0);
+	    for(int i = 0; i <= 10; i++) {
+	    	model.addElement(i);
 	    }
+	    JComboBox<Integer> rate = new JComboBox<>(model);
+	    ratePanel.add(rateLabel);
+	    ratePanel.add(rate);
+	    
+	    JPanel partPanel = new JPanel();
+	    JLabel partLabel = new JLabel("¿Participas en alguna de nuestras actividades?   ");
+	    
+	    String[] values = {"SI", "NO"};
+	    
+	    part = new JSpinner(new SpinnerListModel(values));
+	    part.setMaximumSize(new Dimension(40, 20));
+	    part.setMinimumSize(new Dimension(40, 20));
+	    part.setPreferredSize(new Dimension(40, 20));
+	    
+	    partPanel.add(partLabel);
+	    partPanel.add(part);
+	    
+	    JPanel cambiosPanel = new JPanel();
+	    cambiosPanel.setLayout(new BoxLayout(cambiosPanel, BoxLayout.PAGE_AXIS));
+	    cambiosPanel.add(new JLabel("Escribe qué cambios harías y cómo podemos mejorar: "));
+	    
+	    JTextField text = new JTextField();
+	    text.setEditable(true);
+	    text.setMaximumSize(new Dimension(700, 200));
+	    text.setMinimumSize(new Dimension(700, 200));
+	    text.setPreferredSize(new Dimension(700, 200));
+	    
+	    cambiosPanel.add(text);
 
+	    surveyPanel.add(title);
+	    surveyPanel.add(ratePanel);
+	    surveyPanel.add(partPanel);
+	    surveyPanel.add(cambiosPanel);
 	    return surveyPanel;
-	}*/
+	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private JPanel createProfilePanel() {
 	    Cliente cliente = (Cliente) usuario;
 	    JPanel userPanel = new JPanel(new BorderLayout());
