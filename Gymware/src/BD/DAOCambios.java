@@ -298,6 +298,13 @@ public class DAOCambios{
 		
 		executeUpdate(query);
 	}
+	
+	public void agregarMaterial(String nombre, double precio, int unidades, String actividadAsociada) throws SQLException {
+	    String query = "INSERT INTO Material(Nombre, Precio, Actividad, Cantidad_disponible) "
+	                 + "VALUES('" + nombre + "', " + precio + ", '" + actividadAsociada + "', " + unidades + ")";
+	    executeUpdate(query);
+	}
+
 
 	public void actualizaCliente(Cliente cliente) throws SQLException {
 	    String query = "UPDATE usuarios SET Nombre = '" + cliente.getNombre() + "', " +
@@ -306,6 +313,5 @@ public class DAOCambios{
 	                   "WHERE DNI = '" + cliente.getDNI() + "';";
 	    executeUpdate(query);
 	}
-
 	
 }

@@ -385,9 +385,12 @@ public class GymController {
 	}
 
 
-	public void agregarMaterial(Object material) {
-		// TODO Auto-generated method stub
-		
+	public void agregarMaterial(String nombre, double precio, int unidades, String act_asociada) {
+		try {
+			cambios.agregarMaterial(nombre,precio,unidades,act_asociada);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public List<Actividad> getListaActividadesPorDNI(String DNI) {

@@ -82,7 +82,7 @@ public class MenuPrincipalPersonal extends JPanel {
 	        }
 	    });
 	    
-	    JButton eliminarButton = new JButton("Eliminar");
+	    JButton eliminarButton = new JButton("Eliminar cantidad");
 	    eliminarButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	        	int selectedRow = materialesTable.getSelectedRow();
@@ -110,19 +110,21 @@ public class MenuPrincipalPersonal extends JPanel {
 	            int lastRow = materialesTable.getRowCount() - 1;
 
 	            String nombre = (String) model.getValueAt(lastRow, 0);
-	            double precio = (double) model.getValueAt(lastRow, 1);
-	            int unidades = (int) model.getValueAt(lastRow, 2);
+	            double precio = Double.parseDouble(model.getValueAt(lastRow, 1).toString());
+	            double unidades = Double.parseDouble(model.getValueAt(lastRow, 2).toString());
 	            String act_asociada = (String) model.getValueAt(lastRow, 3);
 
-	            model.addRow(new Object[] {null, null, null, null});
-	            model.addRow(new Object[] {nombre,precio,unidades,act_asociada});
-
+	            model.addRow(new Object[] {null, null, null, null}); 
+	            model.setValueAt(nombre, lastRow, 0); 
+	            model.setValueAt(precio, lastRow, 1);
+	            model.setValueAt(unidades, lastRow, 2);
+	            model.setValueAt(act_asociada, lastRow, 3);
 	            model.fireTableDataChanged();
 
-	            //controller.agregarMaterial(newMaterial);
+	            controller.agregarMaterial(nombre,precio,(int) unidades, act_asociada);
+	            JOptionPane.showMessageDialog(null, "Material agregado correctamente");
 	        }
 	    });
-
 	    
 	    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	    buttonPanel.add(agregarButton);

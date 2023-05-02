@@ -104,7 +104,10 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
-
+	public void agregarMaterial(String nombre, double precio, int unidades, String act_asociada) {
+		gymcontroller.agregarMaterial(nombre,precio,unidades,act_asociada);
+	}
+		
 	public void setSaldo(double saldo, String string) {
 		try {
 			gymcontroller.setSaldo(saldo, string);
