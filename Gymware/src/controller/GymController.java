@@ -494,5 +494,9 @@ public class GymController {
 		cambios.setSaldo(saldo, string);
 	}
 
+	public void updateMaterial(int cantidad, String nombre) throws SQLException {
+		cambios.updateMaterial(cantidad, nombre);
+	}
+
 
 }

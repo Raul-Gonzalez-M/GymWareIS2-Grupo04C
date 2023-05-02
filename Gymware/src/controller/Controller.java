@@ -113,6 +113,14 @@ public class Controller {
 		}
 	}
 
+	public void updateMaterial(int cantidad, String nombre) {
+		try {
+			gymcontroller.updateMaterial(cantidad, nombre);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 }
 

@@ -93,7 +93,7 @@ public class DAOCambios{
 	}
 
 	public void actualizarAula(Aula aula) throws SQLException {
-		String query = "UPDATE TABLE Aula "
+		String query = "UPDATE Aula "
 					 + "SET Actividad = " + aula.getActividad() + " "
 					 + "WHERE Numero = " + aula.getId() + ";";
 		
@@ -116,7 +116,7 @@ public class DAOCambios{
 	}
 
 	public void actualizarActividad(Actividad actividad) throws SQLException {
-		String query = "UPDATE TABLE Actividad "
+		String query = "UPDATE Actividad "
 				 	 + "SET Horario = '" + actividad.getHorario() + "', "
 				 	 + "SET DNI_Profesor = '" + actividad.getDNIProfesor() + "', "
 				 	 + "SET Aula = " + actividad.getNumAula() + " "
@@ -133,7 +133,7 @@ public class DAOCambios{
 	}
 
 	public void actualizarCliente(Cliente cliente) throws SQLException {
-		String query = "UPDATE TABLE Usuario "
+		String query = "UPDATE Usuario "
 					 + "SET Nombre = '" + cliente.getNombre() + "', "
 					 + "Contrasenya = '" + cliente.getContrasena() + "', "
 					 + "FechaAlta = date'" + cliente.getFechaAlta() + "', "
@@ -163,7 +163,7 @@ public class DAOCambios{
 	}
 
 	public void actualizarEncuesta(Encuesta encuesta) throws SQLException {
-		String query = "UPDATE TABLE Encuesta "
+		String query = "UPDATE Encuesta "
 				 + "SET Satisfaccion = " + encuesta.getSatisfaccion() + ", "
 				 + "Cambios = '" + encuesta.getCambios() + "', "
 				 + "Participa = '" + encuesta.getParticipa() + "' "
@@ -190,7 +190,7 @@ public class DAOCambios{
 	}
 
 	public void actualizarMaterial(Material material) throws SQLException {
-		String query = "UPDATE TABLE Material "
+		String query = "UPDATE Material "
 					 + "SET Precio = " + material.getPrecio() + ", "
 					 + "Unidades = " + material.getCantidad_disponible() + " "
 					 + "WHERE Nombre = '" + material.getNombre() + "';";
@@ -199,7 +199,7 @@ public class DAOCambios{
 	}
 	
 	public void actualizarMaterial(String material) throws SQLException {
-		String query = "UPDATE TABLE Material "
+		String query = "UPDATE Material "
 				+ "SET Cantidad_disponible = Cantidad_Disponible - 1 "
 				+ "WHERE Nombre = '" + material + "';";
 		
@@ -207,14 +207,14 @@ public class DAOCambios{
 	}
 
 	public void eliminarPersonal(Personal personal) throws SQLException {
-		String query = "DELETE FROM Usuario "
+		String query = "DELETE FROM Usuarios "
 				 + "WHERE DNI = '" + personal.getDNI() + "';";
 
 		executeUpdate(query);
 	}
 
 	public void actualizarPersonal(Personal personal) throws SQLException {
-		String query = "UPDATE TABLE Personal "
+		String query = "UPDATE Personal "
 				 	 + "SET Nombre = '" + personal.getNombre() + "', "
 				 	 + "Contrasenya = '" + personal.getContrasena() + "' "
 				 	 + "WHERE DNI = '" + personal.getDNI() + "';";
@@ -241,7 +241,7 @@ public class DAOCambios{
 	}
 
 	public void actualizarVenta(Venta venta) throws SQLException {
-		String query = "UPDATE TABLE compra_material "
+		String query = "UPDATE compra_material "
 				 	 + "SET Fecha = date'" + venta.getFecha() + "', "
 				 	 + "Cantidad = " + venta.getCantidad() + " "
 				 	 + "WHERE DNI = '" + venta.getDNI() + "' AND"
@@ -279,9 +279,17 @@ public class DAOCambios{
 	}
 
 	public void setSaldo(double saldo, String string) throws SQLException {
-		String query = "UPDATE TABLE Usuarios "
+		String query = "UPDATE Usuarios "
 				+ "SET Saldo = " + saldo + " "
 						+ "WHERE DNI = '" + string + "';";
+		
+		executeUpdate(query);
+	}
+
+	public void updateMaterial(int cantidad, String nombre) throws SQLException {
+		String query = "UPDATE Material "
+				+ "SET Cantidad_disponible = (Cantidad_disponible + " + cantidad + ") "
+				+ "WHERE Nombre = '" + nombre + "';";
 		
 		executeUpdate(query);
 	}
