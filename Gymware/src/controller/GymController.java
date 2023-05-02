@@ -440,6 +440,15 @@ public class GymController {
 		return false;
 	}
 
+	public boolean borrarUsuarioTodasActividades(String viejoDNI) {
+		try {
+			cambios.borrarUsuarioTodasActividades(viejoDNI);
+		} catch (SQLException e) {
+			e.printStackTrace();	
+		}
+		return false;
+	}
+	
 	public void setSaldo(Cliente cliente) {
 		try {
 			cambios.setSaldo(cliente);
@@ -508,6 +517,7 @@ public class GymController {
 		}
 		
 	}
+
 
 
 }

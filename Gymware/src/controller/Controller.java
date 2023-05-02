@@ -1,10 +1,7 @@
 package controller;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
-
-import javax.swing.JOptionPane;
 
 import model.Actividad;
 import model.Cliente;
@@ -80,6 +77,10 @@ public class Controller {
 
 	public boolean borrarUsuarioActividad(Cliente cliente, Actividad actividad) {
 		return gymcontroller.borrarUsuarioActividad(cliente,actividad);
+	}
+	
+	public boolean borrarUsuarioTodasActividades(String viejoDNI) {
+		return gymcontroller.borrarUsuarioTodasActividades(viejoDNI);
 	}
 
 	public void cambiarContrasenya(Cliente cliente, String nuevaContra) {

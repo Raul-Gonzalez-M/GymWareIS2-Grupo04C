@@ -262,6 +262,11 @@ public class DAOCambios{
 	    String query = "DELETE FROM participantes WHERE DNICliente = '" + cliente.getDNI() + "' AND Id_actividad = " + actividad.getId() + ";";
 	    executeUpdate(query);
 	}
+	
+	public void borrarUsuarioTodasActividades(String viejoDNI) throws SQLException {
+		String query = "DELETE FROM participantes WHERE DNICliente = '" + viejoDNI + "';";
+		executeUpdate(query);
+	}
 
 	public void setSaldo(Cliente cliente) throws SQLException{
 		String query = "UPDATE usuarios SET saldo = " + cliente.getSaldo() + " WHERE dni = '" + cliente.getDNI() + "';";
@@ -301,5 +306,6 @@ public class DAOCambios{
 	                   "WHERE DNI = '" + cliente.getDNI() + "';";
 	    executeUpdate(query);
 	}
+
 	
 }
