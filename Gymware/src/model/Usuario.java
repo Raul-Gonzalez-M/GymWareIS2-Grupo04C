@@ -29,6 +29,10 @@ public abstract class Usuario {
         return contrasena;
     }
     
+	public void setDNI(String DNI) {
+		this.DNI = DNI;
+	}
+	
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }

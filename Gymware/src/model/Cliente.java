@@ -23,7 +23,7 @@ public class Cliente extends Usuario {
 	public void setFechaAlta(String fechaAlta) {
 		this.fechaAlta = fechaAlta;
 	}
-
+	
 	public double getSaldo() {
 		return saldo;
 	}
