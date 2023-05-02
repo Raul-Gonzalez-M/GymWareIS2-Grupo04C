@@ -3,13 +3,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import controller.Controller;
-import controller.GymController;
-import model.Actividad;
 import model.Cliente;
 import model.Material;
-import model.Personal;
 import model.Usuario;
-
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -178,5 +174,14 @@ public class MenuPrincipalPersonal extends JPanel {
 	    
 	    return userPanel;
 	}
+	private class NonEditableTableModel extends DefaultTableModel {
+	    public NonEditableTableModel(Object[] columnNames, int rowCount) {
+	        super(columnNames, rowCount);
+	    }
 
+	    @Override
+	    public boolean isCellEditable(int row, int column) {
+	        return false;
+	    }
+	}
 }
