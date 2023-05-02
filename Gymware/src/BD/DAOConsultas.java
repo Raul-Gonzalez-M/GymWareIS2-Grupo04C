@@ -371,7 +371,7 @@ public class DAOConsultas {
 	public List<Cliente> getListaClientes() throws SQLException {
 	    List<Cliente> ret = new ArrayList<>();
 
-	    String query = "SELECT * FROM Usuarios;";
+	    String query = "SELECT * FROM Usuarios WHERE TipoUsuario = 'cliente';";
 
 	    PreparedStatement stmt = bd.getConnection().prepareStatement(query);
 	    ResultSet rs = stmt.executeQuery();

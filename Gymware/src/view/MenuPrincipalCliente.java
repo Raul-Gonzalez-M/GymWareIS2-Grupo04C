@@ -88,6 +88,7 @@ public class MenuPrincipalCliente extends JPanel {
 	                
 	                if(controller.inscribirActividad(cliente, actividad)) {
 		                JOptionPane.showMessageDialog(null, "Te has inscrito en la actividad: " + actividad.getNombre());
+		                cliente.getActividades().add(actividad);
 		                updateActividadesDisponibles(activitiesTable);
 	                }
 	                
@@ -148,6 +149,7 @@ public class MenuPrincipalCliente extends JPanel {
 	            if (usuario instanceof Cliente) {
 	                Cliente cliente = (Cliente) usuario;
 	                if (controller.borrarUsuarioActividad(cliente, actividad)) {
+	                	cliente.getActividades().remove(actividad);
 	                    JOptionPane.showMessageDialog(null, "Te has desinscrito de la actividad: " + actividad.getNombre());
 	                    updateActividadesInscritas(activitiesTable); // Actualizar tabla después de borrar al usuario
 	                }

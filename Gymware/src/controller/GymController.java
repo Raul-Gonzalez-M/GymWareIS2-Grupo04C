@@ -385,9 +385,12 @@ public class GymController {
 	}
 
 
-	public void agregarMaterial(Object material) {
-		// TODO Auto-generated method stub
-		
+	public void agregarMaterial(String nombre, double precio, int unidades, String act_asociada) {
+		try {
+			cambios.agregarMaterial(nombre,precio,unidades,act_asociada);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public List<Actividad> getListaActividadesPorDNI(String DNI) {
@@ -440,6 +443,15 @@ public class GymController {
 		return false;
 	}
 
+	public boolean borrarUsuarioTodasActividades(String viejoDNI) {
+		try {
+			cambios.borrarUsuarioTodasActividades(viejoDNI);
+		} catch (SQLException e) {
+			e.printStackTrace();	
+		}
+		return false;
+	}
+	
 	public void setSaldo(Cliente cliente) {
 		try {
 			cambios.setSaldo(cliente);
@@ -508,6 +520,7 @@ public class GymController {
 		}
 		
 	}
+
 
 
 }
