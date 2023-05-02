@@ -285,8 +285,7 @@ public class DAOCambios{
 		
 		executeUpdate(query);
 	}
-
-<<<<<<< HEAD
+	
 	public void updateMaterial(int cantidad, String nombre) throws SQLException {
 		String query = "UPDATE Material "
 				+ "SET Cantidad_disponible = (Cantidad_disponible + " + cantidad + ") "
@@ -295,8 +294,6 @@ public class DAOCambios{
 		executeUpdate(query);
 	}
 
-
-=======
 	public void actualizaCliente(Cliente cliente) throws SQLException {
 	    String query = "UPDATE usuarios SET Nombre = '" + cliente.getNombre() + "', " +
 	                   "Contrasenya = '" + cliente.getContrasena() + "', " +
@@ -304,6 +301,5 @@ public class DAOCambios{
 	                   "WHERE DNI = '" + cliente.getDNI() + "';";
 	    executeUpdate(query);
 	}
->>>>>>> 5267b68a6a2641720bd142f2e35ffd6b14bd90fc
 	
 }

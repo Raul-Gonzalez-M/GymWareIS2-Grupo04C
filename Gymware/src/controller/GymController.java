@@ -494,10 +494,10 @@ public class GymController {
 		cambios.setSaldo(saldo, string);
 	}
 
-<<<<<<< HEAD
 	public void updateMaterial(int cantidad, String nombre) throws SQLException {
 		cambios.updateMaterial(cantidad, nombre);
-=======
+	}
+	
 	public void actualizaCliente(Cliente cliente) {
 		try {
 			cambios.actualizaCliente(cliente);
@@ -507,7 +507,6 @@ public class GymController {
 			
 		}
 		
->>>>>>> 5267b68a6a2641720bd142f2e35ffd6b14bd90fc
 	}
 
 

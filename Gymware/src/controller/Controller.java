@@ -113,17 +113,16 @@ public class Controller {
 		}
 	}
 
-<<<<<<< HEAD
 	public void updateMaterial(int cantidad, String nombre) {
 		try {
 			gymcontroller.updateMaterial(cantidad, nombre);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-=======
+	}
+	
 	public void actualizarCliente(Cliente cliente) {
 		gymcontroller.actualizaCliente(cliente);	
->>>>>>> 5267b68a6a2641720bd142f2e35ffd6b14bd90fc
 	}
 
 
