@@ -165,8 +165,8 @@ public class GymController {
     /*
      * ENCUESTA
      */
-    public void agregarEncuesta(String DNI, String fecha, int satisfaccion, String cambios, String participa) {
-        Encuesta nuevaEncuesta = new Encuesta(DNI, fecha, satisfaccion, cambios, participa);
+    public void agregarEncuesta(String DNI, int satisfaccion, String cambios, String participa) {
+        Encuesta nuevaEncuesta = new Encuesta(DNI, null, satisfaccion, cambios, participa);
        try {
 		this. cambios.insertarEncuesta(nuevaEncuesta);
 	} catch (SQLException e) {

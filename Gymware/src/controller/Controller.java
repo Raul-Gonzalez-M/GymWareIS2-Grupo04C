@@ -72,7 +72,7 @@ public class Controller {
     }
 
 	public void addEncuesta(Encuesta encuesta){
-		gymcontroller.agregarEncuesta(encuesta.getDNI(), encuesta.getFecha(), encuesta.getSatisfaccion(), encuesta.getCambios(), encuesta.getParticipa());
+		gymcontroller.agregarEncuesta(encuesta.getDNI(), encuesta.getSatisfaccion(), encuesta.getCambios(), encuesta.getParticipa());
 	}
 
 	public boolean borrarUsuarioActividad(Cliente cliente, Actividad actividad) {

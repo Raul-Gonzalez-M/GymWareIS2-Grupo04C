@@ -5,7 +5,6 @@ import javax.swing.table.DefaultTableModel;
 import model.Actividad;
 import model.Cliente;
 import model.Encuesta;
-import model.EncuestaDialog;
 import model.Material;
 import model.Usuario;
 import controller.Controller;
@@ -14,10 +13,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class MenuPrincipalCliente extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Controller controller;
 	private JTabbedPane tabbedPane;
 	private Usuario usuario;
@@ -237,7 +239,10 @@ public class MenuPrincipalCliente extends JPanel {
 	    JPanel surveyPanel = new JPanel();
 	    surveyPanel.setLayout(new BoxLayout(surveyPanel, BoxLayout.PAGE_AXIS));
 	    
+	    JPanel titlePanel = new JPanel();
 	    JLabel title = new JLabel("Rellene los siguientes campos conforme a su opinión:");
+	    title.setFont(new Font("Arial", Font.BOLD, 40));
+	    titlePanel.add(title);
 	    
 	    JPanel ratePanel = new JPanel();
 	    JLabel rateLabel = new JLabel("Cual es tu nivel de satisfacción con nuestro gimnasio:   ");
@@ -265,20 +270,60 @@ public class MenuPrincipalCliente extends JPanel {
 	    
 	    JPanel cambiosPanel = new JPanel();
 	    cambiosPanel.setLayout(new BoxLayout(cambiosPanel, BoxLayout.PAGE_AXIS));
-	    cambiosPanel.add(new JLabel("Escribe qué cambios harías y cómo podemos mejorar: "));
+	    JPanel textPanel = new JPanel();
+	    textPanel.setPreferredSize(new Dimension(600, 30));
+	    textPanel.setMinimumSize(new Dimension(600, 30));
+	    textPanel.setMaximumSize(new Dimension(600, 30));
+	    JLabel text1 = new JLabel("Escribe qué cambios harías y cómo podemos mejorar: ");
+	    textPanel.add(text1);
+	    cambiosPanel.add(textPanel);
 	    
 	    JTextField text = new JTextField();
 	    text.setEditable(true);
-	    text.setMaximumSize(new Dimension(700, 200));
-	    text.setMinimumSize(new Dimension(700, 200));
-	    text.setPreferredSize(new Dimension(700, 200));
+	    text.setMaximumSize(new Dimension(700, 50));
+	    text.setMinimumSize(new Dimension(700, 50));
+	    text.setPreferredSize(new Dimension(700, 50));
 	    
 	    cambiosPanel.add(text);
+	    
+	    JPanel buttonPanel = new JPanel();
+	    JButton enviarEncuesta = new JButton("ENVIAR");
+	    enviarEncuesta.addActionListener(new ActionListener() {
 
-	    surveyPanel.add(title);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int rated = rate.getSelectedIndex();
+				if(rated == -1) {
+					JOptionPane.showMessageDialog(Utils.getWindow(MenuPrincipalCliente.this), "Escoja una valoración");
+					return;
+				}
+				
+				String participa = (String)part.getValue();
+				
+				if(!participa.equals("SI") && !participa.equals("NO")) {
+					JOptionPane.showMessageDialog(Utils.getWindow(MenuPrincipalCliente.this), "Indica si realizas alguna actividad");
+					return;
+				}
+				
+				String texted = text.getText();
+				
+				Cliente cliente = (Cliente) usuario;
+				
+				Encuesta survey = new Encuesta(cliente.getDNI(), null, rated, texted, participa);
+				controller.addEncuesta(survey);
+				
+				JOptionPane.showMessageDialog(Utils.getWindow(MenuPrincipalCliente.this), "¡Encuesta enviada correctamente!");
+			}
+	    	
+	    });
+	    buttonPanel.add(enviarEncuesta);
+	    
+
+	    surveyPanel.add(titlePanel);
 	    surveyPanel.add(ratePanel);
 	    surveyPanel.add(partPanel);
 	    surveyPanel.add(cambiosPanel);
+	    surveyPanel.add(buttonPanel);
 	    return surveyPanel;
 	}
 	

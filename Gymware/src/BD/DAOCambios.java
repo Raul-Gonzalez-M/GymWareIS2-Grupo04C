@@ -145,8 +145,8 @@ public class DAOCambios{
 
 	public void insertarEncuesta(Encuesta nuevaEncuesta) throws SQLException {
 		String query = "INSERT INTO Encuesta VALUES('"
-					  + nuevaEncuesta.getDNI() + "', '"
-					  + nuevaEncuesta.getFecha() + "', "
+					  + nuevaEncuesta.getDNI() + 
+					  "', curdate(), "
 					  + nuevaEncuesta.getSatisfaccion() + ", '"
 					  + nuevaEncuesta.getCambios() + "', '"
 					  + nuevaEncuesta.getParticipa() + "');";
