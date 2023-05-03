@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `actividad`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `actividad` (
-  `Id` int NOT NULL,
+  `Id` int NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(20) NOT NULL,
   `Horario` varchar(50) NOT NULL,
   `DNI_Profesor` varchar(9) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE `actividad` (
   KEY `fk_dniprofe_usuario_idx` (`DNI_Profesor`),
   CONSTRAINT `actividad_ibfk_1` FOREIGN KEY (`Id_Aula`) REFERENCES `aula` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_dniprofe_usuario` FOREIGN KEY (`DNI_Profesor`) REFERENCES `usuarios` (`DNI`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `actividad` (
 
 LOCK TABLES `actividad` WRITE;
 /*!40000 ALTER TABLE `actividad` DISABLE KEYS */;
-INSERT INTO `actividad` VALUES (1,'Spinning','13:00-15:00','2',1),(2,'Pole','14:00-15:00','2',1),(3,'AguaGym','17:00-19:00','3',1);
+INSERT INTO `actividad` VALUES (1,'AquaGym','15:00-16:00','5',1),(4,'Spinning','11:00-13:00','5',1);
 /*!40000 ALTER TABLE `actividad` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,6 +118,7 @@ CREATE TABLE `encuesta` (
 
 LOCK TABLES `encuesta` WRITE;
 /*!40000 ALTER TABLE `encuesta` DISABLE KEYS */;
+INSERT INTO `encuesta` VALUES ('3','2023-05-03',5,'','SI');
 /*!40000 ALTER TABLE `encuesta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -129,13 +130,13 @@ DROP TABLE IF EXISTS `material`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `material` (
-  `Id` int NOT NULL,
+  `Id` int NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(45) DEFAULT NULL,
   `Precio` int DEFAULT NULL,
   `Actividad` varchar(45) DEFAULT NULL,
   `Cantidad_disponible` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,7 +145,7 @@ CREATE TABLE `material` (
 
 LOCK TABLES `material` WRITE;
 /*!40000 ALTER TABLE `material` DISABLE KEYS */;
-INSERT INTO `material` VALUES (0,'Pesa',10,'Gym','50');
+INSERT INTO `material` VALUES (1,'Pole',10,'Gym','58'),(8,'Pesa',20,'Gym','35');
 /*!40000 ALTER TABLE `material` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -158,7 +159,8 @@ DROP TABLE IF EXISTS `participantes`;
 CREATE TABLE `participantes` (
   `Id_actividad` int NOT NULL,
   `DNICliente` varchar(45) DEFAULT NULL,
-  UNIQUE KEY `uc_actividad_cliente` (`Id_actividad`,`DNICliente`)
+  UNIQUE KEY `uc_actividad_cliente` (`Id_actividad`,`DNICliente`),
+  KEY `fk_usuario_idx` (`DNICliente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -168,7 +170,7 @@ CREATE TABLE `participantes` (
 
 LOCK TABLES `participantes` WRITE;
 /*!40000 ALTER TABLE `participantes` DISABLE KEYS */;
-INSERT INTO `participantes` VALUES (1,'1'),(1,'3'),(2,'1');
+INSERT INTO `participantes` VALUES (1,'1'),(1,'2'),(1,'3'),(4,'3');
 /*!40000 ALTER TABLE `participantes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -220,7 +222,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES ('1','admin','adminpass','cliente','2023-04-29',1000.00),('2','juan','123','personal','2023-04-29',0.00),('3','alex','123','cliente','2023-04-29',500.00),('4','pepe','123','personal','2023-04-30',500.00);
+INSERT INTO `usuarios` VALUES ('1','admin','adminpass','cliente','2023-05-02',1000.00),('2','alex','123','cliente','2023-05-02',500.00),('3','juan','123','cliente','2023-05-02',500.00),('4','pepe','123','personal','2023-04-30',500.00),('5','mario','123','personal','2023-05-02',400.00);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -233,4 +235,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-30 20:25:35
+-- Dump completed on 2023-05-03 19:08:46

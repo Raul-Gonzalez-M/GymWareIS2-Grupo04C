@@ -18,6 +18,8 @@ public class MenuPrincipalPersonal extends JPanel {
 	private JTabbedPane tabbedPane;
 	private Usuario usuario;
 	private JSpinner numMaterial;
+	private JTextField textField;
+	private JTextField textField_1;
 
 	public MenuPrincipalPersonal(Controller controller, Usuario usuarioActual) {
 	    this.controller = controller;
@@ -215,7 +217,97 @@ public class MenuPrincipalPersonal extends JPanel {
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public JPanel createActivityPanel() {
-		return null;
+			 JPanel activityPanel = new JPanel(new BorderLayout());
+			 JPanel actPanel = new JPanel();
+			 actPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+	
+			 JLabel nombreActividadLabel = new JLabel("Nombre actividad:");
+			 nombreActividadLabel.setBounds(448, 166, 102, 14);
+			 nombreActividadLabel.setFont(new Font("Arial", Font.BOLD, 12));
+	
+			 JTextField nombreInstructor = new JTextField();
+			 nombreInstructor.setBounds(586, 163, 134, 20);
+			 nombreInstructor.setFont(new Font("Arial", Font.PLAIN, 12));
+			 actPanel.setLayout(null);
+	
+			 actPanel.add(nombreActividadLabel);
+			 actPanel.add(nombreInstructor);
+		    
+		    JLabel nombreActividadLabel_2 = new JLabel("Hora inicio:");
+		    nombreActividadLabel_2.setFont(new Font("Arial", Font.BOLD, 12));
+		    nombreActividadLabel_2.setBounds(448, 297, 102, 14);
+		    actPanel.add(nombreActividadLabel_2);
+		    
+		    JLabel nombreActividadLabel_3 = new JLabel("Hora final:");
+		    nombreActividadLabel_3.setFont(new Font("Arial", Font.BOLD, 12));
+		    nombreActividadLabel_3.setBounds(448, 359, 102, 14);
+		    actPanel.add(nombreActividadLabel_3);
+		    
+		    JLabel nombreProfesor = new JLabel("Nombre Profesor:");
+		    nombreProfesor.setFont(new Font("Arial", Font.BOLD, 12));
+		    nombreProfesor.setBounds(448, 232, 102, 14);
+		    actPanel.add(nombreProfesor);
+		    
+		    textField = new JTextField();
+		    textField.setFont(new Font("Arial", Font.PLAIN, 12));
+		    textField.setBounds(586, 229, 134, 20);
+		    actPanel.add(textField);
+		    
+		    JLabel lblIdDelAula = new JLabel("Id del aula:");
+		    lblIdDelAula.setFont(new Font("Arial", Font.BOLD, 12));
+		    lblIdDelAula.setBounds(448, 419, 102, 14);
+		    actPanel.add(lblIdDelAula);
+		    
+		    textField_1 = new JTextField();
+		    textField_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		    textField_1.setBounds(586, 416, 134, 20);
+		    actPanel.add(textField_1);
+		    
+		    JComboBox<String> horasComboBox = new JComboBox<String>();
+		    horasComboBox.setFont(new Font("Arial", Font.PLAIN, 12));
+		    horasComboBox.setBounds(586, 356, 134, 20);
+		    actPanel.add(horasComboBox);
+		    
+		    JComboBox<String> horasComboBox_1 = new JComboBox<String>();
+		    horasComboBox_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		    horasComboBox_1.setBounds(586, 294, 134, 20);
+		    actPanel.add(horasComboBox_1);
+		    for (int i = 11; i <= 21; i++) {
+		        String hora = String.format("%02d:00", i);
+		        horasComboBox.addItem(hora);
+		        horasComboBox_1.addItem(hora);
+		        hora = String.format("%02d:30", i);
+		        horasComboBox.addItem(hora);
+		        horasComboBox_1.addItem(hora);
+		    }
+		   
+		    JButton agregarActividadButton = new JButton("Agregar Actividad");
+		    agregarActividadButton.addActionListener(new ActionListener() {
+		        public void actionPerformed(ActionEvent e) {
+		            String nombre = nombreInstructor.getText();
+		            String profesor = controller.getProfesorPorNombre(textField.getText());
+		            String horaInicio = (String) horasComboBox_1.getSelectedItem();
+		            String horaFin = (String) horasComboBox.getSelectedItem();
+		            int idAula = Integer.parseInt(textField_1.getText());
+		            
+		            if (nombre.equals("") || profesor.equals("") || horaInicio.equals("") || horaFin.equals("") || String.valueOf(idAula).equals("")) {
+		                JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos");
+		                return;
+		            }
+		            
+		            controller.agregarActividad(nombre, profesor, horaInicio, horaFin, idAula);
+		            
+		            horasComboBox_1.setSelectedIndex(0);
+		            horasComboBox.setSelectedIndex(0);
+		        }
+		    });
+
+		    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		    buttonPanel.add(agregarActividadButton);
+		    activityPanel.add(buttonPanel, BorderLayout.SOUTH);
+		    activityPanel.add(actPanel, BorderLayout.CENTER);
+
+		    return activityPanel;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -244,5 +336,4 @@ public class MenuPrincipalPersonal extends JPanel {
 	        }
 	    }
 	}
-
 }

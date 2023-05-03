@@ -209,8 +209,8 @@ public class MenuPrincipalCliente extends JPanel {
 	            	cliente.setSaldo(cliente.getSaldo() - materialSeleccionado);
 	            	saldoField.setText(""+cliente.getSaldo());
 	            	controller.setSaldo(cliente);
-	            	Utils.showErrorMsg("Compra realizada!");
 	            	model.setValueAt((double)model.getValueAt(selectedRow, 2) - 1, selectedRow, 2);
+	            	JOptionPane.showMessageDialog(null, "Compra realizada!");
 	            	controller.updateMaterial((String) model.getValueAt(selectedRow, 0));
 	            	model.fireTableDataChanged();
 	            } else {
@@ -391,6 +391,7 @@ public class MenuPrincipalCliente extends JPanel {
 	        	String nuevaContra = new String(passwordChars);
 	        	controller.cambiarContrasenya(cliente,nuevaContra);
 	    	    cliente.setContrasena(nuevaContra);
+	    	    JOptionPane.showMessageDialog(null, "Datos actualizados");
 	        }
 	    });
 	    
@@ -445,28 +446,29 @@ public class MenuPrincipalCliente extends JPanel {
 	private void updateActividadesDisponibles(JTable activitiesTable) {
 
 	    NonEditableTableModel model = (NonEditableTableModel) activitiesTable.getModel();
-	    model.setRowCount(0); // Borrar filas anteriores
+	    model.setRowCount(0); 
 	    for (Actividad actividad : controller.getActNoInscrito(usuario.getDNI())) {
-	        model.addRow(new Object[]{
+	        		model.addRow(new Object[]{
 	                actividad.getNombre(),
 	                actividad.getHorario(),
 	                controller.obtenerUsuarioPorDNI(actividad.getDNIProfesor()).getNombre(),
 	                actividad.getPlazasDisponibles()
 	        });
 	    }
-	    activitiesTable.setModel(model); // Actualizar vista de la tabla
+	    activitiesTable.setModel(model); 
 	}
 	
 	private void updateMaterialesDisponibles(JTable materialesTable) {
-
-	    NonEditableTableModel model = (NonEditableTableModel) materialesTable.getModel();
-	    model.setRowCount(0); 
-	    for (Actividad actividad : controller.getActNoInscrito(usuario.getDNI())) {
+		NonEditableTableModel model = new NonEditableTableModel(new Object[]{"Material", "Precio", "Unidades", "Actividad asociada"}, 0);
+	    for (Material material : controller.getMaterialesDisponibles()) {
 	        model.addRow(new Object[]{
-	                
+	                material.getNombre(),
+	                material.getPrecio(),
+	                material.getCantidad_disponible(),
+	                material.getActividad_asociada()
 	        });
 	    }
-	    materialesTable.setModel(model); // Actualizar vista de la tabla
+	    materialesTable.setModel(model);
 	}
 	private class NonEditableTableModel extends DefaultTableModel {
 	    public NonEditableTableModel(Object[] columnNames, int rowCount) {

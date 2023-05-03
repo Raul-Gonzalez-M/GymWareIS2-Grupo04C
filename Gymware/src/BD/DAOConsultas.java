@@ -133,8 +133,7 @@ public class DAOConsultas {
 		
 		rs.next(); 
 	
-		return new Encuesta(rs.getString("DNI"), rs.getString("Fecha"), rs.getInt("Satisfaccion")
-				, rs.getString("Cambios"), rs.getString("Participa"));
+		return new Encuesta(rs.getString("DNI"), rs.getString("Fecha"), rs.getInt("Satisfaccion"), rs.getString("Cambios"), rs.getString("Participa"));
 	}
 
 	public List<Encuesta> obtenerEncuestas() throws SQLException {
@@ -399,6 +398,20 @@ public class DAOConsultas {
 	    }
 		
 		return ret;
+	}
+
+	public String getProfesorPorNombre(String nombre)throws SQLException {
+		String query = "SELECT DNI "
+                + "FROM Usuarios "
+                + "WHERE Nombre = '" + nombre + "'"
+                + "AND TipoUsuario = 'Personal';";
+
+	   ResultSet rs = executeQueryAux(query);
+	
+	   if (rs.next())
+	       return rs.getString("DNI");
+	   else
+	       return null;
 	}
 
 

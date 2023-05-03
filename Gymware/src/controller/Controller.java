@@ -88,7 +88,7 @@ public class Controller {
 		
 	}
 
-	public List<Material> getMaterialesDisponibles() throws SQLException {
+	public List<Material> getMaterialesDisponibles() {
 		return gymcontroller.getMaterialesDisponibles();
 	}
 
@@ -100,7 +100,6 @@ public class Controller {
 		try {
 			gymcontroller.updateMaterial(valueAt);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -127,6 +126,14 @@ public class Controller {
 	
 	public void actualizarCliente(Cliente cliente) {
 		gymcontroller.actualizaCliente(cliente);	
+	}
+
+	public boolean agregarActividad(String nombre, String DNIProfesor, String horaInicio, String horaFin, int idAula) {
+		return gymcontroller.agregarActividad(nombre, horaInicio + "-" + horaFin , DNIProfesor, idAula, null);	
+	}
+
+	public String getProfesorPorNombre(String nombre) {
+		return gymcontroller.getProfesorPorNombre(nombre);
 	}
 
 

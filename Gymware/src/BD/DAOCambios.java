@@ -1,6 +1,7 @@
 package BD;
 
 import java.sql.*;
+import java.time.LocalDate;
 
 import model.Actividad;
 import model.Aula;
@@ -101,9 +102,9 @@ public class DAOCambios{
 	}
 
 	public void insertarActividad(Actividad nuevaActividad) throws SQLException {
-		String query = "INSERT INTO Actividad VALUES('" 
-					 + nuevaActividad.getNombre() + "', '" + nuevaActividad.getHorario() + "', '"
-					 + nuevaActividad.getDNIProfesor() + "', " + nuevaActividad.getNumAula() + ");";
+		String query = "INSERT INTO Actividad (Nombre, Horario, DNI_Profesor, Id_Aula) VALUES ('" 
+                + nuevaActividad.getNombre() + "', '" + nuevaActividad.getHorario() + "', '"
+                + nuevaActividad.getDNIProfesor() + "', " + nuevaActividad.getNumAula() + ");";
 		
 		executeUpdate(query);
 	}
@@ -144,12 +145,15 @@ public class DAOCambios{
 	}
 
 	public void insertarEncuesta(Encuesta nuevaEncuesta) throws SQLException {
-		String query = "INSERT INTO Encuesta VALUES('"
-					  + nuevaEncuesta.getDNI() + 
-					  "', curdate(), "
-					  + nuevaEncuesta.getSatisfaccion() + ", '"
-					  + nuevaEncuesta.getCambios() + "', '"
-					  + nuevaEncuesta.getParticipa() + "');";
+        LocalDate fechaActual = LocalDate.now();
+        System.out.println(fechaActual);
+        
+        String query = "INSERT INTO Encuesta VALUES ('"
+				  + nuevaEncuesta.getDNI() + "', '"
+				  + fechaActual + "', '"
+				  + nuevaEncuesta.getSatisfaccion() + "', '"
+				  + nuevaEncuesta.getCambios() + "', '"
+				  + nuevaEncuesta.getParticipa() + "');";
 		
 		executeUpdate(query);
 	}

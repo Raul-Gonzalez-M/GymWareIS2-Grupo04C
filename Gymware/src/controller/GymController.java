@@ -102,13 +102,14 @@ public class GymController {
     /*
      * ACTIVIDAD
      */
-    public void agregarActividad(int id, String nombre, String horario, String DNIProfesor, int num_aula, List<String> participantes) {
-        Actividad nuevaActividad = new Actividad(id, nombre, horario, DNIProfesor, num_aula, participantes);
+    public boolean agregarActividad(String nombre, String horario, String DNIProfesor, int num_aula, List<String> participantes) {
+        Actividad nuevaActividad = new Actividad(0, nombre, horario, DNIProfesor, num_aula, participantes);
         try {
 			cambios.insertarActividad(nuevaActividad);
+			return true;
 		} catch (SQLException e) {
-
 			e.printStackTrace();
+			return false;
 		} 
     }
     
@@ -494,8 +495,15 @@ public class GymController {
 		return null;
 	}
 
-	public List<Material> getMaterialesDisponibles() throws SQLException {
-		return consulta.getListaMateriales();
+	public List<Material> getMaterialesDisponibles() {
+		try {
+			return consulta.getListaMateriales();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();	
+			
+		}
+		return null;
 	}
 
 	public void updateMaterial(String valueAt) throws SQLException {
@@ -518,7 +526,16 @@ public class GymController {
 			e.printStackTrace();	
 			
 		}
-		
+	}
+
+	public String getProfesorPorNombre(String nombre) {
+		try {
+			return consulta.getProfesorPorNombre(nombre);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();	
+		}
+		return null;
 	}
 
 
