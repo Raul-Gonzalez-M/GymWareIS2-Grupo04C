@@ -324,7 +324,6 @@ public class MenuPrincipalPersonal extends JPanel {
 		            	Utils.showErrorMsg("Rellena el id de aula");
 		            	return;
 		            }
-
 		            
 		            if (nombre.equals("") || profesor.equals("") || horaInicio.equals("") || horaFin.equals("") || String.valueOf(idAula).equals("")) {
 		                JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos");
