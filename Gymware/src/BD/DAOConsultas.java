@@ -140,7 +140,8 @@ public class DAOConsultas {
 		List<Encuesta> ret = new ArrayList<>();
 		
 		String query = "SELECT * "
-					 + "FROM Encuesta;";
+					 + "FROM Encuesta "
+					 + "ORDER BY fecha DESC, DNI ASC;";
 		
 		ResultSet rs = executeQueryAux(query);
 		

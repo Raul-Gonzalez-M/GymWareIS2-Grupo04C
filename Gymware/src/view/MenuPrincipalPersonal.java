@@ -4,6 +4,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.Controller;
 import model.Cliente;
+import model.Encuesta;
 import model.Material;
 import model.Usuario;
 
@@ -37,12 +38,36 @@ public class MenuPrincipalPersonal extends JPanel {
 	    tabbedPane.addTab("Usuarios", createUserPanel());
 	    tabbedPane.addTab("Materiales", createMaterialesPanel());
 	    tabbedPane.addTab("Actividades", createActivityPanel());
+	    tabbedPane.addTab("Encuestas", createEncuestasPanel());
 
 	    setLayout(new BorderLayout());
 	    add(tabbedPane, BorderLayout.CENTER);
 
 	    setSize(1200, 800);
 	}
+	
+	private JPanel createEncuestasPanel() {
+		JPanel encuestasPanel = new JPanel(new BorderLayout());
+		
+		JTable encuestasTable = new JTable();
+		NonEditableTableModel model = new NonEditableTableModel(new Object[] {"DNI", "Fecha", "Satisfacción", "Participa", "Cambios"}, 0);
+		
+		for(Encuesta encuesta : controller.getEncuestas()) {
+			model.addRow(new Object[] {
+					encuesta.getDNI(),
+					encuesta.getFecha(),
+					encuesta.getSatisfaccion(),
+					encuesta.getParticipa(),
+					encuesta.getCambios()
+			});
+		}
+		encuestasTable.setModel(model);
+		JScrollPane pane = new JScrollPane(encuestasTable);
+		encuestasPanel.add(pane, BorderLayout.CENTER);
+		
+		return encuestasPanel;
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private JPanel createMaterialesPanel() throws SQLException {
 		JPanel materialesPanel = new JPanel(new BorderLayout());
