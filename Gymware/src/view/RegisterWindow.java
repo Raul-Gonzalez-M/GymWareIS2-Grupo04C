@@ -63,24 +63,13 @@ public class RegisterWindow extends JPanel {
 		nombreTextField.setBounds(482, 401, 219, 26);
 		add(nombreTextField);
 		
-		JLabel lblApellidos = new JLabel("Apellidos");
-		lblApellidos.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblApellidos.setBounds(482, 438, 78, 17);
-		add(lblApellidos);
-		
-		apellidosTextField = new JTextField();
-		apellidosTextField.setColumns(10);
-		apellidosTextField.setBounds(482, 465, 219, 26);
-		add(apellidosTextField);
-		
-		
 		JLabel lblPassword = new JLabel("Contraseña");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPassword.setBounds(482, 510, 78, 17);
+		lblPassword.setBounds(482, 450, 78, 17);
 		add(lblPassword);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(482, 530, 219, 26);
+		passwordField.setBounds(482, 480, 219, 26);
 		add(passwordField);
 		
 		JButton btnRegistrarse = new JButton("Registrarse");
@@ -123,7 +112,7 @@ public class RegisterWindow extends JPanel {
 				}
 			}
 		});
-		btnRegistrarse.setBounds(482, 647, 219, 29);
+		btnRegistrarse.setBounds(482, 550, 219, 29);
 		add(btnRegistrarse);
 		
 		JButton btnVolver = new JButton("Volver");

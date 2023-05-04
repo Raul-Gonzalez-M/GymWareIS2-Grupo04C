@@ -147,7 +147,11 @@ public class MenuPrincipalPersonal extends JPanel {
 	            model.setValueAt(unidades, lastRow, 2);
 	            model.setValueAt(act_asociada, lastRow, 3);
 	            model.fireTableDataChanged();
-
+	            if(precio <= 0) {
+	            	Utils.showErrorMsg("El precio ha de ser mayor que 0");
+	            	return;
+	            }
+	            	
 	            controller.agregarMaterial(nombre,precio,(int) unidades, act_asociada);
 	            JOptionPane.showMessageDialog(null, "Material agregado correctamente");
 	        }
@@ -321,6 +325,8 @@ public class MenuPrincipalPersonal extends JPanel {
 		            }
 		            
 		            controller.agregarActividad(nombre, profesor, horaInicio, horaFin, idAula);
+		            
+		            JOptionPane.showMessageDialog(null, "La actividad se ha añadido correctamente");
 		            
 		            horasComboBox_1.setSelectedIndex(0);
 		            horasComboBox.setSelectedIndex(0);
