@@ -136,7 +136,7 @@ CREATE TABLE `material` (
   `Actividad` varchar(45) DEFAULT NULL,
   `Cantidad_disponible` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +145,7 @@ CREATE TABLE `material` (
 
 LOCK TABLES `material` WRITE;
 /*!40000 ALTER TABLE `material` DISABLE KEYS */;
-INSERT INTO `material` VALUES (1,'Pole',10,'Gym','58'),(8,'Pesa',20,'Gym','35');
+INSERT INTO `material` VALUES (12,'Pesa',20,'Gym','48');
 /*!40000 ALTER TABLE `material` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,7 +170,7 @@ CREATE TABLE `participantes` (
 
 LOCK TABLES `participantes` WRITE;
 /*!40000 ALTER TABLE `participantes` DISABLE KEYS */;
-INSERT INTO `participantes` VALUES (1,'1'),(1,'2'),(1,'3'),(4,'3');
+INSERT INTO `participantes` VALUES (1,'1'),(4,'2');
 /*!40000 ALTER TABLE `participantes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -222,7 +222,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES ('1','admin','adminpass','cliente','2023-05-02',1000.00),('2','alex','123','cliente','2023-05-02',500.00),('3','juan','123','cliente','2023-05-02',500.00),('4','pepe','123','personal','2023-04-30',500.00),('5','mario','123','personal','2023-05-02',400.00);
+INSERT INTO `usuarios` VALUES ('1','admin','adminpass','cliente','2023-05-02',1000.00),('123456789','luis','123','cliente','2023-05-04',0.00),('2','alex','123','cliente','2023-05-02',1840.00),('4','pepe','123','personal','2023-04-30',500.00),('5','mario','123','personal','2023-05-02',400.00);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -235,4 +235,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-03 19:08:46
+-- Dump completed on 2023-05-04 22:48:04
