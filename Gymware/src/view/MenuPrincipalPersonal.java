@@ -317,7 +317,14 @@ public class MenuPrincipalPersonal extends JPanel {
 		            String profesor = controller.getProfesorPorNombre(textField.getText());
 		            String horaInicio = (String) horasComboBox_1.getSelectedItem();
 		            String horaFin = (String) horasComboBox.getSelectedItem();
-		            int idAula = Integer.parseInt(textField_1.getText());
+		            int idAula = -1;
+		            try {
+		            	idAula = Integer.parseInt(textField_1.getText());
+		            } catch (NumberFormatException excep) {
+		            	Utils.showErrorMsg("Rellena el id de aula");
+		            	return;
+		            }
+
 		            
 		            if (nombre.equals("") || profesor.equals("") || horaInicio.equals("") || horaFin.equals("") || String.valueOf(idAula).equals("")) {
 		                JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos");
