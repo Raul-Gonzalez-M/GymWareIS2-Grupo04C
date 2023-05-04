@@ -2,6 +2,9 @@ package controller;
 
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import BD.ConexionBD;
 import BD.DAOCambios;
 import BD.DAOConsultas;
@@ -20,7 +23,7 @@ public class GymController {
         try {
 			this.consulta = new DAOConsultas(bd);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		}
     }
     
@@ -49,7 +52,7 @@ public class GymController {
         try {
 			return !consulta.DNIDisponible(DNI);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			return false;
 		}
     } 
@@ -59,7 +62,7 @@ public class GymController {
 			cambios.eliminarCliente(cliente);
 		} catch (SQLException e) {
 
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		}
     }
 
@@ -67,7 +70,7 @@ public class GymController {
         try {
 			return consulta.obtenerClientes(); 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			System.out.println(e.getMessage());
 			return null;
 		} 
@@ -77,7 +80,7 @@ public class GymController {
         try {
 			return consulta.obtenerClientePorId(DNI);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			System.out.println(e.getMessage());
 			return null;
 		} 
@@ -87,7 +90,7 @@ public class GymController {
         try {
 			cambios.actualizarCliente(cliente);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		}
     }
     
@@ -95,7 +98,7 @@ public class GymController {
     	try {
 			return consulta.verificarCredenciales(DNI, password);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			return false;
 		}
     }
@@ -108,7 +111,7 @@ public class GymController {
 			cambios.insertarActividad(nuevaActividad);
 			return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			return false;
 		} 
     }
@@ -118,7 +121,7 @@ public class GymController {
 			cambios.eliminarActividad(actividad);
 		} catch (SQLException e) {
 
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		} 
     }
 
@@ -127,7 +130,7 @@ public class GymController {
         try {
 			cambios.actualizarActividad(actividad);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		} 
     }
     
@@ -140,7 +143,7 @@ public class GymController {
 			cambios.insertarAula(nuevaAula);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		} // se inserta la nueva aula en la BD
     }
     
@@ -149,7 +152,7 @@ public class GymController {
 			cambios.eliminarAula(aula);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		} // se elimina la aula de la BD
     }
     
@@ -157,7 +160,7 @@ public class GymController {
         try {
 			return consulta.obtenerAulas();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			System.out.println(e.getMessage());
 			return null;
 		}
@@ -171,7 +174,7 @@ public class GymController {
        try {
 		this. cambios.insertarEncuesta(nuevaEncuesta);
 	} catch (SQLException e) {
-		e.printStackTrace();
+		JOptionPane.showMessageDialog(null, e.getMessage());	
 	}
     }
 
@@ -179,7 +182,7 @@ public class GymController {
         try {
 			cambios.eliminarEncuesta(encuesta);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		} 
     }
 
@@ -187,7 +190,7 @@ public class GymController {
         try {
 			return consulta.obtenerEncuestas();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			return null;
 		} 
     }
@@ -196,7 +199,7 @@ public class GymController {
         try {
 			cambios.actualizarEncuesta(encuesta);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		} 
     }
 
@@ -209,7 +212,7 @@ public class GymController {
         try {
 			return consulta.obtenerEncuestaPorDNI(DNI, fecha);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			return null;
 		} // obtiene las respuestas de un cliente específico para una encuesta
     }
@@ -223,7 +226,7 @@ public class GymController {
 			cambios.insertarMaterial(nuevoMaterial);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		} // inserta el nuevo material en la BD
     }
 
@@ -232,7 +235,7 @@ public class GymController {
 			cambios.eliminarMaterial(nombre);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		} // elimina el material de la BD
     }
 
@@ -240,7 +243,7 @@ public class GymController {
         try {
 			return consulta.obtenerMateriales();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			return null;
 		} // obtiene todos los materiales de la BD
     }
@@ -249,7 +252,7 @@ public class GymController {
         try {
 			return consulta.obtenerMaterialPorNombre(nombre);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			return null;
 		} // busca el material en la BD según su nombre
     }
@@ -259,7 +262,7 @@ public class GymController {
 			cambios.actualizarMaterial(material);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		} // actualiza la información del material en la BD
     }
     /*
@@ -271,7 +274,7 @@ public class GymController {
 			cambios.insertarPersonal(nuevoPersonal);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		} // se inserta el nuevo personal en la BD
     }
 
@@ -280,7 +283,7 @@ public class GymController {
 			cambios.eliminarPersonal(personal);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		} // se elimina el personal de la BD
     }
 
@@ -288,7 +291,7 @@ public class GymController {
         try {
 			return consulta.obtenerPersonal();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			return null;
 		} // se obtiene todo el personal de la BD
     }
@@ -297,7 +300,7 @@ public class GymController {
         try {
 			return consulta.obtenerPersonalPorDNI(DNI);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			return null;
 		} // se busca el personal en la BD según su DNI
     }
@@ -307,7 +310,7 @@ public class GymController {
 			cambios.actualizarPersonal(personal);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		} // se actualiza la información del personal en la BD
     }
     /*
@@ -317,7 +320,7 @@ public class GymController {
         try {
 			return consulta.obtenerUsuarioPorDNI(DNI);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			return null;
 		} // se busca el usuario en la BD según su DNI
 
@@ -332,7 +335,7 @@ public class GymController {
 			cambios.insertarVenta(nuevaVenta);
 		} catch (SQLException e) {
 			System.out.println("Compra fallida...");
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		} // se inserta la nueva venta en la BD
     }
     
@@ -340,8 +343,7 @@ public class GymController {
         try {
 			cambios.eliminarVenta(venta);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		} // se elimina la venta de la BD
     }
     
@@ -349,7 +351,7 @@ public class GymController {
         try {
 			return consulta.obtenerVentas();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			return null;
 		} // se obtienen todas las ventas de la BD
 
@@ -363,7 +365,7 @@ public class GymController {
         try {
 			cambios.actualizarVenta(venta);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		} // se actualiza la información de la venta en la BD
     }
 
@@ -390,7 +392,7 @@ public class GymController {
 		try {
 			cambios.agregarMaterial(nombre,precio,unidades,act_asociada);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		}
 	}
 	
@@ -398,7 +400,7 @@ public class GymController {
 		try {
 			return consulta.obtenerActividadPorDNI(DNI);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			return null;
 		}
 	}
@@ -407,7 +409,7 @@ public class GymController {
 		try {
 			return consulta.getListaActividades();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			return null;
 		}
 	}
@@ -415,7 +417,7 @@ public class GymController {
 		try {
 			return consulta.getActNoInscrito(DNI);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			return null;
 		}
 	}
@@ -426,7 +428,7 @@ public class GymController {
 				return true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		}
 		return false;
 	}
@@ -438,7 +440,7 @@ public class GymController {
 				return true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();	
+			JOptionPane.showMessageDialog(null, e.getMessage());		
 			
 		}
 		return false;
@@ -448,7 +450,7 @@ public class GymController {
 		try {
 			cambios.borrarUsuarioTodasActividades(viejoDNI);
 		} catch (SQLException e) {
-			e.printStackTrace();	
+			JOptionPane.showMessageDialog(null, e.getMessage());		
 		}
 		return false;
 	}
@@ -458,7 +460,7 @@ public class GymController {
 			cambios.setSaldo(cliente);
 		}
 		catch (SQLException e) {
-			e.printStackTrace();	
+			JOptionPane.showMessageDialog(null, e.getMessage());		
 			
 		}
 	}
@@ -468,7 +470,7 @@ public class GymController {
 			cambios.cambiarContrasenya(cliente,nuevaContra);
 		}
 		catch (SQLException e) {
-			e.printStackTrace();	
+			JOptionPane.showMessageDialog(null, e.getMessage());		
 			
 		}
 		
@@ -479,7 +481,7 @@ public class GymController {
 			cambios.darBajaUsusario(DNI);
 		}
 		catch (SQLException e) {
-			e.printStackTrace();	
+			JOptionPane.showMessageDialog(null, e.getMessage());		
 			
 		}
 	}
@@ -489,7 +491,7 @@ public class GymController {
 			return consulta.getListaClientes();
 		}
 		catch (SQLException e) {
-			e.printStackTrace();	
+			JOptionPane.showMessageDialog(null, e.getMessage());		
 			
 		}
 		return null;
@@ -500,7 +502,7 @@ public class GymController {
 			return consulta.getListaMateriales();
 		}
 		catch (SQLException e) {
-			e.printStackTrace();	
+			JOptionPane.showMessageDialog(null, e.getMessage());		
 			
 		}
 		return null;
@@ -523,7 +525,7 @@ public class GymController {
 			cambios.actualizaCliente(cliente);
 		}
 		catch (SQLException e) {
-			e.printStackTrace();	
+			JOptionPane.showMessageDialog(null, e.getMessage());		
 			
 		}
 	}
@@ -533,7 +535,7 @@ public class GymController {
 			return consulta.getProfesorPorNombre(nombre);
 		}
 		catch (SQLException e) {
-			e.printStackTrace();	
+			JOptionPane.showMessageDialog(null, e.getMessage());		
 		}
 		return null;
 	}

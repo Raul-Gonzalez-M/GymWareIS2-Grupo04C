@@ -3,6 +3,8 @@ package controller;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import model.Actividad;
 import model.Cliente;
 import model.Encuesta;
@@ -36,7 +38,7 @@ public class Controller {
 			gymcontroller.agregarCliente(user);
 		}
 		catch(SQLException e){
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 			return false;
 		}
 		
@@ -100,7 +102,7 @@ public class Controller {
 		try {
 			gymcontroller.updateMaterial(valueAt);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		}
 	}
 	public void agregarMaterial(String nombre, double precio, int unidades, String act_asociada) {
@@ -112,7 +114,7 @@ public class Controller {
 			gymcontroller.setSaldo(saldo, string);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		}
 	}
 
@@ -120,7 +122,7 @@ public class Controller {
 		try {
 			gymcontroller.updateMaterial(cantidad, nombre);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());	
 		}
 	}
 	
