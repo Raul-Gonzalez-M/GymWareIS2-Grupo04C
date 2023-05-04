@@ -2,6 +2,8 @@ package BD;
 
 import java.sql.*;
 
+import javax.swing.JOptionPane;
+
 public class ConexionBD {
 	static String DRIVER = "com.mysql.cj.jdbc.Driver"; /*com.mysql.jdbc.Driver */
     static String BD = "gymware";
@@ -23,7 +25,7 @@ public class ConexionBD {
             System.out.println("SQLState : " + ex.getSQLState());
             System.out.println("VendorError : " + ex.getErrorCode());
         } catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
     }
 
